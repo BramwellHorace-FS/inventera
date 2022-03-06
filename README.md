@@ -1,45 +1,12 @@
-
-# Welcome to Final Project! ...🚀 
-
-This repository will be used to keep track of research and development conducted in this class. Follow the instructions below to get started.
-
-## Step 1
-
-Go to your settings tab and rename your repository from  "CourseCode-YYMM-LastFirst-AccountName" to follow this naming convention... **CourseCode-YearMonth-LastFirst**  
-
-**Examples:**   
-WDD4416-2112-DoeJohn  
-WDD463-2112-DoeJohn
-
-Update the About section of the repo to match this naming convention as well. 
-
-
-## Step 2
-
-After saving the new name for your repository, clone down a local copy and then continue to review open activities for this week on FSO.  
-
-
-
-## Step 3
-
-Attend the first Live Session. If you are unable to attend the upcoming Live Session, view the video which is usually posted to the live sessions activity within a day of the event. You can then begin to work on assignments as they become available.  
-
-<br>
-
-
-### Next Steps... 
-After completing the above steps, update this read me with your own text. Delete all of the above text including this paragraph. You will then need to customize this read me to describe what this repository contains. Use the text below as a starting point and customize the text with your own words. As you make updates to your work each week, continue to update this readme file. Use the readme to explain your ongoing updates to this repository. To receive credit for your research and development, be sure to also upate your documentation each week.  
-
-
 # Final Project
-### First Last / Student ID: 000####### 
- Hello my name is ______ . I am a ______ student from ____. Here's some additional information about me...
+### Horace Bramwell / Student ID: 0004871418 
+ Hello my name is Horace Bramwell. I am a Web Design & Development student from Full Sail University.
 
 
 ![Degree Program](https://img.shields.io/badge/degree-web%20design%20%26%20development-blue.svg)&nbsp; 
 
 
-eMaill@student.fullsail.edu -- (###) ###-#### 
+hbramwell@student.fullsail.edu -- (754) 302-8813 
 
 
 ---
