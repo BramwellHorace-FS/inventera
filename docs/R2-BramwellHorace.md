@@ -1,6 +1,6 @@
 # Final Project
 
-- **Research & Integrative Activity - Week 1**
+- **Research & Integrative Activity - Week 2**
 - **Horace Bramwell**
 - **03/13/2022**
 
