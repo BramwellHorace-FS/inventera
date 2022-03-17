@@ -1,15 +1,23 @@
 .nav {
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: start;
-  column-gap: 2rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  row-gap: 1rem;
 }
 
-.nav a {
-  color: #fff;
+.navLink {
+  font-size: 1.5rem;
+  color: #b9c1c9;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
   text-decoration: none;
-  font-size: 1.2rem;
-  letter-spacing: 0.1rem;
-  transition: all 0.2s ease-in-out;
+}
+
+.active {
+  font-size: 1.5rem;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
 }
