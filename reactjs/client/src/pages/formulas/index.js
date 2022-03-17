@@ -1,9 +1,35 @@
-import React from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { BsPlusLg } from 'react-icons/bs';
+import PrimaryButton from '../../components/button';
+import Header from '../../components/header';
 
 export default function Formulas() {
+  const handleClick = () => {
+    // actions to be performed on click
+  };
+
   return (
-    <div>
-      <h1>Formulas</h1>
-    </div>
+    <>
+      <Header>
+        <Container fluid>
+          <Row>
+            <Col sm={10}>
+              <h2>Formulas</h2>
+            </Col>
+            <Col sm={2}>
+              <PrimaryButton onClick={handleClick}>
+                <BsPlusLg />
+                Add Formula
+              </PrimaryButton>
+            </Col>
+          </Row>
+        </Container>
+      </Header>
+      <section>
+        <Container fluid>
+          <p>Add Formulas Here</p>
+        </Container>
+      </section>
+    </>
   );
 }

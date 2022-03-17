@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
+import Styles from './button.module.css';
 
-export default function Button({ children, onClick, className }) {
+export default function PrimaryButton({ children, onClick }) {
   return (
-    <button type="button" onClick={onClick} className={className}>
+    <Button onClick={onClick} variant="primary" className={Styles.btnPrimary}>
       {children}
-    </button>
+    </Button>
   );
 }
 
-Button.propTypes = {
+PrimaryButton.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired,
 };
