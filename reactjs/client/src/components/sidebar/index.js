@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
+import { BsXLg } from 'react-icons/bs';
+import { FiMenu } from 'react-icons/fi';
 import Styles from './sidebar.module.css';
+import Navigation from '../navigation';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,20 +32,24 @@ export default function Sidebar() {
     <div>
       {isMobile ? (
         <>
-          <button type="button" onClick={toggleOpen}>
-            {/* Hamburger menu */}
+          <button
+            type="button"
+            onClick={toggleOpen}
+            className={Styles.hamburgerBtn}
+          >
+            <FiMenu />
           </button>
           <aside className={isOpen ? Styles.sidebar : Styles.closed}>
-            {/* Close button */}
-            {/* Logo here */}
-            {/* Navigation */}
+            <BsXLg className={Styles.closeBtn} onClick={toggleOpen} />
+            <h1>Logo</h1>
+            <Navigation />
             {/* User Component */}
           </aside>
         </>
       ) : (
         <aside className={Styles.sidebar}>
-          {/* Logo here */}
-          {/* Navigation */}
+          <h1>Logo</h1>
+          <Navigation />
           {/* User Component */}
         </aside>
       )}

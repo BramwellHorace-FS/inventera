@@ -7,11 +7,11 @@ import Layout from './layout';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Layout>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Layout>
         <App />
-      </BrowserRouter>
-    </Layout>
+      </Layout>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
 );
