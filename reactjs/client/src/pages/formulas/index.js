@@ -1,12 +1,14 @@
+import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
 import PrimaryButton from '../../components/button';
 import Header from '../../components/header';
+import PrimaryModal from '../../components/modal';
 
 export default function Formulas() {
-  const handleClick = () => {
-    // actions to be performed on click
-  };
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -17,7 +19,7 @@ export default function Formulas() {
               <h2>Formulas</h2>
             </Col>
             <Col sm={2}>
-              <PrimaryButton onClick={handleClick}>
+              <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Formula
               </PrimaryButton>
@@ -25,11 +27,16 @@ export default function Formulas() {
           </Row>
         </Container>
       </Header>
-      <section>
-        <Container fluid>
-          <p>Add Formulas Here</p>
-        </Container>
-      </section>
+      <Container fluid>
+        <PrimaryModal
+          show={show}
+          handleClose={handleClose}
+          modalTitle="Add Formula"
+        >
+          <p>Formula Form Here</p>
+        </PrimaryModal>
+        <p>Add Formulas Here</p>
+      </Container>
     </>
   );
 }
