@@ -44,7 +44,7 @@ export default function ProductForm({ handleClose }) {
           <Row>
             <Col>
               <Form.Label className="text-muted h6 mt-3">
-                Current Stock Level{' '}
+                Current Stock Level
               </Form.Label>
               <Form.Control
                 type="number"
@@ -119,12 +119,13 @@ export default function ProductForm({ handleClose }) {
             <Col>
               <Form.Label className="text-muted h6 mt-3">Unit Type </Form.Label>
               <Form.Select required>
-                <option value="oz">Ounces</option>
-                <option value="g">Grams</option>
-                <option value="kg">Kilograms</option>
-                <option value="ml">Milliliters</option>
-                <option value="l">Liters</option>
+                <option value="kg">Kilograms (kg)</option>
+                <option value="g">Grams (g)</option>
+                <option value="l">Liters (l)</option>
+                <option value="ml">Milliliters (ml)</option>
                 <option value="piece">Pieces</option>
+                <option value="lb">Pounds (lb)</option>
+                <option value="oz">Ounces (oz)</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">
                 Please select a unit type.

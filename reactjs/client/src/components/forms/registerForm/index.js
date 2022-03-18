@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Styles from './registerForm.module.css';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 export default function RegisterForm() {
   const [validated, setValidated] = useState(false);
@@ -21,55 +19,84 @@ export default function RegisterForm() {
     <>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group>
-          <Form.Label className={Styles.label}>
-            Email
-            <Form.Control type="email" placeholder="Enter email" required />
-            <Form.Control.Feedback type="invalid">
-              Please enter a valid email.
-            </Form.Control.Feedback>
-          </Form.Label>
+          <Container fluid>
+            <Row>
+              <Col>
+                <Form.Label className="text-muted h6 mt-3">Email</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" required />
+                <Form.Control.Feedback type="invalid">
+                  Please enter a valid email.
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+          </Container>
         </Form.Group>
+
         <Form.Group>
-          <Form.Label className={Styles.label}>
-            Password
-            <Form.Control type="password" placeholder="Password" required />
-            <Form.Control.Feedback type="invalid">
-              Please enter a password.
-            </Form.Control.Feedback>
-          </Form.Label>
+          <Container fluid>
+            <Row>
+              <Col>
+                <Form.Label className="text-muted h6 mt-3">Password</Form.Label>
+                <Form.Control type="password" placeholder="Password" required />
+                <Form.Control.Feedback type="invalid">
+                  Please enter a password.
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+          </Container>
         </Form.Group>
+
         <Form.Group>
-          <Form.Label className={Styles.label}>
-            Full name
-            <Form.Control type="text" placeholder="Full name" required />
-            <Form.Control.Feedback type="invalid">
-              Please enter a full name.
-            </Form.Control.Feedback>
-          </Form.Label>
+          <Container fluid>
+            <Row>
+              <Col>
+                <Form.Label className="text-muted h6 mt-3">
+                  Full name
+                </Form.Label>
+                <Form.Control type="text" placeholder="Full name" required />
+                <Form.Control.Feedback type="invalid">
+                  Please enter a full name.
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+          </Container>
         </Form.Group>
+
         <Form.Group>
-          <Form.Label className={Styles.label}>
-            Business name
-            <Form.Control type="text" placeholder="Business name" />
-          </Form.Label>
+          <Container fluid>
+            <Row>
+              <Col>
+                <Form.Label className="text-muted h6 mt-3">
+                  Business name
+                </Form.Label>
+                <Form.Control type="text" placeholder="Business name" />
+              </Col>
+            </Row>
+          </Container>
         </Form.Group>
+
         <Form.Group>
-          <Form.Label className={Styles.label}>
-            Website
-            <Form.Control type="text" placeholder="Website" />
-          </Form.Label>
+          <Container fluid>
+            <Row>
+              <Col>
+                <Form.Label className="text-muted h6 mt-3">Website </Form.Label>
+                <Form.Control type="text" placeholder="Website" />
+              </Col>
+            </Row>
+          </Container>
         </Form.Group>
-        <Button variant="primary" type="submit" className={Styles.submitBtn}>
-          Register
-        </Button>
+
+        <Container fluid className="mt-3">
+          <Button variant="primary" type="submit" className="w-100">
+            Register
+          </Button>
+        </Container>
       </Form>
 
-      <div className={Styles.linkGroup}>
-        <p>Already have an account?</p>
-        <Link className={Styles.link} to="/">
-          Login
-        </Link>
-      </div>
+      <Container className="d-flex gap-1 mt-3 justify-content-center">
+        <p>Already have an account? • </p>
+        <Link to="/">Login</Link>
+      </Container>
     </>
   );
 }
