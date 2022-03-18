@@ -4,6 +4,7 @@ import { BsPlusLg } from 'react-icons/bs';
 import PrimaryButton from '../../components/button';
 import Header from '../../components/header';
 import PrimaryModal from '../../components/modal';
+import FormulaForm from '../../components/forms/formulaForm';
 
 export default function Formulas() {
   const [show, setShow] = useState(false);
@@ -33,7 +34,7 @@ export default function Formulas() {
           handleClose={handleClose}
           modalTitle="Add Formula"
         >
-          <p>Formula Form Here</p>
+          <FormulaForm handleClose={handleClose} />
         </PrimaryModal>
         <p>Add Formulas Here</p>
       </Container>

@@ -4,6 +4,7 @@ import { BsPlusLg } from 'react-icons/bs';
 import PrimaryButton from '../../components/button';
 import Header from '../../components/header';
 import PrimaryModal from '../../components/modal';
+import MaterialForm from '../../components/forms/materialForm';
 
 export default function Dashboard() {
   const [show, setShow] = useState(false);
@@ -33,7 +34,7 @@ export default function Dashboard() {
           handleClose={handleClose}
           modalTitle="Add Material"
         >
-          <p>Material Form Here</p>
+          <MaterialForm handleClose={handleClose} />
         </PrimaryModal>
         <p>Dashboard Items Here</p>
       </Container>

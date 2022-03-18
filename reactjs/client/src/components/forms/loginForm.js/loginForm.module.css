@@ -1,0 +1,32 @@
+.form {
+}
+
+.label {
+  width: 350px;
+  row-gap: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+.submitBtn {
+  background-color: #142230;
+  border: 1px solid #142230;
+  width: 350px;
+  margin-top: 0.5rem;
+}
+
+.linkGroup {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  grid-gap: 0.1rem;
+  margin-top: 0.5rem;
+}
+
+.link {
+  color: #638bb3;
+  text-decoration: none;
+  font-size: 1rem;
+}

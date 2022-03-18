@@ -4,6 +4,7 @@ import { BsPlusLg } from 'react-icons/bs';
 import PrimaryButton from '../../components/button';
 import Header from '../../components/header';
 import PrimaryModal from '../../components/modal';
+import ProductForm from '../../components/forms/productForm';
 
 export default function Products() {
   const [show, setShow] = useState(false);
@@ -33,7 +34,7 @@ export default function Products() {
           handleClose={handleClose}
           modalTitle="Add Product"
         >
-          <p>Product Form Here</p>
+          <ProductForm handleClose={handleClose} />
         </PrimaryModal>
         <p>Products Here</p>
       </Container>

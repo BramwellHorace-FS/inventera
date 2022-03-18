@@ -1,0 +1,29 @@
+.label {
+  width: 100%;
+  row-gap: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+.btnGroup {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 1rem;
+  column-gap: 1rem;
+}
+
+.submitBtn {
+  background-color: #142230;
+  border: 1px solid #142230;
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid #142230;
+  color: #142230;
+}
