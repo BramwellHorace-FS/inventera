@@ -6,7 +6,6 @@ export default function Navigation() {
   return (
     <nav className={Styles.nav}>
       <NavLink
-        exact
         to="/"
         className={({ isActive }) =>
           isActive ? Styles.active : Styles.navLink
