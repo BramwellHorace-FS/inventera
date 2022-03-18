@@ -1,13 +1,14 @@
-import React from 'react';
+import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
 import PrimaryButton from '../../components/button';
 import Header from '../../components/header';
+import PrimaryModal from '../../components/modal';
 
 export default function Products() {
-  const handleClick = () => {
-    // actions to be performed on click
-  };
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -18,7 +19,7 @@ export default function Products() {
               <h2>Products</h2>
             </Col>
             <Col sm={2}>
-              <PrimaryButton onClick={handleClick}>
+              <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Product
               </PrimaryButton>
@@ -26,11 +27,16 @@ export default function Products() {
           </Row>
         </Container>
       </Header>
-      <section>
-        <Container fluid>
-          <p>Products Here</p>
-        </Container>
-      </section>
+      <Container fluid>
+        <PrimaryModal
+          show={show}
+          handleClose={handleClose}
+          modalTitle="Add Product"
+        >
+          <p>Product Form Here</p>
+        </PrimaryModal>
+        <p>Products Here</p>
+      </Container>
     </>
   );
 }
