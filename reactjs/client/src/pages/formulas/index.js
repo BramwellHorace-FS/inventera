@@ -7,7 +7,7 @@ import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import MaterialForm from '../../components/forms/materials';
 
-export default function Dashboard() {
+export default function Forumulas() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -21,13 +21,12 @@ export default function Dashboard() {
         <Container fluid>
           <Row>
             <Col>
-              <h2>Dashboard</h2>
+              <h2>Formulas</h2>
             </Col>
-
             <Col>
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
-                Add Material
+                Add Formula
               </PrimaryButton>
             </Col>
           </Row>
@@ -42,7 +41,7 @@ export default function Dashboard() {
         <MaterialForm />
       </SiteModal>
 
-      <section>Material List Here</section>
+      <section>Formula List Here</section>
     </>
   );
 }
