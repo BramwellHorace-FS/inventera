@@ -7,7 +7,7 @@ import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import MaterialForm from '../../components/forms/materials';
 
-export default function Forumulas() {
+export default function Materials() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -21,12 +21,12 @@ export default function Forumulas() {
         <Container fluid>
           <Row>
             <Col>
-              <h2>Formulas</h2>
+              <h2>Materials</h2>
             </Col>
             <Col>
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
-                Add Formula
+                Add Material
               </PrimaryButton>
             </Col>
           </Row>
@@ -40,7 +40,7 @@ export default function Forumulas() {
         />
       </SiteModal>
 
-      <section>Formula List Here</section>
+      <section>Material List Here</section>
     </>
   );
 }

@@ -5,9 +5,9 @@ import useValidate from '../../hooks';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
-import MaterialForm from '../../components/forms/materials';
+import ProductionForm from '../../components/forms/productions';
 
-export default function Forumulas() {
+export default function Productions() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -21,26 +21,26 @@ export default function Forumulas() {
         <Container fluid>
           <Row>
             <Col>
-              <h2>Formulas</h2>
+              <h2>Productions</h2>
             </Col>
             <Col>
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
-                Add Formula
+                Add Production
               </PrimaryButton>
             </Col>
           </Row>
         </Container>
       </PageHeader>
       <SiteModal show={show} onHide={handleClose}>
-        <MaterialForm
+        <ProductionForm
           handleClose={handleClose}
           validated={validated}
           handleSubmit={handleSubmit}
         />
       </SiteModal>
 
-      <section>Formula List Here</section>
+      <section>Production List Here</section>
     </>
   );
 }

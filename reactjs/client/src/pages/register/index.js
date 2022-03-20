@@ -1,16 +1,16 @@
 import Container from 'react-bootstrap/Container';
-import LoginForm from '../../components/forms/login';
+import RegisterForm from '../../components/forms/register';
 import useValidate from '../../hooks';
 
-export default function Login() {
+export default function Register() {
   const { validated, handleSubmit } = useValidate();
 
   return (
     <Container fluid>
-      <div>
+      <Container>
         <h1>Logo</h1>
-        <LoginForm validated={validated} handleSubmit={handleSubmit} />
-      </div>
+        <RegisterForm validated={validated} handleSubmit={handleSubmit} />
+      </Container>
     </Container>
   );
 }
