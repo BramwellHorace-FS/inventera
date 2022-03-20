@@ -1,0 +1,50 @@
+/* SIDEBAR 
+=====================================*/
+.sidebar {
+  transform: translateX(-100%);
+  transition: all 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 35px 30px;
+  width: 250px;
+  background-color: #142230;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
+/* Hamburger */
+.hamburger {
+  margin: 32px 0 0 15px;
+  font-size: 24px;
+}
+
+/* Close */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  color: #fff;
+}
+
+/* BREAKPOINTS 
+==================================== */
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .close {
+    display: none;
+  }
+}
