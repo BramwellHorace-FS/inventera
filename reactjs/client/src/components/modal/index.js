@@ -14,6 +14,18 @@ export default function PrimaryModal({
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
+      <Modal.Footer>
+        <button type="button" className="btn btn-primary" onClick={handleClose}>
+          Save Changes
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={handleClose}
+        >
+          Close
+        </button>
+      </Modal.Footer>
     </Modal>
   );
 }

@@ -4,7 +4,6 @@ import { BsPlusLg } from 'react-icons/bs';
 import PrimaryButton from '../../components/button';
 import Header from '../../components/header';
 import PrimaryModal from '../../components/modal';
-import ProductionForm from '../../components/forms/productionForm';
 
 export default function Productions() {
   const [show, setShow] = useState(false);
@@ -34,7 +33,7 @@ export default function Productions() {
           handleClose={handleClose}
           modalTitle="Start Production"
         >
-          <ProductionForm handleClose={handleClose} />
+          <p>Production Form Here</p>
         </PrimaryModal>
         <p>Productions Here</p>
       </Container>
