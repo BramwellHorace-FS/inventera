@@ -12,3 +12,20 @@
   background-color: #b4d1e0;
   border-color: #b4d1e0;
 }
+
+.App {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 'sidebar main';
+  column-gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .App {
+    grid-template-columns: 70px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 'sidebar main';
+    column-gap: 1rem;
+  }
+}
