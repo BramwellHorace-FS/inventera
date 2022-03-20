@@ -1,9 +1,0 @@
-.btnPrimary {
-  color: #fff;
-  background-color: #17222f;
-  border-color: #17222f;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  column-gap: 1rem;
-}
