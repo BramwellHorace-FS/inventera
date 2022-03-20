@@ -1,0 +1,14 @@
+/* BUTTONS
+=================================== */
+/* Primary Button */
+.btn-primary {
+  color: #fff;
+  background-color: #142230;
+  border-color: #142230;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #b4d1e0;
+  border-color: #b4d1e0;
+}
