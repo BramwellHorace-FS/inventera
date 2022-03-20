@@ -18,21 +18,25 @@ export default function Productions() {
   return (
     <>
       <PageHeader>
-        <Container fluid>
+        <Container>
           <Row>
-            <Col>
+            <Col sm={10}>
               <h2>Productions</h2>
             </Col>
-            <Col>
+            <Col sm={2}>
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
-                Add Production
+                Start Production
               </PrimaryButton>
             </Col>
           </Row>
         </Container>
       </PageHeader>
-      <SiteModal show={show} onHide={handleClose}>
+      <SiteModal
+        show={show}
+        handleClose={handleClose}
+        modalTitle="Start Production"
+      >
         <ProductionForm
           handleClose={handleClose}
           validated={validated}
@@ -40,7 +44,7 @@ export default function Productions() {
         />
       </SiteModal>
 
-      <section>Production List Here</section>
+      <Container>Production List Here</Container>
     </>
   );
 }

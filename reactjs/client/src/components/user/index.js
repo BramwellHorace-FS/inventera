@@ -1,16 +1,17 @@
 import { Image, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import styles from './styles.module.css';
 
 export default function User({ userName, userImage, onLogout }) {
   return (
-    <Container>
+    <Container className={styles.user}>
       <Row>
-        <Col sm={5}>
-          <Image src={userImage} roundedCircle />
+        <Col className="col-2">
+          <Image src={userImage} roundedCircle fluid />
         </Col>
-        <Col sm={7}>
-          <h3>{userName}</h3>
+        <Col className="col-10">
+          <h3 className="light">{userName}</h3>
         </Col>
       </Row>
 

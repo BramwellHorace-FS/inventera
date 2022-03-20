@@ -18,13 +18,13 @@ export default function Dashboard() {
   return (
     <>
       <PageHeader>
-        <Container fluid>
+        <Container>
           <Row>
-            <Col>
+            <Col sm={10}>
               <h2>Dashboard</h2>
             </Col>
 
-            <Col>
+            <Col sm={2}>
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Material
@@ -35,14 +35,17 @@ export default function Dashboard() {
       </PageHeader>
       <SiteModal
         show={show}
-        onHide={handleClose}
-        validated={validated}
-        handleSubmit={handleSubmit}
+        handleClose={handleClose}
+        modalTitle="Add Material"
       >
-        <MaterialForm />
+        <MaterialForm
+          handleClose={handleClose}
+          validated={validated}
+          handleSubmit={handleSubmit}
+        />
       </SiteModal>
 
-      <section>Material List Here</section>
+      <Container>Material List Here</Container>
     </>
   );
 }

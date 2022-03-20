@@ -18,12 +18,12 @@ export default function Materials() {
   return (
     <>
       <PageHeader>
-        <Container fluid>
+        <Container>
           <Row>
-            <Col>
+            <Col sm={10}>
               <h2>Materials</h2>
             </Col>
-            <Col>
+            <Col sm={2}>
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Material
@@ -32,7 +32,11 @@ export default function Materials() {
           </Row>
         </Container>
       </PageHeader>
-      <SiteModal show={show} onHide={handleClose}>
+      <SiteModal
+        show={show}
+        handleClose={handleClose}
+        modalTitle="Add Material"
+      >
         <MaterialForm
           handleClose={handleClose}
           validated={validated}
@@ -40,7 +44,7 @@ export default function Materials() {
         />
       </SiteModal>
 
-      <section>Material List Here</section>
+      <Container>Material List Here</Container>
     </>
   );
 }

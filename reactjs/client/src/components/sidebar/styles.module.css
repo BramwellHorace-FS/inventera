@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 250px;
+  width: 300px;
   background-color: #142230;
   overflow-x: hidden;
   padding-top: 20px;
@@ -26,8 +26,8 @@
 
 /* Hamburger */
 .hamburger {
-  margin: 32px 0 0 15px;
-  font-size: 24px;
+  margin: 50px 0 0 15px;
+  font-size: 30px;
 }
 
 /* Close */
