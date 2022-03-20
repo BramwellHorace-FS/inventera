@@ -1,31 +1,46 @@
+/* REST
+======================================*/
+body,
+html,
+#root {
+  height: 100%;
+}
+
 /* BUTTONS
 =================================== */
 /* Primary Button */
 .btn-primary {
-  color: #fff;
-  background-color: #142230;
-  border-color: #142230;
+  color: #fff !important;
+  background-color: #142230 !important;
+  border-color: #142230 !important;
 }
 
 .btn-primary:hover {
+  color: #142230 !important;
+  background-color: #b4d1e0 !important;
+  border-color: #b4d1e0 !important;
+}
+
+/* COLORS (LINKS)
+===================================== */
+.light {
   color: #fff;
-  background-color: #b4d1e0;
-  border-color: #b4d1e0;
+  text-decoration: none;
+  font-size: 1.4rem;
 }
 
-/* .App {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  grid-template-rows: auto 1fr;
-  grid-template-areas: 'sidebar main';
-  column-gap: 2rem;
+.secondary {
+  color: #b9c1c9;
+  text-decoration: none;
+  font-size: 1.4rem;
 }
 
-@media (max-width: 768px) {
-  .App {
-    grid-template-columns: 70px 1fr;
-    grid-template-rows: auto 1fr;
-    grid-template-areas: 'sidebar main';
-    column-gap: 1rem;
-  }
-} */
+.light,
+.secondary {
+  transition: all 0.3s ease-in-out;
+}
+
+.light:hover,
+.secondary:hover {
+  color: #a7d7f0 !important;
+}

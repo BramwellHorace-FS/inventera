@@ -2,12 +2,12 @@ import { NavLink } from 'react-router-dom';
 
 export default function Navigation() {
   return (
-    <nav>
+    <nav className="d-flex flex-column p-2 gap-3">
       <NavLink
         to="/"
         className={({ isActive }) => (isActive ? `light` : `secondary`)}
       >
-        Home
+        Dashboard
       </NavLink>
       <NavLink
         to="/materials"
