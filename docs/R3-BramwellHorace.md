@@ -6,13 +6,15 @@
 
 <br>
 
-## Example Topic Title
+## How ESLint Makes Me a Better React Developer
 
-Brief description of the resource and key concepts learned. Feel free to use bullets, embedded images, code examples, and other ideas to capture your research.
+This article was a great introduction to ESLint and how it can help you develop better React applications. ESLint is essentially a tool that analyzes your code intending to find issues that can lead to bugs or inconsistencies. By default, ESLint ships with a set of rules and best practices and will display red squiggly lines on your code if it finds any issues. Some of the rules are:
 
-- Key concept 1
-- Key concept 2
-- Key concept 3
+- **No duplicate keys on objects**
+- **No unreachable code**
+- **No unused variables**
+
+In addition to these rules, you can also configure ESLint to use custom rules.
 
 <br>
 
