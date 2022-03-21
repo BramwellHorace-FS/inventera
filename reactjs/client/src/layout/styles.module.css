@@ -1,0 +1,16 @@
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 'sidebar main';
+  column-gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 'sidebar main';
+    column-gap: 1rem;
+  }
+}
