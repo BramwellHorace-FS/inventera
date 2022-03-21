@@ -6,8 +6,8 @@ import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import ProductForm from '../../components/forms/products';
-import ProductsList from '../../components/list/products';
-import { products } from '../../data';
+import ProductList from '../../components/list/products';
+// import { products } from '../../data';
 
 export default function Products() {
   const [show, setShow] = useState(false);
@@ -45,7 +45,7 @@ export default function Products() {
       <Container className="mt-5">
         <Row>
           <Col sm={12}>
-            <ProductsList products={products} />
+            <ProductList />
           </Col>
         </Row>
       </Container>

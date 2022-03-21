@@ -16,26 +16,40 @@ export default function Productions() {
   const handleShow = () => setShow(true);
 
   const { validated, handleSubmit } = useValidate();
-  const boards = {
-    1: {
-      title: 'To Do',
-      items: [
-        {
-          name: 'Candles',
-          dueDate: '2020-01-01',
-          itemCount: 1,
-          itemUnit: 'pcs',
-        },
-      ],
-    },
-    2: {
-      title: 'In Progress',
-      items: null,
-    },
-    3: {
-      title: 'Done',
-      items: null,
-    },
+
+  const productionBoards = {
+    productions: [
+      {
+        id: 1,
+        name: 'To Do',
+        items: [
+          {
+            id: 1,
+            name: 'Candle Collection',
+            dueDate: '12/31/2019',
+            itemCount: '30',
+            itemUnit: 'pcs',
+          },
+          {
+            id: 2,
+            name: 'Spring Collection',
+            dueDate: '12/31/2019',
+            itemCount: '52',
+            itemUnit: 'pcs',
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'In Progress',
+        items: [],
+      },
+      {
+        id: 3,
+        name: 'Completed',
+        items: [],
+      },
+    ],
   };
 
   return (
@@ -68,11 +82,11 @@ export default function Productions() {
       </SiteModal>
 
       <Container className={styles.boards}>
-        {Object.keys(boards).map((key) => (
+        {productionBoards.productions.map((board) => (
           <ProductionBoard
-            key={key}
-            title={boards[key].title}
-            items={boards[key].items}
+            key={board.id}
+            title={board.name}
+            items={board.items}
           />
         ))}
       </Container>

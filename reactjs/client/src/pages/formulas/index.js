@@ -7,7 +7,6 @@ import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import FormulaForm from '../../components/forms/formulas';
 import FormulasList from '../../components/list/formulas';
-import { formulas } from '../../data';
 
 export default function Forumulas() {
   const [show, setShow] = useState(false);
@@ -46,7 +45,7 @@ export default function Forumulas() {
       <Container className="mt-5">
         <Row>
           <Col sm={12}>
-            <FormulasList formulas={formulas} />
+            <FormulasList />
           </Col>
         </Row>
       </Container>
