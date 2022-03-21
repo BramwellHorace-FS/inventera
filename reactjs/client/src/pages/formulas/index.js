@@ -23,7 +23,7 @@ export default function Forumulas() {
             <Col sm={10}>
               <h2>Formulas</h2>
             </Col>
-            <Col sm={2}>
+            <Col sm={2} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Formula
