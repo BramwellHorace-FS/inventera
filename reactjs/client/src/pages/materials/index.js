@@ -6,6 +6,8 @@ import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import MaterialForm from '../../components/forms/materials';
+import MaterialsList from '../../components/list/materials';
+import { materials } from '../../data';
 
 export default function Materials() {
   const [show, setShow] = useState(false);
@@ -44,7 +46,13 @@ export default function Materials() {
         />
       </SiteModal>
 
-      <Container>Material List Here</Container>
+      <Container className="mt-5">
+        <Row>
+          <Col sm={12}>
+            <MaterialsList materials={materials} />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
