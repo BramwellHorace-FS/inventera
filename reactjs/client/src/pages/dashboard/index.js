@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import { BsPlusLg } from 'react-icons/bs';
+import { BsPlusLg, BsArrowRight } from 'react-icons/bs';
 import useValidate from '../../hooks';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import MaterialForm from '../../components/forms/materials';
 import DashboardCard from '../../components/cards/dashboard';
+import MiniList from '../../components/list/dashboard';
 import styles from './styles.module.css';
+import { materials, products } from '../../data';
 
 export default function Dashboard() {
   const [show, setShow] = useState(false);
@@ -74,6 +77,36 @@ export default function Dashboard() {
             />
           </div>
         ))}
+      </Container>
+
+      <Container className="mt-5">
+        <h2 className="mb-5">Inventory Breakdown</h2>
+        <Row>
+          <Col sm={6}>
+            <Container className="ps-0">
+              <h4 className="mb-3">Materials</h4>
+              <MiniList data={products} />
+              <Link
+                className="d-flex justify-content-end align-items-center gap-2"
+                to="/materials"
+              >
+                View All Materials <BsArrowRight />
+              </Link>
+            </Container>
+          </Col>
+          <Col sm={6}>
+            <Container className="pe-0">
+              <h4 className="mb-3">Products</h4>
+              <MiniList data={materials} />
+              <Link
+                className="d-flex justify-content-end align-items-center gap-2"
+                to="/products"
+              >
+                View All Products <BsArrowRight />
+              </Link>
+            </Container>
+          </Col>
+        </Row>
       </Container>
     </>
   );

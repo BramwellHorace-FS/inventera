@@ -6,6 +6,8 @@ import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import FormulaForm from '../../components/forms/formulas';
+import FormulasList from '../../components/list/formulas';
+import { formulas } from '../../data';
 
 export default function Forumulas() {
   const [show, setShow] = useState(false);
@@ -41,7 +43,13 @@ export default function Forumulas() {
         />
       </SiteModal>
 
-      <Container>Formula List Here</Container>
+      <Container className="mt-5">
+        <Row>
+          <Col sm={12}>
+            <FormulasList formulas={formulas} />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
