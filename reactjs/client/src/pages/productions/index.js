@@ -6,6 +6,8 @@ import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import ProductionForm from '../../components/forms/productions';
+import ProductionBoard from '../../components/cards/board';
+import styles from './styles.module.css';
 
 export default function Productions() {
   const [show, setShow] = useState(false);
@@ -14,6 +16,27 @@ export default function Productions() {
   const handleShow = () => setShow(true);
 
   const { validated, handleSubmit } = useValidate();
+  const boards = {
+    1: {
+      title: 'To Do',
+      items: [
+        {
+          name: 'Candles',
+          dueDate: '2020-01-01',
+          itemCount: 1,
+          itemUnit: 'pcs',
+        },
+      ],
+    },
+    2: {
+      title: 'In Progress',
+      items: null,
+    },
+    3: {
+      title: 'Done',
+      items: null,
+    },
+  };
 
   return (
     <>
@@ -44,7 +67,15 @@ export default function Productions() {
         />
       </SiteModal>
 
-      <Container>Production List Here</Container>
+      <Container className={styles.boards}>
+        {Object.keys(boards).map((key) => (
+          <ProductionBoard
+            key={key}
+            title={boards[key].title}
+            items={boards[key].items}
+          />
+        ))}
+      </Container>
     </>
   );
 }
