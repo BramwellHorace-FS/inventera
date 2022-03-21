@@ -39,7 +39,7 @@ ProductionBoard.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       dueDate: PropTypes.string.isRequired,
-      itemCount: PropTypes.number.isRequired,
+      itemCount: PropTypes.string.isRequired,
       itemUnit: PropTypes.string.isRequired,
     }),
   ).isRequired,
