@@ -10,7 +10,6 @@ import MaterialForm from '../../components/forms/materials';
 import DashboardCard from '../../components/cards/dashboard';
 import MiniList from '../../components/list/dashboard';
 import styles from './styles.module.css';
-import { materials, products } from '../../data';
 
 export default function Dashboard() {
   const [show, setShow] = useState(false);
@@ -85,7 +84,7 @@ export default function Dashboard() {
           <Col sm={6}>
             <Container className="ps-0">
               <h4 className="mb-3">Materials</h4>
-              <MiniList data={products} />
+              <MiniList />
               <Link
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/materials"
@@ -97,7 +96,7 @@ export default function Dashboard() {
           <Col sm={6}>
             <Container className="pe-0">
               <h4 className="mb-3">Products</h4>
-              <MiniList data={materials} />
+              <MiniList />
               <Link
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/products"

@@ -21,9 +21,16 @@ export default function ProductionCard({
   );
 }
 
+ProductionCard.defaultProps = {
+  title: 'Candle Collection',
+  dueDate: '12/31/2019',
+  itemCount: '30',
+  itemUnit: 'pcs',
+};
+
 ProductionCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  dueDate: PropTypes.string.isRequired,
-  itemCount: PropTypes.number.isRequired,
-  itemUnit: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  dueDate: PropTypes.string,
+  itemCount: PropTypes.string,
+  itemUnit: PropTypes.string,
 };
