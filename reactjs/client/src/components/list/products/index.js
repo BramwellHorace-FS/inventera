@@ -1,7 +1,7 @@
 import { Form, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default function ProductList({ products }) {
+export default function ProductList({ products, status }) {
   return (
     <Form>
       <Table responsive>
@@ -16,60 +16,49 @@ export default function ProductList({ products }) {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>
-                <Form.Check type="checkbox">
-                  <Form.Check.Input type="checkbox" />
-                  <Form.Check.Label>{product.name}</Form.Check.Label>
-                </Form.Check>
-              </td>
-              <td>
-                {product.stockLevel} {product.unitType}
-              </td>
-              <td>
-                {product.minLevel} {product.unitType}
-              </td>
-              <td>${product.unitCost}</td>
-              <td>{product.sku}</td>
-              <td>{product.category}</td>
+          {status === 'loading' && (
+            <tr>
+              <td colSpan="8">Loading...</td>
             </tr>
-          ))}
+          )}
+          {status === 'error' && (
+            <tr>
+              <td colSpan="8">Error...</td>
+            </tr>
+          )}
+          {status === 'success' && (
+            <>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td>
+                    <Form.Check type="checkbox">
+                      <Form.Check.Input type="checkbox" />
+                      <Form.Check.Label>{product.name}</Form.Check.Label>
+                    </Form.Check>
+                  </td>
+                  <td>
+                    {product.stockLevel} {product.unitType}
+                  </td>
+                  <td>
+                    {product.minLevel} {product.unitType}
+                  </td>
+                  <td>${product.unitPrice}</td>
+                  <td>{product.sku}</td>
+                  <td>{product.category}</td>
+                </tr>
+              ))}
+            </>
+          )}
         </tbody>
       </Table>
     </Form>
   );
 }
 
-ProductList.defaultProps = {
-  products: [
-    {
-      id: 1,
-      name: '14 oz Candle',
-      stockLevel: 30,
-      minLevel: 5,
-      unitCost: 1.5,
-      unitType: 'pcs',
-      sku: 'CAND-14',
-      category: 'Candles',
-    },
-    {
-      id: 2,
-      name: '9 oz Candle',
-      stockLevel: 30,
-      minLevel: 5,
-      unitCost: 1.12,
-      unitType: 'pcs',
-      sku: 'CAND-9',
-      category: 'Candles',
-    },
-  ],
-};
-
 ProductList.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       stockLevel: PropTypes.number.isRequired,
       minLevel: PropTypes.number.isRequired,
@@ -78,5 +67,6 @@ ProductList.propTypes = {
       sku: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
     }),
-  ),
+  ).isRequired,
+  status: PropTypes.string.isRequired,
 };
