@@ -34,14 +34,36 @@ export default function MaterialList({ materials, status }) {
                 <td>
                   <Form.Check type="checkbox">
                     <Form.Check.Input type="checkbox" />
-                    <Form.Check.Label>{material.name}</Form.Check.Label>
+                    <Form.Check.Label>
+                      {material.stockLevel < material.minLevel ? (
+                        <span className="text-danger">{material.name}</span>
+                      ) : (
+                        material.name
+                      )}
+                    </Form.Check.Label>
                   </Form.Check>
                 </td>
                 <td>
-                  {material.stockLevel} {material.unitType}
+                  {material.stockLevel < material.minLevel ? (
+                    <span className="text-danger">
+                      {material.stockLevel} {material.unitType}
+                    </span>
+                  ) : (
+                    <span>
+                      {material.stockLevel} {material.unitType}
+                    </span>
+                  )}
                 </td>
                 <td>
-                  {material.minLevel} {material.unitType}
+                  {material.stockLevel < material.minLevel ? (
+                    <span className="text-danger">
+                      {material.minLevel} {material.unitType}
+                    </span>
+                  ) : (
+                    <span>
+                      {material.minLevel} {material.unitType}
+                    </span>
+                  )}
                 </td>
                 <td>${material.unitPrice}</td>
                 <td>{material.sku}</td>
