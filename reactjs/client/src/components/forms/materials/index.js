@@ -90,7 +90,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
                 placeholder="Select Unit Type"
                 required
               >
-                <option selected disabled value="">
+                <option defaultValue="Select unit type">
                   Select unit type
                 </option>
                 <option value="kg">Kilograms (kg)</option>

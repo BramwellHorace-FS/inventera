@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
+import { useSelector, useDispatch } from 'react-redux';
+import { getMaterials } from '../../redux/features/materials/materialsSlice';
 import useValidate from '../../hooks';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
@@ -15,6 +17,14 @@ export default function Materials() {
   const handleShow = () => setShow(true);
 
   const { validated, handleSubmit } = useValidate();
+
+  const materials = useSelector((state) => state.materials.materials);
+  const status = useSelector((state) => state.materials.status);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMaterials());
+  }, [dispatch]);
 
   return (
     <>
@@ -48,7 +58,7 @@ export default function Materials() {
       <Container className="mt-5">
         <Row>
           <Col sm={12}>
-            <MaterialsList />
+            <MaterialsList materials={materials} status={status} />
           </Col>
         </Row>
       </Container>
