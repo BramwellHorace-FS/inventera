@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFormulas } from '../../redux/features/formulas/formulasSlice';
 import useValidate from '../../hooks';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
@@ -15,6 +17,14 @@ export default function Forumulas() {
   const handleShow = () => setShow(true);
 
   const { validated, handleSubmit } = useValidate();
+
+  const dispatch = useDispatch();
+
+  const { formulas, status } = useSelector((state) => state.formulas);
+
+  useEffect(() => {
+    dispatch(getFormulas());
+  }, [dispatch]);
 
   return (
     <>
@@ -45,7 +55,7 @@ export default function Forumulas() {
       <Container className="mt-5">
         <Row>
           <Col sm={12}>
-            <FormulasList />
+            <FormulasList formulas={formulas} status={status} />
           </Col>
         </Row>
       </Container>
