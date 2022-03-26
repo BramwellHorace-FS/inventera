@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductions } from '../../redux/features/productions/productionsSlice';
 import useValidate from '../../hooks';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
@@ -17,40 +19,13 @@ export default function Productions() {
 
   const { validated, handleSubmit } = useValidate();
 
-  const productionBoards = {
-    productions: [
-      {
-        id: 1,
-        name: 'To Do',
-        items: [
-          {
-            id: 1,
-            name: 'Candle Collection',
-            dueDate: '12/31/2019',
-            itemCount: '30',
-            itemUnit: 'pcs',
-          },
-          {
-            id: 2,
-            name: 'Spring Collection',
-            dueDate: '12/31/2019',
-            itemCount: '52',
-            itemUnit: 'pcs',
-          },
-        ],
-      },
-      {
-        id: 2,
-        name: 'In Progress',
-        items: [],
-      },
-      {
-        id: 3,
-        name: 'Completed',
-        items: [],
-      },
-    ],
-  };
+  const dispatch = useDispatch();
+
+  const { productions } = useSelector((state) => state.productions);
+
+  useEffect(() => {
+    dispatch(getProductions());
+  }, [dispatch]);
 
   return (
     <>
@@ -82,13 +57,9 @@ export default function Productions() {
       </SiteModal>
 
       <Container className={styles.boards}>
-        {productionBoards.productions.map((board) => (
-          <ProductionBoard
-            key={board.id}
-            title={board.name}
-            items={board.items}
-          />
-        ))}
+        <ProductionBoard title="To Do" items={productions} />
+        <ProductionBoard title="In progress" items={[]} />
+        <ProductionBoard title="Completed" items={[]} />
       </Container>
     </>
   );

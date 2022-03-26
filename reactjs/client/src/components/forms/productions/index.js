@@ -69,6 +69,25 @@ export default function ProductionForm({
         </Container>
       </Form.Group>
 
+      <Form.Group>
+        <Container fluid>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6 mt-3">Status</Form.Label>
+              <Form.Select required>
+                <option defaultValue="Select status">Select status</option>
+                <option value="Incomplete">Incomplete</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                Please enter a name for the production.
+              </Form.Control.Feedback>
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
       <Form.Group className="mt-3">
         <Container fluid>
           <Row>
