@@ -1,5 +1,6 @@
 import { Container, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default function ProductionCard({
   title,
@@ -16,21 +17,18 @@ export default function ProductionCard({
             {itemCount} {itemUnit} • due on: {dueDate}
           </Card.Text>
         </Card.Body>
+        <Card.Footer className="d-flex justify-content-end align-items-center gap-2">
+          <Link to="/">Edit</Link>
+          <Link to=".">Delete</Link>
+        </Card.Footer>
       </Card>
     </Container>
   );
 }
 
-ProductionCard.defaultProps = {
-  title: 'Candle Collection',
-  dueDate: '12/31/2019',
-  itemCount: '30',
-  itemUnit: 'pcs',
-};
-
 ProductionCard.propTypes = {
-  title: PropTypes.string,
-  dueDate: PropTypes.string,
-  itemCount: PropTypes.string,
-  itemUnit: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  dueDate: PropTypes.string.isRequired,
+  itemCount: PropTypes.number.isRequired,
+  itemUnit: PropTypes.string.isRequired,
 };

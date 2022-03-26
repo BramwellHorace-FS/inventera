@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   productions: [],
-  loading: false,
+  status: '',
 };
 
 export const getProductions = createAsyncThunk(
@@ -21,14 +21,14 @@ const productionsSlice = createSlice({
   initialState,
   extraReducers: {
     [getProductions.pending]: (state) => {
-      state.loading = true;
+      state.status = 'loading';
     },
     [getProductions.fulfilled]: (state, { payload }) => {
-      state.loading = false;
+      state.status = 'success';
       state.productions = payload;
     },
     [getProductions.rejected]: (state) => {
-      state.loading = false;
+      state.status = 'error';
     },
   },
 });

@@ -8,7 +8,9 @@ export default function ProductionBoard({ title, items }) {
     <Container className={styles.board}>
       <p>{title}</p>
       <Container
-        className={!items ? `${styles.container}` : `${styles.containerFill}`}
+        className={
+          items.length === 0 ? `${styles.container}` : `${styles.containerFill}`
+        }
       >
         {items &&
           items.map((item) => (
@@ -16,12 +18,11 @@ export default function ProductionBoard({ title, items }) {
               key={item.id}
               title={item.name}
               dueDate={item.dueDate}
-              itemCount={item.itemCount}
+              itemCount={item.quantity}
               itemUnit={item.itemUnit}
             />
           ))}
-
-        {!items && (
+        {items.length === 0 && (
           <Container className="text-center p-5">
             <p>No Items</p>
             <p>Try Adding Some</p>
@@ -36,10 +37,10 @@ ProductionBoard.propTypes = {
   title: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       dueDate: PropTypes.string.isRequired,
-      itemCount: PropTypes.string.isRequired,
+      quantity: PropTypes.number.isRequired,
       itemUnit: PropTypes.string.isRequired,
     }),
   ).isRequired,
