@@ -43,9 +43,7 @@ export default function ProductionForm({
                 Items to make
               </Form.Label>
               <Form.Select required>
-                <option selected disabled value="">
-                  Select product
-                </option>
+                <option defaultValue="Select product">Select product</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">
                 Please enter a name for the production.
