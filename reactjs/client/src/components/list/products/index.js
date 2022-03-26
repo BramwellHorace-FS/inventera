@@ -62,7 +62,7 @@ ProductList.propTypes = {
       name: PropTypes.string.isRequired,
       stockLevel: PropTypes.number.isRequired,
       minLevel: PropTypes.number.isRequired,
-      unitCost: PropTypes.number.isRequired,
+      unitPrice: PropTypes.number.isRequired,
       unitType: PropTypes.string.isRequired,
       sku: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
