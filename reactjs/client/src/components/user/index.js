@@ -26,8 +26,14 @@ export default function User({ userName, userImage, onLogout }) {
   );
 }
 
+User.defaultProps = {
+  userName: '',
+  userImage: '',
+  onLogout: () => {},
+};
+
 User.propTypes = {
-  userName: PropTypes.string.isRequired,
-  userImage: PropTypes.string.isRequired,
-  onLogout: PropTypes.func.isRequired,
+  userName: PropTypes.string,
+  userImage: PropTypes.string,
+  onLogout: PropTypes.func,
 };
