@@ -54,21 +54,6 @@ export default function FormulaList({ formulas, status }) {
                 <td>{formula.notes}</td>
               </tr>
             ))}
-
-          {/* {formulas.map((formula) => (
-            <tr key={formula.id}>
-              <td>
-                <Form.Check type="checkbox">
-                  <Form.Check.Input type="checkbox" />
-                  <Form.Check.Label>{formula.name}</Form.Check.Label>
-                </Form.Check>
-              </td>
-              <td>{formula.containerFill}</td>
-              <td>{formula.fragranceLoad}</td>
-              <td>{formula.waxAmount}</td>
-              <td>{formula.notes}</td>
-            </tr>
-          ))} */}
         </tbody>
       </Table>
     </Form>
