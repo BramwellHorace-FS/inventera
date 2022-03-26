@@ -1,7 +1,7 @@
 import { Form, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default function FormulaList({ formulas }) {
+export default function FormulaList({ formulas, status }) {
   return (
     <Form>
       <Table responsive>
@@ -15,7 +15,47 @@ export default function FormulaList({ formulas }) {
           </tr>
         </thead>
         <tbody>
-          {formulas.map((formula) => (
+          {status === 'loading' && (
+            <tr>
+              <td colSpan="8">Loading...</td>
+            </tr>
+          )}
+
+          {status === 'error' && (
+            <tr>
+              <td colSpan="8">Error...</td>
+            </tr>
+          )}
+
+          {status === 'success' &&
+            formulas.map((formula) => (
+              <tr key={formula.id}>
+                <td>
+                  <Form.Check type="checkbox">
+                    <Form.Check.Input type="checkbox" />
+                    <Form.Check.Label>{formula.name}</Form.Check.Label>
+                  </Form.Check>
+                </td>
+                <td>
+                  {formula.containerFill}
+                  {'  '}
+                  {formula.unitType}
+                </td>
+                <td>
+                  {formula.fragranceLoad}
+                  {'  '}
+                  {formula.unitType}
+                </td>
+                <td>
+                  {formula.waxAmount}
+                  {'  '}
+                  {formula.unitType}
+                </td>
+                <td>{formula.notes}</td>
+              </tr>
+            ))}
+
+          {/* {formulas.map((formula) => (
             <tr key={formula.id}>
               <td>
                 <Form.Check type="checkbox">
@@ -28,43 +68,26 @@ export default function FormulaList({ formulas }) {
               <td>{formula.waxAmount}</td>
               <td>{formula.notes}</td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </Table>
     </Form>
   );
 }
 
-FormulaList.defaultProps = {
-  formulas: [
-    {
-      id: 1,
-      name: '14 oz Candle',
-      containerFill: '12 oz',
-      fragranceLoad: '1.38 oz',
-      waxAmount: '10 oz',
-      notes: "Doesn't account for enhancements such as dyes or glitter",
-    },
-    {
-      id: 2,
-      name: '9 oz Candle',
-      containerFill: '9 oz',
-      fragranceLoad: '1.25 oz',
-      waxAmount: '7.5 oz',
-      notes: "Doesn't account for enhancements such as dyes or glitter",
-    },
-  ],
-};
-
 FormulaList.propTypes = {
   formulas: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      containerFill: PropTypes.string.isRequired,
-      fragranceLoad: PropTypes.string.isRequired,
-      waxAmount: PropTypes.string.isRequired,
+      containerSize: PropTypes.number.isRequired,
+      containerFill: PropTypes.number.isRequired,
+      fragrancePercentage: PropTypes.number.isRequired,
+      fragranceLoad: PropTypes.number.isRequired,
+      unitType: PropTypes.string.isRequired,
+      waxAmount: PropTypes.number.isRequired,
       notes: PropTypes.string.isRequired,
     }),
-  ),
+  ).isRequired,
+  status: PropTypes.string.isRequired,
 };
