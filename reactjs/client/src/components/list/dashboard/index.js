@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function MiniList({ name, stock, unit, minStock }) {
   return (
     <Form>
-      <Table responsive>
+      <Table responsive className="noWrap">
         <tbody>
           <tr>
             <td>

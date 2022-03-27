@@ -72,7 +72,7 @@ export default function Dashboard() {
         />
       </SiteModal>
 
-      <Container>
+      <Container className="mt-5">
         <Row className={styles.row}>
           <Col sm={12} lg={3}>
             <DashboardCard
@@ -107,11 +107,11 @@ export default function Dashboard() {
         </Row>
       </Container>
 
-      <Container className="mt-5">
-        <h2 className="mb-5">Inventory Breakdown</h2>
+      <Container className="my-5">
+        <h2 className="mb-3">Inventory Breakdown</h2>
         <Row>
           <Col sm={6}>
-            <Container className="ps-0">
+            <Container className="ps-0 mt-3">
               <h4 className="mb-3">Materials</h4>
               {materialStatus === 'loading' && <p>Loading...</p>}
               {materialStatus === 'error' && <p>Error!</p>}
@@ -136,7 +136,7 @@ export default function Dashboard() {
             </Container>
           </Col>
           <Col sm={6}>
-            <Container className="pe-0">
+            <Container className="p-0 mt-3">
               <h4 className="mb-3">Products</h4>
               {productStatus === 'loading' && <p>Loading...</p>}
               {productStatus === 'error' && <p>Error!</p>}

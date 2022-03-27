@@ -6,6 +6,14 @@ html,
   height: 100%;
 }
 
+main {
+  overflow: hidden;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
 /* BUTTONS
 =================================== */
 /* Primary Button */
@@ -21,8 +29,9 @@ html,
   border-color: #b4d1e0 !important;
 }
 
-/* COLORS (LINKS)
+/* COLORS 
 ===================================== */
+/* links */
 .light {
   color: #fff;
   text-decoration: none;
@@ -45,6 +54,20 @@ html,
   color: #a7d7f0 !important;
 }
 
+a {
+  text-decoration: none;
+}
+
+/* text */
+.text-primary {
+  color: #142230 !important;
+}
+
+/* background */
+.bg-secondary {
+  background-color: #edf5f9 !important;
+}
+
 /* MODAL
 ======================================== */
 /* modal backdrop */
@@ -55,7 +78,6 @@ html,
 }
 
 .modal-backdrop.fade {
-  opacity: 0;
   height: 100%;
   width: 100%;
 }
