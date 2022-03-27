@@ -11,6 +11,7 @@
   background-color: #142230;
   overflow-x: hidden;
   padding-top: 20px;
+  z-index: 9;
 }
 
 .sidebarOpen {
@@ -26,7 +27,7 @@
 
 /* Hamburger */
 .hamburger {
-  margin: 50px 0 0 15px;
+  margin: 20px 0 0 15px;
   font-size: 30px;
 }
 

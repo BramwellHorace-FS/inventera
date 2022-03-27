@@ -31,10 +31,10 @@ export default function Materials() {
       <PageHeader>
         <Container>
           <Row>
-            <Col sm={10}>
+            <Col sm={9}>
               <h2>Materials</h2>
             </Col>
-            <Col sm={2} className="d-flex justify-content-end">
+            <Col sm={3} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Material

@@ -1,20 +1,4 @@
-.cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 40px;
-  justify-items: center;
-  align-items: center;
-  margin-top: 50px;
-}
-
-@media (max-width: 800px) {
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .cards {
-    grid-template-columns: 1fr;
-  }
+.row {
+  row-gap: 2rem;
+  margin-top: 3rem;
 }
