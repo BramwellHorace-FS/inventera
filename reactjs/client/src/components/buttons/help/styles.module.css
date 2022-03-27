@@ -1,0 +1,33 @@
+.helpBtn {
+  color: #142230;
+  position: fixed;
+  bottom: 25px;
+  left: 20px;
+  font-size: 2.5rem;
+  padding: 0;
+  line-height: 0;
+  border: none;
+}
+
+.helpText {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .helpBtn {
+    left: initial;
+    right: 20px;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+  }
+
+  .helpText {
+    display: block;
+    font-size: 1.2rem;
+  }
+}
