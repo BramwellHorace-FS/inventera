@@ -1,78 +1,108 @@
-import { Form, Table } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Table, ButtonGroup, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function MaterialList({ materials, status }) {
+  const [materialsChecked, setMaterialsChecked] = useState([]);
+
+  const handleCheck = (e, id) => {
+    const newMaterialsChecked = [...materialsChecked];
+
+    if (e.target.checked) {
+      newMaterialsChecked.push(id);
+    } else {
+      newMaterialsChecked.splice(newMaterialsChecked.indexOf(id), 1);
+    }
+
+    setMaterialsChecked(newMaterialsChecked);
+  };
+
+  console.log(materialsChecked);
+
   return (
-    <Table responsive className="noWrap">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>StockLevel</th>
-          <th>MinLevel</th>
-          <th>Unit Cost</th>
-          <th>SKU</th>
-          <th>Supplier</th>
-          <th>Category</th>
-          <th>Last Ordered</th>
-        </tr>
-      </thead>
-      <tbody>
-        {status === 'loading' && (
+    <>
+      {materialsChecked.length > 0 && (
+        <ButtonGroup>
+          <Button variant="danger"> Delete </Button>
+          {materialsChecked.length === 1 && (
+            <Button variant="outline-dark">Edit</Button>
+          )}
+        </ButtonGroup>
+      )}
+      <Table responsive className="noWrap">
+        <thead>
           <tr>
-            <td colSpan="8">Loading...</td>
+            <th>Name</th>
+            <th>StockLevel</th>
+            <th>MinLevel</th>
+            <th>Unit Cost</th>
+            <th>SKU</th>
+            <th>Supplier</th>
+            <th>Category</th>
+            <th>Last Ordered</th>
           </tr>
-        )}
-        {status === 'error' && (
-          <tr>
-            <td colSpan="8">Error!</td>
-          </tr>
-        )}
-        {status === 'success' &&
-          materials.map((material) => (
-            <tr key={material.id}>
-              <td>
-                <Form.Check type="checkbox">
-                  <Form.Check.Input type="checkbox" />
-                  <Form.Check.Label>
-                    {material.stockLevel < material.minLevel ? (
-                      <span className="text-danger">{material.name}</span>
-                    ) : (
-                      material.name
-                    )}
-                  </Form.Check.Label>
-                </Form.Check>
-              </td>
-              <td>
-                {material.stockLevel < material.minLevel ? (
-                  <span className="text-danger">
-                    {material.stockLevel} {material.unitType}
-                  </span>
-                ) : (
-                  <span>
-                    {material.stockLevel} {material.unitType}
-                  </span>
-                )}
-              </td>
-              <td>
-                {material.stockLevel < material.minLevel ? (
-                  <span className="text-danger">
-                    {material.minLevel} {material.unitType}
-                  </span>
-                ) : (
-                  <span>
-                    {material.minLevel} {material.unitType}
-                  </span>
-                )}
-              </td>
-              <td>${material.unitPrice}</td>
-              <td>{material.sku}</td>
-              <td>{material.supplier}</td>
-              <td>{material.category}</td>
-              <td>{material.lastOrdered}</td>
+        </thead>
+        <tbody>
+          {status === 'loading' && (
+            <tr>
+              <td colSpan="8">Loading...</td>
             </tr>
-          ))}
-      </tbody>
-    </Table>
+          )}
+          {status === 'error' && (
+            <tr>
+              <td colSpan="8">Error!</td>
+            </tr>
+          )}
+          {status === 'success' &&
+            materials.map((material) => (
+              <tr key={material.id}>
+                <td>
+                  <Form.Check type="checkbox">
+                    <Form.Check.Input
+                      type="checkbox"
+                      onChange={(e) => handleCheck(e, material.id)}
+                    />
+                    <Form.Check.Label>
+                      {material.stockLevel < material.minLevel ? (
+                        <span className="text-danger">{material.name}</span>
+                      ) : (
+                        material.name
+                      )}
+                    </Form.Check.Label>
+                  </Form.Check>
+                </td>
+                <td>
+                  {material.stockLevel < material.minLevel ? (
+                    <span className="text-danger">
+                      {material.stockLevel} {material.unitType}
+                    </span>
+                  ) : (
+                    <span>
+                      {material.stockLevel} {material.unitType}
+                    </span>
+                  )}
+                </td>
+                <td>
+                  {material.stockLevel < material.minLevel ? (
+                    <span className="text-danger">
+                      {material.minLevel} {material.unitType}
+                    </span>
+                  ) : (
+                    <span>
+                      {material.minLevel} {material.unitType}
+                    </span>
+                  )}
+                </td>
+                <td>${material.unitPrice}</td>
+                <td>{material.sku}</td>
+                <td>{material.supplier}</td>
+                <td>{material.category}</td>
+                <td>{material.lastOrdered}</td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
+    </>
   );
 }
 

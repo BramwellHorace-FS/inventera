@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { BsFillQuestionCircleFill } from 'react-icons/bs';
@@ -6,12 +7,11 @@ import styles from './styles.module.css';
 export default function HelpButton({ onClick, children }) {
   return (
     <Button
-      variant="outline-secondary"
-      className={styles.helpBtn}
+      className={styles.button}
       onClick={onClick}
       aria-label="Help & Support Button"
     >
-      <BsFillQuestionCircleFill />
+      <BsFillQuestionCircleFill className={styles.icon} />
       <span className={styles.helpText}>{children}</span>
     </Button>
   );

@@ -17,17 +17,18 @@ main {
 
 /* BUTTONS
 =================================== */
+
 /* Primary Button */
 .btn-primary {
-  color: #fff !important;
-  background-color: #142230 !important;
-  border-color: #142230 !important;
+  color: #fff;
+  background-color: #142230;
+  border-color: #142230;
 }
 
 .btn-primary:hover {
-  color: #142230 !important;
-  background-color: #b4d1e0 !important;
-  border-color: #b4d1e0 !important;
+  color: #142230;
+  background-color: #b4d1e0;
+  border-color: #b4d1e0;
 }
 
 /* COLORS 
