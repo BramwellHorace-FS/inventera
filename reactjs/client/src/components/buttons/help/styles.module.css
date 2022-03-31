@@ -1,17 +1,20 @@
 .button {
   color: #142230 !important;
-  background: transparent !important;
+  background-color: transparent !important;
   position: fixed;
   bottom: 20px;
   left: 20px;
-  font-size: 2.5rem;
-  padding: 0;
+  padding: 0 !important;
   line-height: 0;
-  border: none;
+  border: none !important;
 }
 
 .helpText {
   display: none;
+}
+
+.icon {
+  font-size: 2.5rem;
 }
 
 @media (min-width: 768px) {
@@ -23,9 +26,9 @@
     justify-content: center !important;
     align-items: center !important;
     gap: 0.3rem !important;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd !important;
     border-radius: 5px;
-    padding: 0.5rem;
+    padding: 0.5rem !important;
   }
 
   .button:hover {
@@ -36,5 +39,9 @@
   .helpText {
     display: block;
     font-size: 1.2rem;
+  }
+
+  .icon {
+    font-size: 2rem;
   }
 }

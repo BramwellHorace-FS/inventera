@@ -11,7 +11,7 @@ export default function HelpButton({ onClick, children }) {
       onClick={onClick}
       aria-label="Help & Support Button"
     >
-      <BsFillQuestionCircleFill />
+      <BsFillQuestionCircleFill className={styles.icon} />
       <span className={styles.helpText}>{children}</span>
     </Button>
   );
