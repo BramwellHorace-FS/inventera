@@ -1,3 +1,4 @@
+import React from 'react';
 import { Container, Image } from 'react-bootstrap';
 import RegisterForm from '../../components/forms/register';
 import useValidate from '../../hooks';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Form, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
