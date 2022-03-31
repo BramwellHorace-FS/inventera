@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
+import { useSelector, useDispatch } from 'react-redux';
+import { getMaterials } from '../../redux/features/materials/materialsSlice';
 import useValidate from '../../hooks';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
@@ -16,15 +18,23 @@ export default function Materials() {
 
   const { validated, handleSubmit } = useValidate();
 
+  const materials = useSelector((state) => state.materials.materials);
+  const status = useSelector((state) => state.materials.status);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMaterials());
+  }, [dispatch]);
+
   return (
     <>
       <PageHeader>
         <Container>
           <Row>
-            <Col sm={10}>
+            <Col sm={9}>
               <h2>Materials</h2>
             </Col>
-            <Col sm={2} className="d-flex justify-content-end">
+            <Col sm={3} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Material
@@ -48,7 +58,7 @@ export default function Materials() {
       <Container className="mt-5">
         <Row>
           <Col sm={12}>
-            <MaterialsList />
+            <MaterialsList materials={materials} status={status} />
           </Col>
         </Row>
       </Container>

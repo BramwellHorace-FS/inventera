@@ -1,23 +1,19 @@
+import React from 'react';
 import { Image, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styles from './styles.module.css';
 
-export default function User({ userName, userImage, onLogout }) {
+export default function User({ userName, avatar, onLogout }) {
   return (
     <Container className={styles.user}>
-      <Row>
-        <Col className="col-2">
-          <Image src={userImage} roundedCircle fluid />
+      <Row className="align-items-center gap-2">
+        <Col className="col-3">
+          <Image src={avatar} alt={userName} className="rounded-circle w-100" />
         </Col>
-        <Col className="col-10">
-          <h3 className="light">{userName}</h3>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col sm={12}>
-          <Link to="/logout" onClick={onLogout}>
+        <Col className="col-8">
+          <h3 className="light h5">{userName}</h3>
+          <Link className="h6" to="/logout" onClick={onLogout}>
             Logout
           </Link>
         </Col>
@@ -28,6 +24,6 @@ export default function User({ userName, userImage, onLogout }) {
 
 User.propTypes = {
   userName: PropTypes.string.isRequired,
-  userImage: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
   onLogout: PropTypes.func.isRequired,
 };

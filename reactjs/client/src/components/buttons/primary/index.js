@@ -1,12 +1,11 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
+import styles from './styles.module.css';
 
 export default function PrimaryButton({ children, onClick }) {
   return (
-    <Button
-      onClick={onClick}
-      className="d-flex justify-content-center align-items-center gap-2 btn-primary"
-    >
+    <Button onClick={onClick} className={styles.primaryBtn}>
       {children}
     </Button>
   );

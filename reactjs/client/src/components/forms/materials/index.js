@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Form,
   Button,
@@ -32,8 +33,8 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
 
       <Form.Group>
         <Container fluid>
-          <Row>
-            <Col>
+          <Row className="align-items-center">
+            <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">
                 Current Stock Level
               </Form.Label>
@@ -48,7 +49,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
                 Please enter stock level
               </Form.Control.Feedback>
             </Col>
-            <Col>
+            <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">
                 Min Stock Level
               </Form.Label>
@@ -70,7 +71,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
       <Form.Group>
         <Container fluid>
           <Row>
-            <Col>
+            <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Price</Form.Label>
               <Form.Control
                 name="unitPrice"
@@ -83,14 +84,14 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
                 Please enter a unit price.
               </Form.Control.Feedback>
             </Col>
-            <Col>
+            <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
               <Form.Select
                 name="unitType"
                 placeholder="Select Unit Type"
                 required
               >
-                <option selected disabled value="">
+                <option defaultValue="Select unit type">
                   Select unit type
                 </option>
                 <option value="kg">Kilograms (kg)</option>
@@ -112,7 +113,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
       <Form.Group>
         <Container fluid>
           <Row>
-            <Col>
+            <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Category </Form.Label>
               <Form.Control
                 name="Category"
@@ -124,7 +125,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
                 Please enter a category.
               </Form.Control.Feedback>
             </Col>
-            <Col>
+            <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Supplier </Form.Label>
               <Form.Control
                 name="Supplier"
@@ -143,7 +144,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
       <Form.Group>
         <Container fluid>
           <Row>
-            <Col>
+            <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">SKU </Form.Label>
               <Form.Control
                 name="SKU"
@@ -155,7 +156,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
                 Please enter a SKU number.
               </Form.Control.Feedback>
             </Col>
-            <Col>
+            <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">
                 Last Ordered
               </Form.Label>

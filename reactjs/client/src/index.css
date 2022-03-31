@@ -6,23 +6,34 @@ html,
   height: 100%;
 }
 
+main {
+  overflow: hidden;
+  position: relative;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
 /* BUTTONS
 =================================== */
+
 /* Primary Button */
 .btn-primary {
-  color: #fff !important;
-  background-color: #142230 !important;
-  border-color: #142230 !important;
+  color: #fff;
+  background-color: #142230;
+  border-color: #142230;
 }
 
 .btn-primary:hover {
-  color: #142230 !important;
-  background-color: #b4d1e0 !important;
-  border-color: #b4d1e0 !important;
+  color: #142230;
+  background-color: #b4d1e0;
+  border-color: #b4d1e0;
 }
 
-/* COLORS (LINKS)
+/* COLORS 
 ===================================== */
+/* links */
 .light {
   color: #fff;
   text-decoration: none;
@@ -43,4 +54,32 @@ html,
 .light:hover,
 .secondary:hover {
   color: #a7d7f0 !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* text */
+.text-primary {
+  color: #142230 !important;
+}
+
+/* background */
+.bg-secondary {
+  background-color: #edf5f9 !important;
+}
+
+/* MODAL
+======================================== */
+/* modal backdrop */
+.modal-backdrop.show {
+  opacity: 0.5;
+  height: 100%;
+  width: 100%;
+}
+
+.modal-backdrop.fade {
+  height: 100%;
+  width: 100%;
 }

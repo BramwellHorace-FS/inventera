@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg, BsArrowRight } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMaterials } from '../../redux/features/materials/materialsSlice';
+import { getProducts } from '../../redux/features/products/productsSlice';
+import { getProductions } from '../../redux/features/productions/productionsSlice';
+import { getFormulas } from '../../redux/features/formulas/formulasSlice';
 import useValidate from '../../hooks';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
@@ -13,40 +18,40 @@ import styles from './styles.module.css';
 
 export default function Dashboard() {
   const [show, setShow] = useState(false);
-  const [data] = useState({
-    1: {
-      title: 'Raw Materials',
-      itemCount: 10,
-    },
-    2: {
-      title: 'Total Products',
-      itemCount: 3,
-    },
-    3: {
-      title: 'In Production',
-      itemCount: 1,
-    },
-    4: {
-      title: 'Formulas',
-      itemCount: 2,
-    },
-  });
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const { validated, handleSubmit } = useValidate();
 
+  const materials = useSelector((state) => state.materials.materials);
+  const materialStatus = useSelector((state) => state.materials.status);
+
+  const products = useSelector((state) => state.products.products);
+  const productStatus = useSelector((state) => state.products.status);
+
+  const productions = useSelector((state) => state.productions.productions);
+  const formulas = useSelector((state) => state.formulas.formulas);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMaterials());
+    dispatch(getProducts());
+    dispatch(getProductions());
+    dispatch(getFormulas());
+  }, [dispatch]);
+
   return (
     <>
       <PageHeader>
         <Container>
           <Row>
-            <Col sm={8}>
+            <Col sm={7}>
               <h2>Dashboard</h2>
             </Col>
 
-            <Col sm={4} className="d-flex justify-content-end">
+            <Col sm={5} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Material
@@ -67,24 +72,61 @@ export default function Dashboard() {
         />
       </SiteModal>
 
-      <Container className={styles.cards}>
-        {Object.keys(data).map((key) => (
-          <div className="w-100 h-100 bg-light py-5" key={key}>
+      <Container className="mt-5">
+        <Row className={styles.row}>
+          <Col sm={12} lg={3}>
             <DashboardCard
-              title={data[key].title}
-              itemCount={data[key].itemCount}
+              title="Materials"
+              itemCount={materials.length}
+              linkTo="/materials"
             />
-          </div>
-        ))}
+          </Col>
+          <Col sm={12} lg={3}>
+            <DashboardCard
+              title="Products"
+              itemCount={products.length}
+              linkTo="/products"
+            />
+          </Col>
+
+          <Col sm={12} lg={3}>
+            <DashboardCard
+              title="Productions"
+              itemCount={productions.length}
+              linkTo="/products"
+            />
+          </Col>
+
+          <Col sm={12} lg={3}>
+            <DashboardCard
+              title="Formulas"
+              itemCount={formulas.length}
+              linkTo="/products"
+            />
+          </Col>
+        </Row>
       </Container>
 
-      <Container className="mt-5">
-        <h2 className="mb-5">Inventory Breakdown</h2>
+      <Container className="my-5">
+        <h2 className="mb-3">Inventory Breakdown</h2>
         <Row>
           <Col sm={6}>
-            <Container className="ps-0">
+            <Container className="ps-0 mt-3">
               <h4 className="mb-3">Materials</h4>
-              <MiniList />
+              {materialStatus === 'loading' && <p>Loading...</p>}
+              {materialStatus === 'error' && <p>Error!</p>}
+              {materialStatus === 'success' &&
+                materials.length > 0 &&
+                materials.map((material) => (
+                  <MiniList
+                    key={material.id}
+                    name={material.name}
+                    stock={material.stockLevel}
+                    minStock={material.minLevel}
+                    unit={material.unitType}
+                  />
+                ))}
+
               <Link
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/materials"
@@ -94,9 +136,21 @@ export default function Dashboard() {
             </Container>
           </Col>
           <Col sm={6}>
-            <Container className="pe-0">
+            <Container className="p-0 mt-3">
               <h4 className="mb-3">Products</h4>
-              <MiniList />
+              {productStatus === 'loading' && <p>Loading...</p>}
+              {productStatus === 'error' && <p>Error!</p>}
+              {productStatus === 'success' &&
+                products.length > 0 &&
+                products.map((product) => (
+                  <MiniList
+                    key={product.id}
+                    name={product.name}
+                    stock={product.stockLevel}
+                    minStock={product.minLevel}
+                    unit={product.unitType}
+                  />
+                ))}
               <Link
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/products"

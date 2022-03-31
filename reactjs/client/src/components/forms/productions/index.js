@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Form,
   Button,
@@ -43,9 +44,7 @@ export default function ProductionForm({
                 Items to make
               </Form.Label>
               <Form.Select required>
-                <option selected disabled value="">
-                  Select product
-                </option>
+                <option defaultValue="Select product">Select product</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">
                 Please enter a name for the production.
@@ -65,6 +64,25 @@ export default function ProductionForm({
               <Form.Control required type="number" placeholder="0" />
               <Form.Control.Feedback type="invalid">
                 Please enter a number of items to make.
+              </Form.Control.Feedback>
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      <Form.Group>
+        <Container fluid>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6 mt-3">Status</Form.Label>
+              <Form.Select required>
+                <option defaultValue="Select status">Select status</option>
+                <option value="Incomplete">Incomplete</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                Please enter a name for the production.
               </Form.Control.Feedback>
             </Col>
           </Row>

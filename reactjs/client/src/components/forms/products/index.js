@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Form,
   Button,
@@ -30,7 +31,7 @@ export default function ProductForm({ validated, handleSubmit, handleClose }) {
       <Form.Group>
         <Container fluid>
           <Row>
-            <Col>
+            <Col md={6}>
               <Form.Label className="text-muted h6 mt-3">
                 Current Stock Level
               </Form.Label>
@@ -43,7 +44,7 @@ export default function ProductForm({ validated, handleSubmit, handleClose }) {
                 Please enter a current stock.
               </Form.Control.Feedback>
             </Col>
-            <Col>
+            <Col md={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
               <Form.Select required>
                 <option>Select Unit</option>
@@ -65,14 +66,14 @@ export default function ProductForm({ validated, handleSubmit, handleClose }) {
       <Form.Group>
         <Container fluid>
           <Row>
-            <Col>
+            <Col md={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Price</Form.Label>
               <Form.Control type="number" placeholder="Unit Price" required />
               <Form.Control.Feedback type="invalid">
                 Please enter a unit price.
               </Form.Control.Feedback>
             </Col>
-            <Col>
+            <Col md={6}>
               <Form.Label className="text-muted h6 mt-3">Category </Form.Label>
               <Form.Control type="text" placeholder="Category" required />
               <Form.Control.Feedback type="invalid">
@@ -86,7 +87,7 @@ export default function ProductForm({ validated, handleSubmit, handleClose }) {
       <Form.Group>
         <Container fluid>
           <Row>
-            <Col>
+            <Col md={4}>
               <Form.Label className="text-muted h6 mt-3">
                 Materials Used
               </Form.Label>
@@ -97,14 +98,14 @@ export default function ProductForm({ validated, handleSubmit, handleClose }) {
                 Please select a material.
               </Form.Control.Feedback>
             </Col>
-            <Col>
+            <Col md={4}>
               <Form.Label className="text-muted h6 mt-3">Amount </Form.Label>
               <Form.Control type="number" placeholder="0" required />
               <Form.Control.Feedback type="invalid">
                 Please enter an amount.
               </Form.Control.Feedback>
             </Col>
-            <Col>
+            <Col md={4}>
               <Form.Label className="text-muted h6 mt-3">Unit Type </Form.Label>
               <Form.Select required>
                 <option value="kg">Kilograms (kg)</option>

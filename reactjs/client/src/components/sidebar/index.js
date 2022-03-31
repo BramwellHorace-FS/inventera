@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { BsXLg } from 'react-icons/bs';
 import { FiMenu } from 'react-icons/fi';
 import { Container } from 'react-bootstrap';
@@ -7,6 +8,15 @@ import styles from './styles.module.css';
 
 export default function Sidebar({ children }) {
   const [show, setShow] = useState(false);
+  const [prevLocation, setPrevLocation] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== prevLocation) {
+      setShow(false);
+    }
+    setPrevLocation(location.pathname);
+  }, [location, prevLocation]);
 
   const toggleShow = () => {
     setShow(!show);
