@@ -21,21 +21,12 @@ module.exports = {
       password: {
         allowNull: false,
         type: Sequelize.STRING,
-        validate: {
-          min: 8,
-        },
       },
       businessName: {
         type: Sequelize.STRING,
-        validate: {
-          max: 50,
-        },
       },
       website: {
         type: Sequelize.STRING,
-        validate: {
-          max: 50,
-        },
       },
       createdAt: {
         allowNull: false,
