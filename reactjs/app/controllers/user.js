@@ -1,4 +1,4 @@
-const { User, Unit } = require('../../db/models');
+const { User, Unit, Category } = require('../../db/models');
 const { uuid } = require('uuidv4');
 const error = require('../utils/errorHandling');
 
@@ -22,7 +22,10 @@ exports.create = async (req, res) => {
 exports.getOne = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id, {
-      include: [{ model: Unit, as: 'units' }],
+      include: [
+        { model: Unit, as: 'units' },
+        { model: Category, as: 'categories' },
+      ],
     });
     if (!user) {
       throw new Error('User not found');
