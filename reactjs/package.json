@@ -15,7 +15,12 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.2",
-    "express": "^4.17.3"
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "pg": "^8.7.3",
+    "sequelize": "^6.18.0",
+    "sequelize-cli": "^6.4.1",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
