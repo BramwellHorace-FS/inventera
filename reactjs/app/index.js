@@ -2,13 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
+const userRouter = require('./routes/user');
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
-});
+app.use('/api/user', userRouter);
 
 // if (process.env.NODE_ENV === 'production') {
 //   // Serve any static files
