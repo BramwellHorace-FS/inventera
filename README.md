@@ -26,4 +26,4 @@ Each week, I will summarize my milestone activity and progress by including a **
 
 **Week 3**: This week I learned how to set up ESLint and how to set up a React project with a node server. I also went over a few additional research topics to help me create the components for my application. The challenge for me this week was Heroku. I was unable to get things set up according to assignment requirements or deploy anything. I am a bit confused about what exactly I should be doing. I would need to reach out for more clarification. To move things forward, I will be sure to ask for some feedback and get more clarification on what I should be doing in this particular course.
 
-**Week 4**:
+**Week 4**: During the final milestone, in addition to weekly research, I worked on implementing the Redux toolkit into my project using APIary mock API for the data. I continued to make improvements to the overall UI of the application. Also, I fixed most of the responsive issues with the lists/tables. There weren't any challenges I faced during this milestone. To keep this project moving forward, I will continue refactoring the code, making changes to the UI where I see fit.
