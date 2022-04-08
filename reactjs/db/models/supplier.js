@@ -1,7 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Category extends Model {
+  class Supplier extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,32 +9,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Category.belongsTo(models.User, {
-        foreignKey: 'userId',
-        as: 'user',
-      });
     }
   }
-  Category.init(
+  Supplier.init(
     {
       name: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {
-            msg: 'Category name is required',
+            msg: 'Supplier name is required',
           },
           len: {
             args: [3, 50],
-            msg: 'Category name must be between 3 and 50 characters',
+            msg: 'Supplier name must be between 3 and 50 characters',
           },
           isUnique: function (value, next) {
-            Category.findOne({
+            Supplier.findOne({
               where: {
                 name: value,
               },
-            }).then(function (category) {
-              if (category) {
-                next('Category name already exists');
+            }).then(function (supplier) {
+              if (supplier) {
+                next('Supplier name already exists');
               } else {
                 next();
               }
@@ -42,19 +38,12 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      userId: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            msg: 'User id is required',
-          },
-        },
-      },
+      userId: DataTypes.UUID,
     },
     {
       sequelize,
-      modelName: 'Category',
+      modelName: 'Supplier',
     }
   );
-  return Category;
+  return Supplier;
 };
