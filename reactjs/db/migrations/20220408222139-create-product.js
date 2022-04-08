@@ -4,48 +4,64 @@ module.exports = {
     await queryInterface.createTable('Products', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       stock: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
       },
       minStock: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
       },
       unitId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Units',
+          key: 'id',
+        },
       },
       unitCost: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
       },
       sku: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       categoryId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Categories',
+          key: 'id',
+        },
       },
       materialId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Materials',
+          key: 'id',
+        },
       },
       userId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Products');
-  }
+  },
 };
