@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         as: 'user',
       });
+
+      Category.hasMany(models.Material, {
+        foreignKey: 'categoryId',
+        as: 'materials',
+      });
     }
   }
   Category.init(

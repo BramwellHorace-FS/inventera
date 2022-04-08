@@ -9,6 +9,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Supplier.hasMany(models.Material, {
+        foreignKey: 'supplierId',
+        as: 'materials',
+        onDelete: 'CASCADE',
+      });
+
+      Supplier.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user',
+        onDelete: 'CASCADE',
+      });
     }
   }
   Supplier.init(
