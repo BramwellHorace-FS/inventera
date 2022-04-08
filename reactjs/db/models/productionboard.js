@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class ProductionBoard extends Model {
     /**
@@ -11,14 +9,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.ProductionBoard.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user',
+      });
     }
   }
-  ProductionBoard.init({
-    name: DataTypes.STRING,
-    userId: DataTypes.UUID
-  }, {
-    sequelize,
-    modelName: 'ProductionBoard',
-  });
+  ProductionBoard.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: 'Name is required',
+          },
+        },
+      },
+      userId: {
+        type: DataTypes.UUID,
+        validate: {
+          notEmpty: {
+            msg: 'User is required',
+          },
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: 'ProductionBoard',
+    }
+  );
   return ProductionBoard;
 };
