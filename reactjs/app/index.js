@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const error = require('./utils/errorHandling');
+const { handleError, throwError } = require('./utils/errorHandling');
 
 const userRouter = require('./routes/user');
 const unitRouter = require('./routes/unit');
@@ -15,9 +15,9 @@ app.use('/api/units', unitRouter);
 
 app.use((req, res) => {
   try {
-    res.status(404).json({ error: 'No route exists for your request' });
+    throwError(404, 'The requested resource was not found');
   } catch (err) {
-    error.handleError(err, req, res);
+    handleError(err, req, res);
   }
 });
 
