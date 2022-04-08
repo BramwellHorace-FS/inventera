@@ -58,7 +58,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-exports.delete = async (req, res, next) => {
+exports.deleteOne = async (req, res, next) => {
   try {
     const formula = await Formula.findByPk(req.params.id);
     await formula.destroy();

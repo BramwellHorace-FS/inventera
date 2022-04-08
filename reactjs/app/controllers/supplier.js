@@ -50,7 +50,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-exports.delete = async (req, res, next) => {
+exports.deleteOne = async (req, res, next) => {
   try {
     const supplier = await Supplier.findByPk(req.params.id);
     await supplier.destroy();

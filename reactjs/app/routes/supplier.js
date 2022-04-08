@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { getAll, getOne, create, update, delete: deleteSupplier } = require('../controllers/supplier');
+const { getAll, getOne, create, update, deleteOne } = require('../controllers/supplier');
 
 router.get('/', getAll);
 router.get('/:id', getOne);
 router.post('/', create);
 router.put('/:id', update);
-router.delete('/:id', deleteSupplier);
+router.delete('/:id', deleteOne);
 
 module.exports = router;
