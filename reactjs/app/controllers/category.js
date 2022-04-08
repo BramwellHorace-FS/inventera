@@ -4,7 +4,9 @@ const { uuid } = require('uuidv4');
 
 exports.getAll = async (req, res) => {
   try {
-    const categories = await Category.findAll();
+    const categories = await Category.findAll({
+      attributes: ['id', 'name'],
+    });
     res.status(200).json(categories);
   } catch (err) {
     handleError(err, req, res);
@@ -13,7 +15,9 @@ exports.getAll = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
-    const category = await Category.findByPk(req.params.id);
+    const category = await Category.findByPk(req.params.id, {
+      attributes: ['id', 'name'],
+    });
 
     if (!category) {
       throwError(404, 'Category not found');
