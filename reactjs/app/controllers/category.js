@@ -43,9 +43,15 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const category = await Category.update({ ...req.body }, { where: { id: req.params.id } });
+    const category = await Category.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
 
-    res.status(200).json(category);
+    const updatedCategory = await category.update(req.body);
+
+    res.status(200).json(updatedCategory);
   } catch (err) {
     next(err);
   }
@@ -53,13 +59,15 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    const category = await Category.destroy({
+    const category = await Category.findOne({
       where: {
         id: req.params.id,
       },
     });
 
-    res.status(204).json(category);
+    await category.destroy();
+
+    res.status(200).json({ message: 'Category deleted' });
   } catch (err) {
     next(err);
   }
