@@ -1,16 +1,18 @@
 const { Formula, Unit, User } = require('../../db/models');
 const { uuid } = require('uuidv4');
 
+const include = [
+  {
+    model: Unit,
+    as: 'unit',
+    attributes: ['id', 'name', 'abbr'],
+  },
+];
+
 exports.getAll = async (req, res, next) => {
   try {
     const formulas = await Formula.findAll({
-      include: [
-        {
-          model: Unit,
-          as: 'unit',
-          attributes: ['id', 'name'],
-        },
-      ],
+      include,
     });
     res.status(200).json(formulas);
   } catch (err) {
@@ -21,13 +23,7 @@ exports.getAll = async (req, res, next) => {
 exports.getOne = async (req, res, next) => {
   try {
     const formula = await Formula.findByPk(req.params.id, {
-      include: [
-        {
-          model: Unit,
-          as: 'unit',
-          attributes: ['id', 'name'],
-        },
-      ],
+      include,
     });
     res.status(200).json(formula);
   } catch (err) {
@@ -40,7 +36,6 @@ exports.create = async (req, res, next) => {
     const formula = await Formula.create({
       id: uuid(),
       ...req.body,
-      userId: req.user.id,
     });
     res.status(201).json(formula);
   } catch (err) {

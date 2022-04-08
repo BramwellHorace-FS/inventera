@@ -1,8 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
-  class Material extends Model {
+  class Product extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -10,79 +9,61 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Material.belongsTo(models.User, {
+      Product.belongsTo(models.User, {
         foreignKey: 'userId',
         as: 'user',
-        onDelete: 'CASCADE',
       });
-
-      Material.belongsTo(models.Category, {
+      Product.belongsTo(models.Category, {
         foreignKey: 'categoryId',
         as: 'category',
-        onDelete: 'CASCADE',
       });
 
-      Material.belongsTo(models.Unit, {
+      Product.belongsTo(models.Unit, {
         foreignKey: 'unitId',
         as: 'unit',
-        onDelete: 'CASCADE',
       });
 
-      Material.belongsTo(models.Supplier, {
-        foreignKey: 'supplierId',
-        as: 'supplier',
-        onDelete: 'CASCADE',
-      });
-
-      Material.hasMany(models.Product, {
+      Product.hasMany(models.Material, {
         foreignKey: 'materialId',
-        as: 'products',
-        onDelete: 'CASCADE',
+        as: 'material',
       });
     }
   }
-  Material.init(
+  Product.init(
     {
       name: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {
-            msg: 'Material name is required',
+            msg: 'Name is required',
           },
           len: {
-            args: [3, 50],
-            msg: 'Material name must be between 3 and 50 characters',
-          },
-          isUnique: function (value, next) {
-            Material.findOne({
-              where: {
-                name: value,
-              },
-            }).then(function (material) {
-              if (material) {
-                next('Material name already exists');
-              } else {
-                next();
-              }
-            });
+            args: [5, 50],
+            msg: 'Name must be between 5 and 50 characters',
           },
         },
       },
       stock: {
         type: DataTypes.DECIMAL(10, 2),
         validate: {
+          notEmpty: {
+            msg: 'Stock is required',
+          },
           min: {
             args: [0],
-            msg: 'Material stock must be greater than or equal to 0',
+            msg: 'Stock must be greater than 0',
           },
         },
       },
       minStock: {
         type: DataTypes.DECIMAL(10, 2),
         validate: {
+          notEmpty: {
+            msg: 'Min Stock is required',
+          },
           min: {
             args: [0],
-            msg: 'Material minimum stock must be greater than or equal to 0',
+            msg: 'Min Stock must be greater than 0',
           },
         },
       },
@@ -90,16 +71,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {
-            msg: 'Material unit is required',
+            msg: 'Unit is required',
           },
         },
       },
       unitCost: {
         type: DataTypes.DECIMAL(10, 2),
         validate: {
+          notEmpty: {
+            msg: 'Unit Cost is required',
+          },
           min: {
             args: [0],
-            msg: 'Material unit cost must be greater than or equal to 0',
+            msg: 'Unit Cost must be greater than 0',
           },
         },
       },
@@ -108,7 +92,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           max: {
             args: [50],
-            msg: 'Material SKU must be less than 50 characters',
+            msg: 'SKU must be less than 50 characters',
           },
         },
       },
@@ -116,23 +100,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {
-            msg: 'Material category is required',
+            msg: 'Category is required',
           },
         },
       },
-      supplierId: {
+      materialId: {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {
-            msg: 'Material supplier is required',
-          },
-        },
-      },
-      lastOrdered: {
-        type: DataTypes.DATE,
-        validate: {
-          isDate: {
-            msg: 'Material last ordered date is not a valid date',
+            msg: 'Material is required',
           },
         },
       },
@@ -140,15 +116,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {
-            msg: 'Material user is required',
+            msg: 'User is required',
           },
         },
       },
     },
     {
       sequelize,
-      modelName: 'Material',
+      modelName: 'Product',
     }
   );
-  return Material;
+  return Product;
 };
