@@ -5,13 +5,15 @@ const { handleError, throwError } = require('./utils/errorHandling');
 
 const userRouter = require('./routes/user');
 const unitRouter = require('./routes/unit');
+const categoryRouter = require('./routes/category');
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/user', userRouter);
+app.use('/api/users', userRouter);
 app.use('/api/units', unitRouter);
+app.use('/api/categories', categoryRouter);
 
 app.use((req, res) => {
   try {
