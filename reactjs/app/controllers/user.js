@@ -1,4 +1,4 @@
-const { User, Unit, Category } = require('../../db/models');
+const { User, Unit, Category, Material, Supplier } = require('../../db/models');
 const { uuid } = require('uuidv4');
 
 exports.getOne = async (req, res, next) => {
@@ -14,6 +14,27 @@ exports.getOne = async (req, res, next) => {
           model: Category,
           as: 'categories',
           attributes: ['id', 'name'],
+        },
+        {
+          model: Material,
+          as: 'materials',
+          include: [
+            {
+              model: Category,
+              as: 'category',
+              attributes: ['id', 'name'],
+            },
+            {
+              model: Unit,
+              as: 'unit',
+              attributes: ['id', 'name'],
+            },
+            {
+              model: Supplier,
+              as: 'supplier',
+              attributes: ['id', 'name'],
+            },
+          ],
         },
       ],
     });
