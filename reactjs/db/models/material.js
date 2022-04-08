@@ -1,5 +1,5 @@
 'use strict';
-const { Model, Op } = require('sequelize');
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Material extends Model {
@@ -48,13 +48,9 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Material name must be between 3 and 50 characters',
           },
           isUnique: function (value, next) {
-            const self = this;
             Material.findOne({
               where: {
                 name: value,
-                [Op.not]: {
-                  id: self.id,
-                },
               },
             }).then(function (material) {
               if (material) {
@@ -104,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
       sku: {
         type: DataTypes.STRING,
         validate: {
-          maxLength: {
+          max: {
             args: [50],
             msg: 'Material SKU must be less than 50 characters',
           },

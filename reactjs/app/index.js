@@ -10,6 +10,7 @@ const categoryRouter = require('./routes/category');
 const supplierRouter = require('./routes/supplier');
 const productionBoardRouter = require('./routes/productionBoard');
 const formulaRouter = require('./routes/formula');
+const materialRouter = require('./routes/material');
 
 app.use(cors());
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use('/api/categories', categoryRouter);
 app.use('/api/suppliers', supplierRouter);
 app.use('/api/boards', productionBoardRouter);
 app.use('/api/formulas', formulaRouter);
+app.use('/api/materials', materialRouter);
 
 app.use((req, res, next) => {
   next(createError.NotFound());
