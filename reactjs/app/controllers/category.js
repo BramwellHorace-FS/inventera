@@ -1,10 +1,12 @@
 const { Category } = require('../../db/models');
 const { uuid } = require('uuidv4');
 
+const attributes = ['id', 'name'];
+
 exports.getAll = async (req, res, next) => {
   try {
     const categories = await Category.findAll({
-      attributes: ['id', 'name'],
+      attributes,
     });
 
     res.status(200).json(categories);
@@ -16,7 +18,7 @@ exports.getAll = async (req, res, next) => {
 exports.getOne = async (req, res, next) => {
   try {
     const category = await Category.findByPk(req.params.id, {
-      attributes: ['id', 'name'],
+      attributes,
     });
 
     res.status(200).json(category);

@@ -1,26 +1,28 @@
 const { Material, Category, Supplier, Unit } = require('../../db/models');
 const { uuid } = require('uuidv4');
 
+const include = [
+  {
+    model: Category,
+    as: 'category',
+    attributes: ['id', 'name'],
+  },
+  {
+    model: Unit,
+    as: 'unit',
+    attributes: ['id', 'name', 'abbr'],
+  },
+  {
+    model: Supplier,
+    as: 'supplier',
+    attributes: ['id', 'name'],
+  },
+];
+
 exports.getAll = async (req, res, next) => {
   try {
     const materials = await Material.findAll({
-      include: [
-        {
-          model: Category,
-          as: 'category',
-          attributes: ['id', 'name'],
-        },
-        {
-          model: Unit,
-          as: 'unit',
-          attributes: ['id', 'name', 'abbr'],
-        },
-        {
-          model: Supplier,
-          as: 'supplier',
-          attributes: ['id', 'name'],
-        },
-      ],
+      include,
     });
 
     res.status(200).json(materials);
@@ -32,23 +34,7 @@ exports.getAll = async (req, res, next) => {
 exports.getOne = async (req, res, next) => {
   try {
     const material = await Material.findByPk(req.params.id, {
-      include: [
-        {
-          model: Category,
-          as: 'category',
-          attributes: ['id', 'name'],
-        },
-        {
-          model: Unit,
-          as: 'unit',
-          attributes: ['id', 'name', 'abbr'],
-        },
-        {
-          model: Supplier,
-          as: 'supplier',
-          attributes: ['id', 'name'],
-        },
-      ],
+      include,
     });
 
     res.status(200).json(material);
