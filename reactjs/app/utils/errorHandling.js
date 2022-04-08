@@ -4,8 +4,14 @@ exports.handleError = (err, req, res) => {
     return res.status(400).json({ errors });
   }
 
-  const statusCode = err.statusCode || 500;
+  const status = err.status || 500;
   const message = err.message || 'Something went wrong';
 
-  res.status(statusCode).json({ message });
+  res.status(status).json({ message });
+};
+
+exports.throwError = (status, message) => {
+  const error = new Error(message);
+  error.status = status;
+  throw error;
 };

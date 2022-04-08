@@ -1,5 +1,5 @@
 const { Unit } = require('../../db/models');
-const error = require('../utils/errorHandling');
+const { handleError, throwError } = require('../utils/errorHandling');
 
 exports.getAll = async (req, res) => {
   try {
@@ -8,13 +8,11 @@ exports.getAll = async (req, res) => {
     });
 
     if (!units) {
-      return res.status(404).json({
-        error: 'No units found',
-      });
+      throwError(404, 'Units not found');
     }
 
     res.status(200).json(units);
   } catch (err) {
-    error.handleError(err, req, res);
+    handleError(err, req, res);
   }
 };
