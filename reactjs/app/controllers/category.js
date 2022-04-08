@@ -15,10 +15,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.getOne = async (req, res, next) => {
   try {
-    const category = await Category.findOne({
-      where: {
-        id: req.params.id,
-      },
+    const category = await Category.findByPk(req.params.id, {
       attributes: ['id', 'name'],
     });
 
@@ -43,15 +40,9 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const category = await Category.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-
-    const updatedCategory = await category.update(req.body);
-
-    res.status(200).json(updatedCategory);
+    const category = await Category.findByPk(req.params.id);
+    await category.update(req.body);
+    res.status(200).json(category);
   } catch (err) {
     next(err);
   }
@@ -59,15 +50,9 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    const category = await Category.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-
+    const category = await Category.findByPk(req.params.id);
     await category.destroy();
-
-    res.status(200).json({ message: 'Category deleted' });
+    res.status(204).json();
   } catch (err) {
     next(err);
   }

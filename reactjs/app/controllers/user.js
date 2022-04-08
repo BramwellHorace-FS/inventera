@@ -3,16 +3,12 @@ const { uuid } = require('uuidv4');
 
 exports.getOne = async (req, res, next) => {
   try {
-    const user = await User.findOne({
-      where: {
-        id: req.params.id,
-      },
-      attributes: ['id', 'name', 'email', 'businessName', 'website'],
+    const user = await User.findByPk(req.params.id, {
       include: [
         {
           model: Unit,
           as: 'units',
-          attributes: ['id', 'name', 'abbr'],
+          attributes: ['id', 'name'],
         },
         {
           model: Category,

@@ -15,10 +15,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.getOne = async (req, res, next) => {
   try {
-    const supplier = await Supplier.findOne({
-      where: {
-        id: req.params.id,
-      },
+    const supplier = await Supplier.findByPk(req.params.id, {
       attributes: ['id', 'name'],
     });
 
@@ -43,13 +40,9 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const supplier = await Supplier.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-
-    const updatedSupplier = await supplier.update(req.body);
+    const supplier = await Supplier.findByPk(req.params.id);
+    await supplier.update(req.body);
+    res.status(200).json(supplier);
 
     res.status(200).json(updatedSupplier);
   } catch (err) {
@@ -59,15 +52,9 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    const supplier = await Supplier.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-
+    const supplier = await Supplier.findByPk(req.params.id);
     await supplier.destroy();
-
-    res.status(200).json({ message: 'Supplier deleted' });
+    res.status(204).json();
   } catch (err) {
     next(err);
   }
