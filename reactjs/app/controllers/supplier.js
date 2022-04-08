@@ -1,13 +1,13 @@
-const { Category } = require('../../db/models');
+const { Supplier } = require('../../db/models');
 const { uuid } = require('uuidv4');
 
 exports.getAll = async (req, res, next) => {
   try {
-    const categories = await Category.findAll({
+    const suppliers = await Supplier.findAll({
       attributes: ['id', 'name'],
     });
 
-    res.status(200).json(categories);
+    res.status(200).json(suppliers);
   } catch (err) {
     next(err);
   }
@@ -15,14 +15,14 @@ exports.getAll = async (req, res, next) => {
 
 exports.getOne = async (req, res, next) => {
   try {
-    const category = await Category.findOne({
+    const supplier = await Supplier.findOne({
       where: {
         id: req.params.id,
       },
       attributes: ['id', 'name'],
     });
 
-    res.status(200).json(category);
+    res.status(200).json(supplier);
   } catch (err) {
     next(err);
   }
@@ -30,12 +30,12 @@ exports.getOne = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   try {
-    const category = await Category.create({
+    const supplier = await Supplier.create({
       id: uuid(),
       ...req.body,
     });
 
-    res.status(201).json(category);
+    res.status(201).json(supplier);
   } catch (err) {
     next(err);
   }
@@ -43,15 +43,15 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const category = await Category.findOne({
+    const supplier = await Supplier.findOne({
       where: {
         id: req.params.id,
       },
     });
 
-    const updatedCategory = await category.update(req.body);
+    const updatedSupplier = await supplier.update(req.body);
 
-    res.status(200).json(updatedCategory);
+    res.status(200).json(updatedSupplier);
   } catch (err) {
     next(err);
   }
@@ -59,15 +59,15 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    const category = await Category.findOne({
+    const supplier = await Supplier.findOne({
       where: {
         id: req.params.id,
       },
     });
 
-    await category.destroy();
+    await supplier.destroy();
 
-    res.status(200).json({ message: 'Category deleted' });
+    res.status(200).json({ message: 'Supplier deleted' });
   } catch (err) {
     next(err);
   }
