@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Supplier extends Model {
     /**
@@ -13,12 +11,39 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Supplier.init({
-    name: DataTypes.STRING,
-    userId: DataTypes.UUID
-  }, {
-    sequelize,
-    modelName: 'Supplier',
-  });
+  Supplier.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: 'Supplier name is required',
+          },
+          len: {
+            args: [3, 50],
+            msg: 'Supplier name must be between 3 and 50 characters',
+          },
+          isUnique: function (value, next) {
+            Supplier.findOne({
+              where: {
+                name: value,
+              },
+            }).then(function (supplier) {
+              if (supplier) {
+                next('Supplier name already exists');
+              } else {
+                next();
+              }
+            });
+          },
+        },
+      },
+      userId: DataTypes.UUID,
+    },
+    {
+      sequelize,
+      modelName: 'Supplier',
+    }
+  );
   return Supplier;
 };
