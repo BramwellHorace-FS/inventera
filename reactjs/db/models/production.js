@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Production extends Model {
     /**
@@ -11,17 +9,87 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Production.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user',
+      });
     }
   }
-  Production.init({
-    name: DataTypes.STRING,
-    quantity: DataTypes.INTEGER,
-    status: DataTypes.INTEGER,
-    dueDate: DataTypes.DATE,
-    userId: DataTypes.UUID
-  }, {
-    sequelize,
-    modelName: 'Production',
-  });
+  Production.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: 'Please enter a name',
+          },
+          isUnique: async (value, next) => {
+            Production.findOne({
+              where: {
+                name: value,
+              },
+            }).then((production) => {
+              if (production) {
+                return next('Name already exists');
+              } else {
+                return next();
+              }
+            });
+          },
+        },
+      },
+      quantity: {
+        type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            msg: 'Please enter a quantity',
+          },
+          min: {
+            args: [1],
+            msg: 'Quantity must be greater than 0',
+          },
+        },
+      },
+      status: {
+        type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            msg: 'Please enter a status',
+          },
+          min: {
+            args: [0],
+            msg: 'Status must be greater than 0',
+          },
+          max: {
+            args: [2],
+            msg: 'Status must be less than 2',
+          },
+        },
+      },
+      dueDate: {
+        type: DataTypes.DATE,
+        validate: {
+          notEmpty: {
+            msg: 'Please enter a due date',
+          },
+          isDate: {
+            msg: 'Please enter a valid date',
+          },
+        },
+      },
+      userId: {
+        type: DataTypes.UUID,
+        validate: {
+          notEmpty: {
+            msg: 'Please enter a user',
+          },
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Production',
+    }
+  );
   return Production;
 };
