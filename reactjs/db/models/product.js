@@ -22,11 +22,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'unitId',
         as: 'unit',
       });
-
-      Product.hasMany(models.Material, {
-        foreignKey: 'materialId',
-        as: 'material',
-      });
     }
   }
   Product.init(

@@ -22,7 +22,6 @@ module.exports = {
           unitCost: 5.0,
           sku: '14-CAN',
           unitId: '61742218-bccb-4f32-89b0-d1622773a1b6',
-          materialId: 'fd434df6-0076-417c-a6ba-b38e18d2a539',
           categoryId: '6d4377a5-5f3e-48d2-9941-5ac92293d538',
           userId: 'e05b897e-eb9d-4345-8845-666450c6b6be',
           createdAt: new Date(),

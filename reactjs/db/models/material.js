@@ -33,12 +33,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'supplier',
         onDelete: 'CASCADE',
       });
-
-      Material.hasMany(models.Product, {
-        foreignKey: 'materialId',
-        as: 'products',
-        onDelete: 'CASCADE',
-      });
     }
   }
   Material.init(

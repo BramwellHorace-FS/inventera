@@ -37,13 +37,6 @@ module.exports = {
           key: 'id',
         },
       },
-      materialId: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'Materials',
-          key: 'id',
-        },
-      },
       userId: {
         type: Sequelize.UUID,
         references: {
