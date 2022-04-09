@@ -36,6 +36,19 @@ module.exports = (sequelize, DataTypes) => {
             args: [5, 50],
             msg: 'Name must be between 5 and 50 characters',
           },
+          isUnique: async (value, next) => {
+            Product.findOne({
+              where: {
+                name: value,
+              },
+            }).then((product) => {
+              if (product) {
+                return next('Name already exists');
+              } else {
+                return next();
+              }
+            });
+          },
         },
       },
       stock: {
@@ -96,14 +109,6 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             msg: 'Category is required',
-          },
-        },
-      },
-      materialId: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            msg: 'Material is required',
           },
         },
       },

@@ -78,6 +78,14 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          id: 'bf326565-e4cd-4823-90ca-056453cd516a',
+          name: 'Pieces',
+          abbr: 'pcs',
+          userId: 'e05b897e-eb9d-4345-8845-666450c6b6be',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
