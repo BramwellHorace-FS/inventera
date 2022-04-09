@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         as: 'user',
       });
+
+      Production.belongsTo(models.ProductionBoard, {
+        foreignKey: 'productionBoardId',
+        as: 'productionBoard',
+      });
     }
   }
   Production.init(
@@ -82,6 +87,14 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             msg: 'Please enter a user',
+          },
+        },
+      },
+      productionBoardId: {
+        type: DataTypes.UUID,
+        validate: {
+          notEmpty: {
+            msg: 'Please enter a production board',
           },
         },
       },

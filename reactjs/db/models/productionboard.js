@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         as: 'user',
       });
+
+      models.ProductionBoard.hasMany(models.Production, {
+        foreignKey: 'productionBoardId',
+        as: 'productions',
+      });
     }
   }
   ProductionBoard.init(
