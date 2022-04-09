@@ -10,11 +10,12 @@ module.exports = {
      */
     await queryInterface.addColumn('Productions', 'productionBoardId', {
       type: Sequelize.UUID,
-      unique: true,
       references: {
         model: 'ProductionBoards',
         key: 'id',
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
     });
   },
 
