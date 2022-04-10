@@ -10,6 +10,18 @@ hbramwell@student.fullsail.edu -- (754) 302-8813
 
 ---
 
+## Log
+
+### April 12, 2022
+
+<!-- Work completed -->
+<!-- Setbacks -->
+<!-- Plans moving forward -->
+
+<br>
+
+---
+
 ## Progress Check / Stand Up
 
 Each week, I will summarize my milestone activity and progress by including a **Stand-Up**. A "stand-up" is when I take the time to briefly report out on the following...
