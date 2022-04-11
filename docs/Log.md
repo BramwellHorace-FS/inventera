@@ -14,9 +14,25 @@ hbramwell@student.fullsail.edu -- (754) 302-8813
 
 ### April 12, 2022
 
-<!-- Work completed -->
-<!-- Setbacks -->
-<!-- Plans moving forward -->
+**🛠 Worked completed:**
+
+During this week, I started working on the backend of the application. This included creating the database (PostgreSQL), creating the models, and creating the routes. I also worked on some basic error handling. The backend is currently in a very early stage of development and will be updated as time goes on. For example, some routes return null values, which is not ideal. They should be updated to return a 404 status code with a message. In addition to this, the user route which I created for testing purposes should be removed in the future. Other than that, the backend is pretty solid. However, I am a bit concerned about how migrations will work once I began deploying the application since some models depend on other models and require migrations to run in a specific order. Other than that, I think the backend is coming along nicely.
+
+**🛑 Challenges:**
+
+My biggest challenge this week was removing columns from the database. I tried creating a new migration file and running it. However, it failed with the following error: 'relation "products" does not exist. After some research, I found that this error may have been caused by how the table was created. So, I decided to remove the columns from the database from the command line and update the existing migration file.
+
+In addition, some models and routes needed updating from what I originally intended. This was because of changes made to the front end. To reduce the amount of refactoring that could be required, I decided to remove or add some columns and relationships to some models. While this wasn't a huge deal, it did slow down the development process a bit.
+
+**⚡️ Plans:**
+
+To address the above challenges and concerns, I will be working on the following:
+
+- [ ] Test deployment of the application on Heroku. Testing migrations and seeds.
+- [ ] Refactor the codebase to improve readability, maintainability, and consistency.
+- [ ] Replace the user route with an authentication route.
+- [ ] Update controllers/routes to return a 404 status code with a message when data is null.
+- [ ] Add comments to the codebase. As the codebase grows, it will be easier to understand what is going on.
 
 <br>
 
