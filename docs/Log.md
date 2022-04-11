@@ -14,11 +14,27 @@ hbramwell@student.fullsail.edu -- (754) 302-8813
 
 ### April 12, 2022
 
-<!-- Work completed -->
-<!-- Setbacks -->
-<!-- Plans moving forward -->
+**🛠 Worked completed:**
 
-<br>
+During this week, I started working on the backend of the application. This included creating the database (PostgreSQL), creating the models, and creating the routes. I also worked on some basic error handling. The backend is currently in a very early stage of development and will be updated as time goes on. For example, some routes return null values, which is not ideal. They should be updated to return a 404 status code with a message. In addition to this, the user route which I created for testing purposes should be removed in the future. Other than that, the backend is pretty solid. However, I am a bit concerned about how migrations will work once I began deploying the application since some models depend on other models and require migrations to run in a specific order. Other than that, I think the backend is coming along nicely.
+
+**🛑 Challenges:**
+
+My biggest challenge this week was removing columns from the database. I tried creating a new migration file and running it. However, it failed with the following error: 'relation "products" does not exist. After some research, I found that this error may have been caused by how the table was created. So, I decided to remove the columns from the database from the command line and update the existing migration file.
+
+In addition, some models and routes needed updating from what I originally intended. This was because of changes made to the front end. To reduce the amount of refactoring that could be required, I decided to remove or add some columns and relationships to some models. While this wasn't a huge deal, it did slow down the development process a bit.
+
+**⚡️ Plans:**
+
+To address the above challenges and concerns, I will be working on the following:
+
+- [ ] Test deployment of the application on Heroku. Testing migrations and seeds.
+- [ ] Refactor the codebase to improve readability, maintainability, and consistency.
+- [ ] Replace the user route with an authentication route.
+- [ ] Update controllers/routes to return a 404 status code with a message when data is null.
+- [ ] Add comments to the codebase. As the codebase grows, it will be easier to understand what is going on.
+
+<!-- <br>
 
 ---
 
@@ -38,4 +54,4 @@ Each week, I will summarize my milestone activity and progress by including a **
 
 **Week 3**: This week I learned how to set up ESLint and how to set up a React project with a node server. I also went over a few additional research topics to help me create the components for my application. The challenge for me this week was Heroku. I was unable to get things set up according to assignment requirements or deploy anything. I am a bit confused about what exactly I should be doing. I would need to reach out for more clarification. To move things forward, I will be sure to ask for some feedback and get more clarification on what I should be doing in this particular course.
 
-**Week 4**: During the final milestone, in addition to weekly research, I worked on implementing the Redux toolkit into my project using APIary mock API for the data. I continued to make improvements to the overall UI of the application. Also, I fixed most of the responsive issues with the lists/tables. There weren't any challenges I faced during this milestone. To keep this project moving forward, I will continue refactoring the code, making changes to the UI where I see fit.
+**Week 4**: During the final milestone, in addition to weekly research, I worked on implementing the Redux toolkit into my project using APIary mock API for the data. I continued to make improvements to the overall UI of the application. Also, I fixed most of the responsive issues with the lists/tables. There weren't any challenges I faced during this milestone. To keep this project moving forward, I will continue refactoring the code, making changes to the UI where I see fit. -->
