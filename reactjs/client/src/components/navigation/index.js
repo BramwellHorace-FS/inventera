@@ -34,6 +34,12 @@ export default function Navigation() {
       >
         Formulas
       </NavLink>
+      <NavLink
+        to="/settings"
+        className={({ isActive }) => (isActive ? `light` : `secondary`)}
+      >
+        Settings
+      </NavLink>
     </nav>
   );
 }
