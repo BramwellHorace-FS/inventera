@@ -11,7 +11,7 @@ import {
 
 export default function SettingsForm() {
   return (
-    <Container fluid>
+    <Container fluid className="mb-5">
       <Row>
         <Col sm={12}>
           <Form>
@@ -128,7 +128,7 @@ export default function SettingsForm() {
               </Row>
             </Form.Group>
             {/* Buttons */}
-            <ButtonGroup className="mt-3 gap-2">
+            <ButtonGroup className="my-3 gap-2">
               {/* Submit */}
               <Button variant="primary" type="submit">
                 Submit
