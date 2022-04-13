@@ -1,12 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-// Throw an error with a message and status code
-exports.throwError = (message, status) => {
-  const error = new Error(message);
-  error.status = status;
-  throw error;
-};
-
 // Generate a token with a payload
 exports.generateToken = (id) => {
   try {
@@ -14,4 +7,18 @@ exports.generateToken = (id) => {
   } catch (error) {
     throwError('Error generating token', 500);
   }
+};
+
+// Custom error handler
+class CustomError extends Error {
+  constructor(name, status, message) {
+    super();
+    this.name = name;
+    this.message = message;
+    this.status = status;
+  }
+}
+
+module.exports = {
+  CustomError,
 };

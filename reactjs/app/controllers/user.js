@@ -1,14 +1,14 @@
 const { User } = require('../../db/models');
 const { uuid } = require('uuidv4');
 const bcrypt = require('bcrypt');
-const { throwError } = require('../utils');
+const { CustomError } = require('../utils');
 
 // GET /api/user
 exports.getOne = async (req, res, next) => {
   try {
     const id = req.user.id;
 
-    if (!id) throwError(404, 'User not found');
+    if (!id) throw new CustomError('NotFoundError', 404, 'User not found');
 
     const user = await User.findByPk(id);
 
@@ -23,7 +23,7 @@ exports.update = async (req, res, next) => {
   try {
     const id = req.user.id;
 
-    if (!id) throwError(404, 'User not found');
+    if (!id) throw new CustomError('NotFoundError', 404, `No user with id ${id}`);
 
     const user = await User.findByPk(id);
     const { email, password, name, businessName, website } = req.body;
