@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
             msg: 'Name is required',
           },
@@ -68,15 +68,19 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         unique: true,
+        allowNull: false,
         validate: {
+          notNull: {
+            msg: 'Email is required',
+          },
           isEmail: {
-            args: true,
-            msg: 'Email is not valid or already in use',
+            msg: 'Email must be a valid email',
           },
         },
       },
       password: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           min: {
             args: 8,
@@ -86,6 +90,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       businessName: {
         type: DataTypes.STRING,
+        allowNull: true,
         validate: {
           max: {
             args: 50,
@@ -95,6 +100,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       website: {
         type: DataTypes.STRING,
+        allowNull: true,
         validate: {
           max: {
             args: 50,

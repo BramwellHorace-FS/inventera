@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Production extends Model {
     /**
@@ -24,10 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: {
-            msg: 'Please enter a name',
-          },
           isUnique: async (value, next) => {
             Production.findOne({
               where: {
@@ -45,50 +44,24 @@ module.exports = (sequelize, DataTypes) => {
       },
       quantity: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         validate: {
-          notEmpty: {
-            msg: 'Please enter a quantity',
-          },
-          min: {
-            args: [1],
-            msg: 'Quantity must be greater than 0',
+          notNull: {
+            msg: 'Quantity is required',
           },
         },
       },
       status: {
         type: DataTypes.INTEGER,
-        validate: {
-          notEmpty: {
-            msg: 'Please enter a status',
-          },
-          min: {
-            args: [0],
-            msg: 'Status must be greater than 0',
-          },
-          max: {
-            args: [2],
-            msg: 'Status must be less than 2',
-          },
-        },
+        defaultValue: 0,
       },
       dueDate: {
         type: DataTypes.DATE,
-        validate: {
-          notEmpty: {
-            msg: 'Please enter a due date',
-          },
-          isDate: {
-            msg: 'Please enter a valid date',
-          },
-        },
+        allowNull: true,
       },
       userId: {
         type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            msg: 'Please enter a user',
-          },
-        },
+        allowNull: false,
       },
       productionBoardId: {
         type: DataTypes.UUID,

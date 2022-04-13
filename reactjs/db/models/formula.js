@@ -24,97 +24,96 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
+            args: true,
             msg: 'Please enter a name',
           },
           len: {
-            args: [5, 50],
-            msg: 'Name must be between 5 and 50 characters',
+            args: [3, 50],
+            msg: 'Name must be between 3 and 50 characters',
           },
         },
       },
       containerSize: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
+            args: true,
             msg: 'Please enter a container size',
           },
-          min: {
-            args: [0],
-            msg: 'Container size must be greater than 0',
-          },
         },
-        containerFill: {
-          type: DataTypes.DECIMAL,
-          validate: {
-            notEmpty: {
-              msg: 'Please enter a container fill',
-            },
-            min: {
-              args: [0],
-              msg: 'Container fill must be greater than 0',
-            },
+      },
+      containerFill: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: 'Please enter a container fill',
           },
         },
       },
       fragranceLoad: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
+            args: true,
             msg: 'Please enter a fragrance load',
-          },
-          min: {
-            args: [0],
-            msg: 'Fragrance load must be greater than 0',
           },
         },
       },
       fragranceAmount: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
+            args: true,
             msg: 'Please enter a fragrance amount',
-          },
-          min: {
-            args: [0],
-            msg: 'Fragrance amount must be greater than 0',
           },
         },
       },
       waxAmount: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
+            args: true,
             msg: 'Please enter a wax amount',
-          },
-          min: {
-            args: [0],
-            msg: 'Wax amount must be greater than 0',
           },
         },
       },
       unitId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
-            msg: 'Please select a unit',
+          notNull: {
+            args: true,
+            msg: 'Unit id is required',
           },
         },
       },
       note: {
         type: DataTypes.STRING,
+        allowNull: true,
         validate: {
-          max: {
-            args: [50],
-            msg: 'Note must be less than 50 characters',
+          len: {
+            max: {
+              args: [150],
+              msg: 'Note must be less than 150 characters',
+            },
           },
         },
       },
       userId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
+            args: true,
             msg: 'User id is required',
           },
         },

@@ -28,10 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: {
-            msg: 'Name is required',
-          },
           len: {
             args: [5, 50],
             msg: 'Name must be between 5 and 50 characters',
@@ -53,45 +51,32 @@ module.exports = (sequelize, DataTypes) => {
       },
       stock: {
         type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Stock is required',
-          },
-          min: {
-            args: [0],
-            msg: 'Stock must be greater than 0',
           },
         },
       },
       minStock: {
         type: DataTypes.DECIMAL(10, 2),
-        validate: {
-          notEmpty: {
-            msg: 'Min Stock is required',
-          },
-          min: {
-            args: [0],
-            msg: 'Min Stock must be greater than 0',
-          },
-        },
+        allowNull: true,
       },
       unitId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Unit is required',
           },
         },
       },
       unitCost: {
         type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Unit Cost is required',
-          },
-          min: {
-            args: [0],
-            msg: 'Unit Cost must be greater than 0',
           },
         },
       },
@@ -106,16 +91,18 @@ module.exports = (sequelize, DataTypes) => {
       },
       categoryId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Category is required',
           },
         },
       },
       userId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'User is required',
           },
         },

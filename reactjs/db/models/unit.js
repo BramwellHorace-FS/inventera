@@ -34,32 +34,35 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Unit name is required',
           },
           min: {
-            args: 4,
+            args: [4],
             msg: 'Unit name must be at least 4 characters',
           },
         },
       },
       abbr: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Unit abbreviation is required',
           },
           min: {
-            args: 1,
+            args: [1],
             msg: 'Unit abbreviation must be at least 1 character',
           },
         },
       },
       userId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: { msg: 'User ID is required' },
+          notNull: { msg: 'User ID is required' },
         },
       },
     },
