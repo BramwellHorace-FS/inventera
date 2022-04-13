@@ -60,6 +60,11 @@ exports.update = async (req, res, next) => {
   try {
     const material = await Material.findOne({
       where: { id: req.params.id, userId: req.user.id },
+      include: [
+        { model: Category, as: 'category' },
+        { model: Supplier, as: 'supplier' },
+        { model: Unit, as: 'unit' },
+      ],
     });
 
     await material.update(req.body);

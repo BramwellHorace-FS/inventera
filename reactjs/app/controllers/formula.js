@@ -49,9 +49,10 @@ exports.create = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     // const { name, containerSize, containerFill, fragranceLoad, fragranceAmount, waxAmount, unitId, note } = req.body;
-    const formula = await Formula.findOne({ where: { id: req.params.id, userId: req.user.id } });
-
-    if (!formula) throwError(404, 'Formula not found');
+    const formula = await Formula.findOne({
+      where: { id: req.params.id, userId: req.user.id },
+      include: [{ model: Unit, as: 'unit' }],
+    });
 
     await formula.update(req.body);
 
@@ -65,8 +66,6 @@ exports.update = async (req, res, next) => {
 exports.deleteOne = async (req, res, next) => {
   try {
     const formula = await Formula.findOne({ where: { id: req.params.id, userId: req.user.id } });
-
-    if (!formula) throwError(404, 'Formula not found');
 
     await formula.destroy();
 
