@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const createError = require('http-errors');
 const app = express();
 
+// Route Imports
 const userRouter = require('./routes/user');
 const unitRouter = require('./routes/unit');
 const categoryRouter = require('./routes/category');
@@ -14,11 +14,13 @@ const materialRouter = require('./routes/material');
 const productRouter = require('./routes/product');
 const productionRouter = require('./routes/production');
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
+// Use Routes
 app.use('/api/users', userRouter);
 app.use('/api/units', unitRouter);
 app.use('/api/categories', categoryRouter);
@@ -29,10 +31,14 @@ app.use('/api/materials', materialRouter);
 app.use('/api/products', productRouter);
 app.use('/api/productions', productionRouter);
 
+// General 404 error handler
 app.use((req, res, next) => {
-  next(createError.NotFound());
+  const error = new Error('Not found');
+  error.status = 404;
+  next(error);
 });
 
+// General error handler
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
@@ -43,14 +49,15 @@ app.use((error, req, res, next) => {
   });
 });
 
-// if (process.env.NODE_ENV === 'production') {
-//   // Serve any static files
-//   app.use(express.static(path.join(__dirname, '../client/build')));
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, '../../client/build')));
 
-//   // Handle React routing, return all requests to React app
-//   app.get('*', function (req, res) {
-//     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-//   });
-// }
+  // Handle React routing, return all requests to React app
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+  });
+}
 
 module.exports = app;
