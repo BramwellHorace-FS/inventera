@@ -24,8 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Category name is required',
           },
           len: {
@@ -49,8 +50,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'User id is required',
           },
         },

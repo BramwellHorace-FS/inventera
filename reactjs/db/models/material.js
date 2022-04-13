@@ -39,8 +39,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Material name is required',
           },
           len: {
@@ -64,36 +65,30 @@ module.exports = (sequelize, DataTypes) => {
       },
       stock: {
         type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
         validate: {
-          min: {
-            args: [0],
-            msg: 'Material stock must be greater than or equal to 0',
-          },
+          notNull: { msg: 'Stock is required' },
         },
       },
       minStock: {
         type: DataTypes.DECIMAL(10, 2),
-        validate: {
-          min: {
-            args: [0],
-            msg: 'Material minimum stock must be greater than or equal to 0',
-          },
-        },
+        allowNull: true,
       },
       unitId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Material unit is required',
           },
         },
       },
       unitCost: {
         type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
         validate: {
-          min: {
-            args: [0],
-            msg: 'Material unit cost must be greater than or equal to 0',
+          notNull: {
+            msg: 'Material unit cost is required',
           },
         },
       },
@@ -108,27 +103,26 @@ module.exports = (sequelize, DataTypes) => {
       },
       categoryId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Material category is required',
           },
         },
       },
       supplierId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Material supplier is required',
           },
         },
       },
       lastOrdered: {
         type: DataTypes.DATE,
-        validate: {
-          isDate: {
-            msg: 'Material last ordered date is not a valid date',
-          },
-        },
+        allowNull: true,
+        isDate: true,
       },
       userId: {
         type: DataTypes.UUID,

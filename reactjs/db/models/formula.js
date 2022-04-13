@@ -26,9 +26,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
             msg: 'Please enter a name',
+          },
+          len: {
+            args: [3, 50],
+            msg: 'Name must be between 3 and 50 characters',
           },
         },
       },
@@ -36,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
             msg: 'Please enter a container size',
           },
@@ -46,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
             msg: 'Please enter a container fill',
           },
@@ -56,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
             msg: 'Please enter a fragrance load',
           },
@@ -66,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
             msg: 'Please enter a fragrance amount',
           },
@@ -76,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
             msg: 'Please enter a wax amount',
           },
@@ -86,19 +90,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
-            msg: 'Please enter a unit',
+            msg: 'Unit id is required',
           },
         },
       },
       note: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Please enter a note',
+          len: {
+            max: {
+              args: [150],
+              msg: 'Note must be less than 150 characters',
+            },
           },
         },
       },
@@ -106,9 +112,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             args: true,
-            msg: 'Please enter a user',
+            msg: 'User id is required',
           },
         },
       },

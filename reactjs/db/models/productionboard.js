@@ -24,16 +24,18 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'Name is required',
           },
         },
       },
       userId: {
         type: DataTypes.UUID,
+        allowNull: false,
         validate: {
-          notEmpty: {
+          notNull: {
             msg: 'User is required',
           },
         },
