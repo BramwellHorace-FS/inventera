@@ -10,7 +10,6 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user exists by email
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
@@ -28,7 +27,6 @@ exports.login = async (req, res, next) => {
     // if password is correct, return success message and 200 status code
     res.status(200).json({
       isLoggedIn: true,
-      message: 'User logged in successfully',
       status: 200,
       name: user.name,
       email: user.email,
@@ -82,8 +80,6 @@ exports.register = async (req, res, next) => {
     next(err);
   }
 };
-
-// POST /api/auth/logout
 
 // Status codes and their meanings for reference:
 // 200 OK: Success

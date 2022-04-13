@@ -29,13 +29,13 @@ app.use(morgan('dev'));
 // Use Routes
 app.use('/api/users', authenticate, userRouter);
 app.use('/api/units', unitRouter);
-app.use('/api/categories', categoryRouter);
-app.use('/api/suppliers', supplierRouter);
+app.use('/api/categories', authenticate, categoryRouter);
+app.use('/api/suppliers', authenticate, supplierRouter);
 app.use('/api/boards', productionBoardRouter);
-app.use('/api/formulas', formulaRouter);
-app.use('/api/materials', materialRouter);
-app.use('/api/products', productRouter);
-app.use('/api/productions', productionRouter);
+app.use('/api/formulas', authenticate, formulaRouter);
+app.use('/api/materials', authenticate, materialRouter);
+app.use('/api/products', authenticate, productRouter);
+app.use('/api/productions', authenticate, productionRouter);
 app.use('/api/auth', authRouter);
 
 // General 404 error handler

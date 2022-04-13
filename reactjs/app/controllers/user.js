@@ -1,6 +1,8 @@
 const { User } = require('../../db/models');
 const { uuid } = require('uuidv4');
+const bcrypt = require('bcrypt');
 
+// GET /api/users/:id
 exports.getOne = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id);
@@ -11,14 +13,25 @@ exports.getOne = async (req, res, next) => {
   }
 };
 
-exports.create = async (req, res, next) => {
+// PUT /api/users/:id
+exports.update = async (req, res, next) => {
   try {
-    const user = await User.create({
-      id: uuid(),
-      ...req.body,
-    });
+    const user = await User.findByPk(req.params.id);
+    const { email, password, name, businessName, website } = req.body;
 
-    res.status(201).json(user);
+    const salt = await bcrypt.genSalt(10);
+
+    const updatedUser = {
+      email: email ? email : user.email,
+      password: password ? await bcrypt.hash(password, salt) : user.password,
+      name: name ? name : user.name,
+      businessName: businessName ? businessName : user.businessName,
+      website: website ? website : user.website,
+    };
+
+    await user.update(updatedUser);
+
+    res.status(200).json(updatedUser);
   } catch (err) {
     next(err);
   }
