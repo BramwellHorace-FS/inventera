@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { getOne, update } = require('../controllers/user');
 
-router.get('/:id', getOne);
-router.put('/:id', update);
+router.get('/', getOne);
+router.put('/', update);
 
 module.exports = router;

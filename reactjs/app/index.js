@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Use Routes
-app.use('/api/users', authenticate, userRouter);
+app.use('/api/user', authenticate, userRouter);
 app.use('/api/units', unitRouter);
 app.use('/api/categories', authenticate, categoryRouter);
 app.use('/api/suppliers', authenticate, supplierRouter);
