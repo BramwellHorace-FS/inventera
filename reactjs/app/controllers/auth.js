@@ -3,8 +3,41 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const { throwError } = require('../utils/errors');
+const { generateToken } = require('../utils/jwt');
 
 // POST /api/auth/login
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if user exists by email
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      throwError('User not found', 404);
+    }
+
+    // Check if password is correct
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    // If password is incorrect, return error message and 401 status code
+    if (!isPasswordValid) {
+      throwError('Invalid credentials', 401);
+    }
+
+    // if password is correct, return success message and 200 status code
+    res.status(200).json({
+      isLoggedIn: true,
+      message: 'User logged in successfully',
+      status: 200,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user.id),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // POST /api/auth/register
 exports.register = async (req, res, next) => {

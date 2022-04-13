@@ -1,7 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const dotenv = require('dotenv');
 const app = express();
+
+const { authenticate } = require('./middleware/authenticate');
+
+dotenv.config();
 
 // Route Imports
 const userRouter = require('./routes/user');
@@ -22,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Use Routes
-app.use('/api/users', userRouter);
+app.use('/api/users', authenticate, userRouter);
 app.use('/api/units', unitRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/suppliers', supplierRouter);
