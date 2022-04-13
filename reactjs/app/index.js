@@ -13,6 +13,7 @@ const formulaRouter = require('./routes/formula');
 const materialRouter = require('./routes/material');
 const productRouter = require('./routes/product');
 const productionRouter = require('./routes/production');
+const authRouter = require('./routes/auth');
 
 // Middlewares
 app.use(cors());
@@ -30,6 +31,7 @@ app.use('/api/formulas', formulaRouter);
 app.use('/api/materials', materialRouter);
 app.use('/api/products', productRouter);
 app.use('/api/productions', productionRouter);
+app.use('/api/auth', authRouter);
 
 // General 404 error handler
 app.use((req, res, next) => {
