@@ -18,15 +18,14 @@ exports.update = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id);
     const { email, password, name, businessName, website } = req.body;
-
     const salt = await bcrypt.genSalt(10);
 
     const updatedUser = {
-      email: email ? email : user.email,
+      email: email || user.email,
       password: password ? await bcrypt.hash(password, salt) : user.password,
-      name: name ? name : user.name,
-      businessName: businessName ? businessName : user.businessName,
-      website: website ? website : user.website,
+      name: name || user.name,
+      businessName: businessName || user.businessName,
+      website: website || user.website,
     };
 
     await user.update(updatedUser);

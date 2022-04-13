@@ -18,8 +18,8 @@ exports.getAll = async (req, res, next) => {
 // GET /api/productions/:id
 exports.getOne = async (req, res, next) => {
   try {
-    const production = await Production.findOne({
-      where: { id: req.params.id, userId: req.user.id },
+    const production = await Production.findByPk(req.params.id, {
+      where: { userId: req.user.id },
     });
 
     if (!production) throwError(404, 'Production not found');
@@ -48,8 +48,8 @@ exports.create = async (req, res, next) => {
 // PUT /api/productions/:id
 exports.update = async (req, res, next) => {
   try {
-    const production = await Production.findOne({
-      where: { id: req.params.id, userId: req.user.id },
+    const production = await Production.findByPk(req.params.id, {
+      where: { userId: req.user.id },
     });
 
     await production.update(req.body);
@@ -63,8 +63,8 @@ exports.update = async (req, res, next) => {
 // DELETE /api/productions/:id
 exports.deleteOne = async (req, res, next) => {
   try {
-    const production = await Production.findOne({
-      where: { id: req.params.id, userId: req.user.id },
+    const production = await Production.findByPk(req.params.id, {
+      where: { userId: req.user.id },
     });
 
     await production.destroy();

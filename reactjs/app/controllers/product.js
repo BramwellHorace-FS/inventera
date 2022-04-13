@@ -22,8 +22,8 @@ exports.getAll = async (req, res, next) => {
 // GET /api/products/:id
 exports.getOne = async (req, res, next) => {
   try {
-    const product = await Product.findOne({
-      where: { id: req.params.id, userId: req.user.id },
+    const product = await Product.findByPk(req.params.id, {
+      where: { userId: req.user.id },
       include: [
         { model: Unit, as: 'unit' },
         { model: Category, as: 'category' },
@@ -56,8 +56,8 @@ exports.create = async (req, res, next) => {
 // PUT /api/products/:id
 exports.update = async (req, res, next) => {
   try {
-    const product = await Product.findOne({
-      where: { id: req.params.id, userId: req.user.id },
+    const product = await Product.findByPk(req.params.id, {
+      where: { userId: req.user.id },
       include: [
         { model: Unit, as: 'unit' },
         { model: Category, as: 'category' },
@@ -75,8 +75,8 @@ exports.update = async (req, res, next) => {
 // DELETE /api/products/:id
 exports.deleteOne = async (req, res, next) => {
   try {
-    const product = await Product.findOne({
-      where: { id: req.params.id, userId: req.user.id },
+    const product = await Product.findByPk(req.params.id, {
+      where: { userId: req.user.id },
     });
 
     await product.destroy();

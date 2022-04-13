@@ -23,8 +23,8 @@ exports.getAll = async (req, res, next) => {
 // GET /api/materials/:id
 exports.getOne = async (req, res, next) => {
   try {
-    const material = await Material.findOne({
-      where: { id: req.params.id, userId: req.user.id },
+    const material = await Material.findByPk(req.params.id, {
+      where: { userId: req.user.id },
       include: [
         { model: Category, as: 'category' },
         { model: Supplier, as: 'supplier' },
@@ -58,8 +58,8 @@ exports.create = async (req, res, next) => {
 // PUT /api/materials/:id
 exports.update = async (req, res, next) => {
   try {
-    const material = await Material.findOne({
-      where: { id: req.params.id, userId: req.user.id },
+    const material = await Material.findByPk(req.params.id, {
+      where: { userId: req.user.id },
       include: [
         { model: Category, as: 'category' },
         { model: Supplier, as: 'supplier' },
@@ -78,7 +78,9 @@ exports.update = async (req, res, next) => {
 // DELETE /api/materials/:id
 exports.deleteOne = async (req, res, next) => {
   try {
-    const material = await Material.findOne({ where: { id: req.params.id, userId: req.user.id } });
+    const material = await Material.findByPk(req.params.id, {
+      where: { userId: req.user.id },
+    });
 
     await material.destroy();
 

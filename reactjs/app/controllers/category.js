@@ -20,11 +20,8 @@ exports.getAll = async (req, res, next) => {
 // GET /api/categories/:id
 exports.getOne = async (req, res, next) => {
   try {
-    const category = await Category.findOne({
-      where: {
-        id: req.params.id,
-        userId: req.user.id,
-      },
+    const category = await Category.findByPk(req.params.id, {
+      where: { userId: req.user.id },
     });
 
     res.status(200).json({ category });
@@ -55,11 +52,8 @@ exports.update = async (req, res, next) => {
   try {
     const { name } = req.body;
 
-    const category = await Category.findOne({
-      where: {
-        id: req.params.id,
-        userId: req.user.id,
-      },
+    const category = await Category.findByPk(req.params.id, {
+      where: { userId: req.user.id },
     });
 
     await category.update({ name });
@@ -73,11 +67,8 @@ exports.update = async (req, res, next) => {
 // DELETE /api/categories/:id
 exports.deleteOne = async (req, res, next) => {
   try {
-    const category = await Category.findOne({
-      where: {
-        id: req.params.id,
-        userId: req.user.id,
-      },
+    const category = await Category.findByPk(req.params.id, {
+      where: { userId: req.user.id },
     });
 
     await category.destroy();
