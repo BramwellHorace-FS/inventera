@@ -9,31 +9,24 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       name: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       containerSize: {
-        allowNull: false,
         type: Sequelize.DECIMAL,
       },
       containerFill: {
-        allowNull: false,
         type: Sequelize.DECIMAL,
       },
       fragranceLoad: {
-        allowNull: false,
         type: Sequelize.DECIMAL,
       },
       fragranceAmount: {
-        allowNull: false,
         type: Sequelize.DECIMAL,
       },
       waxAmount: {
-        allowNull: false,
         type: Sequelize.DECIMAL,
       },
       unitId: {
-        allowNull: false,
         type: Sequelize.UUID,
         references: {
           model: 'Units',
