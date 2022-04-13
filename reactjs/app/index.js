@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const app = express();
 
-const { authenticate } = require('./middleware/authenticate');
+const { authenticate } = require('./middleware');
 
 dotenv.config();
 
