@@ -50,7 +50,6 @@ exports.create = async (req, res, next) => {
 // PUT /api/formulas/:id
 exports.update = async (req, res, next) => {
   try {
-    // const { name, containerSize, containerFill, fragranceLoad, fragranceAmount, waxAmount, unitId, note } = req.body;
     const formula = await Formula.findByPk(req.params.id, {
       where: { userId: req.user.id },
       include: [{ model: Unit, as: 'unit' }],

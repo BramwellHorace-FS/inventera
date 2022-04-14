@@ -100,12 +100,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          len: {
-            max: {
-              args: [150],
-              msg: 'Note must be less than 150 characters',
-            },
-          },
+          max: 50,
         },
       },
       userId: {

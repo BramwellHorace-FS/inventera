@@ -1,5 +1,4 @@
 const { User } = require('../../db/models');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const { generateToken } = require('../utils');
@@ -50,9 +49,19 @@ exports.register = async (req, res, next) => {
       throw new CustomError('AlreadyExistsError', 401, 'User already exists');
     }
 
+    // check if password meets regex requirements before hashing and storing in database
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const msg = 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character';
+
+    if (!regex.test(password)) {
+      throw new CustomError('InvalidCredentialsError', 401, msg);
+    }
+
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
+    console.log(hashedPassword);
 
     // Create new user
     const newUser = await User.create({
@@ -63,10 +72,6 @@ exports.register = async (req, res, next) => {
       businessName,
       website,
     });
-
-    // if (!newUser) {
-    //   throw new CustomError('ValidationError', 400, 'Unable to create user');
-    // }
 
     // Return success message and 201 status code
     res.status(200).json({

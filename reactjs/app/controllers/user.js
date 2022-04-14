@@ -8,9 +8,9 @@ exports.getOne = async (req, res, next) => {
   try {
     const id = req.user.id;
 
-    if (!id) throw new CustomError('NotFoundError', 404, 'User not found');
-
     const user = await User.findByPk(id);
+
+    if (!user) throw new CustomError('NotFoundError', 404, `No user with id ${id}`);
 
     res.status(200).json(user);
   } catch (err) {

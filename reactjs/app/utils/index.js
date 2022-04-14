@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 // Generate a token with a payload
-exports.generateToken = (id) => {
+const generateToken = (id) => {
   try {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
   } catch (error) {
@@ -21,4 +21,5 @@ class CustomError extends Error {
 
 module.exports = {
   CustomError,
+  generateToken,
 };
