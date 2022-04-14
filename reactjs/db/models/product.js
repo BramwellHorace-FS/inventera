@@ -83,10 +83,7 @@ module.exports = (sequelize, DataTypes) => {
       sku: {
         type: DataTypes.STRING,
         validate: {
-          max: {
-            args: [50],
-            msg: 'SKU must be less than 50 characters',
-          },
+          max: 50,
         },
       },
       categoryId: {

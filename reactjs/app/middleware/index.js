@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { throwError } = require('../utils');
+const { CustomError } = require('../utils');
 
 exports.authenticate = (req, res, next) => {
   try {
@@ -10,13 +10,13 @@ exports.authenticate = (req, res, next) => {
     }
 
     if (!token) {
-      throwError('Not Authorized', 401);
+      throw new CustomError('AuthenticationError', 401, 'You are not authorized');
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!decoded) {
-      throwError('Not Authorized', 401);
+      throw new CustomError('AuthenticationError', 401, 'You are not authorized');
     }
 
     req.user = decoded;

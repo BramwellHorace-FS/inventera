@@ -59,9 +59,9 @@ module.exports = (sequelize, DataTypes) => {
             args: true,
             msg: 'Name is required',
           },
-          min: {
-            args: 5,
-            msg: 'Name must be at least 5 characters',
+          len: {
+            args: [3, 50],
+            msg: 'Name must be between 3 and 50 characters',
           },
         },
       },
@@ -82,9 +82,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          min: {
-            args: 8,
-            msg: 'Password must be at least 8 characters',
+          notNull: {
+            msg: 'Password is required',
           },
         },
       },
@@ -92,20 +91,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          max: {
-            args: 50,
-            msg: 'Business name must be less than 50 characters',
-          },
+          max: 50,
         },
       },
       website: {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          max: {
-            args: 50,
-            msg: 'Website must be less than 50 characters',
-          },
+          max: 50,
         },
       },
     },

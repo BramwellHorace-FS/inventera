@@ -1,9 +1,8 @@
 const { User } = require('../../db/models');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
-const { throwError } = require('../utils');
 const { generateToken } = require('../utils');
+const { CustomError } = require('../utils');
 
 // POST /api/auth/login
 exports.login = async (req, res, next) => {
@@ -13,7 +12,7 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      throwError('User not found', 404);
+      throw new CustomError('NotFoundError', 404, 'User not found');
     }
 
     // Check if password is correct
@@ -21,7 +20,7 @@ exports.login = async (req, res, next) => {
 
     // If password is incorrect, return error message and 401 status code
     if (!isPasswordValid) {
-      throwError('Invalid credentials', 401);
+      throw new CustomError('InvalidCredentialsError', 401, 'Invalid credentials');
     }
 
     // if password is correct, return success message and 200 status code
@@ -47,12 +46,22 @@ exports.register = async (req, res, next) => {
 
     // if user exists, return error message and 401 status code
     if (user) {
-      throwError('User already exists', 409);
+      throw new CustomError('AlreadyExistsError', 401, 'User already exists');
+    }
+
+    // check if password meets regex requirements before hashing and storing in database
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const msg = 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character';
+
+    if (!regex.test(password)) {
+      throw new CustomError('InvalidCredentialsError', 401, msg);
     }
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
+    console.log(hashedPassword);
 
     // Create new user
     const newUser = await User.create({
@@ -64,18 +73,13 @@ exports.register = async (req, res, next) => {
       website,
     });
 
-    // if user is created, return success message and 200 status code
-    if (newUser) {
-      res.status(201).json({
-        message: 'User created successfully',
-        status: 201,
-        id: newUser.id,
-        email: newUser.email,
-        name: newUser.name,
-      });
-    } else {
-      throwError('User creation failed', 400);
-    }
+    // Return success message and 201 status code
+    res.status(200).json({
+      isRegistered: true,
+      status: 201,
+      name: newUser.name,
+      email: newUser.email,
+    });
   } catch (err) {
     next(err);
   }
