@@ -1,0 +1,50 @@
+'use strict';
+const { Model } = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class ProductionBoard extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      models.ProductionBoard.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user',
+      });
+
+      models.ProductionBoard.hasMany(models.Production, {
+        foreignKey: 'productionBoardId',
+        as: 'productions',
+      });
+    }
+  }
+  ProductionBoard.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Name is required',
+          },
+        },
+      },
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'User is required',
+          },
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: 'ProductionBoard',
+    }
+  );
+  return ProductionBoard;
+};

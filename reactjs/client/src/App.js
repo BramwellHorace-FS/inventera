@@ -10,6 +10,7 @@ import Materials from './pages/materials';
 import Formulas from './pages/formulas';
 import NotFound from './pages/404';
 import Layout from './layout';
+import Settings from './pages/settings';
 
 export default function App() {
   // if (!localStorage.getItem('token')) {
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/materials" element={<Materials />} />
           <Route path="/formulas" element={<Formulas />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
