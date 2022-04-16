@@ -54,7 +54,7 @@ exports.register = async (req, res, next) => {
     const msg = 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character';
 
     if (!regex.test(password)) {
-      throw new CustomError('InvalidCredentialsError', 401, msg);
+      throw new CustomError('InvalidPasswordError', 400, msg);
     }
 
     // Hash password
