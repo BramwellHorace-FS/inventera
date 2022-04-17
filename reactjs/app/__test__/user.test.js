@@ -13,7 +13,7 @@ beforeAll(async () => {
   token = response.body.token;
 });
 
-// GET /api/user (success)
+// GET /api/user
 describe('GET /api/user', () => {
   it('should return a 200 status code and an array of users', async () => {
     const response = await request.get('/api/user').set('Authorization', `Bearer ${token}`);
@@ -23,7 +23,7 @@ describe('GET /api/user', () => {
   });
 });
 
-// PUT /api/user (success)
+// PUT /api/user
 describe('PUT /api/user', () => {
   it('should return a 200 status code and a user', async () => {
     const response = await request.put('/api/user').set('Authorization', `Bearer ${token}`).send({

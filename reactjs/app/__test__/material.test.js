@@ -14,7 +14,7 @@ beforeAll(async () => {
   token = response.body.token;
 });
 
-// GET /api/materials (success)
+// GET /api/materials
 describe('GET /api/materials', () => {
   it('should return a 200 status code and an array of materials', async () => {
     const response = await request.get('/api/materials').set('Authorization', `Bearer ${token}`);
@@ -24,7 +24,7 @@ describe('GET /api/materials', () => {
   });
 });
 
-// POST /api/materials (success)
+// POST /api/materials
 describe('POST /api/materials', () => {
   it('should return a 201 status code and a material', async () => {
     const response = await request.post('/api/materials').set('Authorization', `Bearer ${token}`).send({
@@ -45,7 +45,7 @@ describe('POST /api/materials', () => {
   });
 });
 
-// GET /api/materials/:id (success)
+// GET /api/materials/:id
 describe('GET /api/materials/:id', () => {
   it('should return a 200 status code and a material', async () => {
     const response = await request.get('/api/materials/fd434df6-0076-417c-a6ba-b38e18d2a539').set('Authorization', `Bearer ${token}`);
@@ -55,7 +55,7 @@ describe('GET /api/materials/:id', () => {
   });
 });
 
-// PUT /api/materials/:id (success)
+// PUT /api/materials/:id
 describe('PUT /api/materials/:id', () => {
   it('should return a 200 status code and a material', async () => {
     const response = await request.put('/api/materials/fd434df6-0076-417c-a6ba-b38e18d2a539').set('Authorization', `Bearer ${token}`).send({
@@ -66,7 +66,7 @@ describe('PUT /api/materials/:id', () => {
   });
 });
 
-// DELETE /api/materials/:id (success)
+// DELETE /api/materials/:id
 describe('DELETE /api/materials/:id', () => {
   it('should return a 204 status code and a material', async () => {
     const response = await request.delete(`/api/materials/${id}`).set('Authorization', `Bearer ${token}`);
