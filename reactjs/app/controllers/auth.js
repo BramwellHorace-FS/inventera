@@ -1,8 +1,8 @@
 const { User } = require('../../db/models');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
-const { generateToken } = require('../utils');
-const { CustomError } = require('../utils');
+const { generateToken } = require('../utils/jwt');
+const { CustomError } = require('../utils/errors');
 
 // POST /api/auth/login
 exports.login = async (req, res, next) => {
