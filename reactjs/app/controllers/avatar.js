@@ -4,15 +4,10 @@ const { cloudinary } = require('../utils/cloudinary');
 // GET /api/avatar
 exports.getOne = async (req, res, next) => {
   try {
-    const id = req.user.id;
+    const image = await cloudinary.search.expression('folder:avatars').execute();
+    const imageUrl = image.resources[0].url;
 
-    const image = await cloudinary.api.resource(id);
-
-    if (!image) {
-      throw new CustomError('NotFoundError', 404, 'Image not found');
-    }
-
-    res.status(200).json(image.derived[0].url);
+    res.status(200).json({ imageUrl });
   } catch (error) {
     next(error);
   }

@@ -8,7 +8,7 @@ import {
   Button,
   Image,
 } from 'react-bootstrap';
-import axios from 'axios';
+// import axios from 'axios';
 
 export default function SettingsForm() {
   const [fileInput, setFileInput] = useState('');
@@ -33,24 +33,25 @@ export default function SettingsForm() {
   };
 
   // Upload the file to the server
-  const uploadImage = async (imageStr) => {
-    try {
-      const res = await axios.post('/api/upload', { imageString: imageStr });
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const uploadImage = async (imageStr) => {
+  //   try {
+  //     await axios.post('/api/upload', { imageString: imageStr });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // When the form is submitted, upload the file
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(fileInput);
-
     if (!imagePreviewUrl) return;
 
-    uploadImage(imagePreviewUrl);
+    console.log(imagePreviewUrl);
+    console.log(fileInput);
+
+    // uploadImage(imagePreviewUrl);
+    // console.log(fileInput);
   };
 
   return (
