@@ -19,7 +19,7 @@ const materialRouter = require('./routes/material');
 const productRouter = require('./routes/product');
 const productionRouter = require('./routes/production');
 const authRouter = require('./routes/auth');
-const uploadRouter = require('./routes/upload');
+const avatarRouter = require('./routes/avatar');
 
 // Middlewares
 app.use(cors());
@@ -37,8 +37,8 @@ app.use('/api/formulas', authenticate, formulaRouter);
 app.use('/api/materials', authenticate, materialRouter);
 app.use('/api/products', authenticate, productRouter);
 app.use('/api/productions', authenticate, productionRouter);
+app.use('/api/avatar', authenticate, avatarRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/upload', uploadRouter);
 
 // General 404 error handler
 app.use((req, res, next) => {

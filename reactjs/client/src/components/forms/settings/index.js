@@ -14,33 +14,39 @@ export default function SettingsForm() {
   const [fileInput, setFileInput] = useState('');
   const [imagePreviewUrl, setImagePreviewUrl] = useState('');
 
+  // When the file input changes update the state with the file
   const handleImageChange = (e) => {
     e.preventDefault();
 
+    // file reader to read the file
     const reader = new FileReader();
     const file = e.target.files[0];
 
+    // set the file input to the file
     reader.onloadend = () => {
       setFileInput(file);
       setImagePreviewUrl(reader.result);
     };
 
+    // read the file as a data url
     reader.readAsDataURL(file);
   };
 
-  const uploadImage = (imageStr) => {
-    // upload to /api/upload
-    const response = axios.post('/api/upload', {
-      image: imageStr,
-    });
-
-    console.log(fileInput);
-
-    console.log(response);
+  // Upload the file to the server
+  const uploadImage = async (imageStr) => {
+    try {
+      const res = await axios.post('/api/upload', { imageString: imageStr });
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleSubmit = (e) => {
+  // When the form is submitted, upload the file
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log(fileInput);
 
     if (!imagePreviewUrl) return;
 
