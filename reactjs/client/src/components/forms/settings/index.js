@@ -8,7 +8,7 @@ import {
   Button,
   Image,
 } from 'react-bootstrap';
-// import axios from 'axios';
+// import { useSelector, useDispatch } from 'react-redux';
 
 export default function SettingsForm() {
   const [imageUrl, setImageUrl] = useState('');
@@ -20,6 +20,12 @@ export default function SettingsForm() {
     businessName: '',
     website: '',
   });
+
+  // Redux state
+  // const { user, status } = useSelector((state) => state.user);
+
+  // Redux dispatch - to update the Redux state
+  // const dispatch = useDispatch();
 
   // Handle input change
   const handleChange = (e) => {
@@ -44,14 +50,10 @@ export default function SettingsForm() {
   // On form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log({
-    //   name: `${formData.firstName} ${formData.lastName}`,
-    //   email: formData.email,
-    //   password: formData.password,
-    //   businessName: formData.businessName,
-    //   website: formData.website,
-    //   avatar: imageUrl,
-    // });
+
+    // dispatch update user action here with formData and imageUrl
+    // update user controller in backend
+    // dispatch({});
   };
 
   return (
