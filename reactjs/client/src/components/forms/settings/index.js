@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Col,
@@ -8,13 +8,57 @@ import {
   Button,
   Image,
 } from 'react-bootstrap';
+// import axios from 'axios';
 
 export default function SettingsForm() {
+  const [fileInput, setFileInput] = useState('');
+  const [imagePreviewUrl, setImagePreviewUrl] = useState('');
+
+  // When the file input changes update the state with the file
+  const handleImageChange = (e) => {
+    e.preventDefault();
+
+    // file reader to read the file
+    const reader = new FileReader();
+    const file = e.target.files[0];
+
+    // set the file input to the file
+    reader.onloadend = () => {
+      setFileInput(file);
+      setImagePreviewUrl(reader.result);
+    };
+
+    // read the file as a data url
+    reader.readAsDataURL(file);
+  };
+
+  // Upload the file to the server
+  // const uploadImage = async (imageStr) => {
+  //   try {
+  //     await axios.post('/api/upload', { imageString: imageStr });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // When the form is submitted, upload the file
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!imagePreviewUrl) return;
+
+    console.log(imagePreviewUrl);
+    console.log(fileInput);
+
+    // uploadImage(imagePreviewUrl);
+    // console.log(fileInput);
+  };
+
   return (
     <Container fluid className="mb-5">
       <Row>
         <Col sm={12}>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             {/* Avatar */}
             <Form.Group>
               <Row>
@@ -29,7 +73,8 @@ export default function SettingsForm() {
                   <Form.Label className="text-muted h6 mt-3">
                     Upload avatar
                   </Form.Label>
-                  <Form.Control type="file" />
+                  <Form.Control type="file" onChange={handleImageChange} />
+                  {imagePreviewUrl && <Image src={imagePreviewUrl} fluid />}
                 </Col>
               </Row>
             </Form.Group>

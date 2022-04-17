@@ -1,6 +1,6 @@
 const { Formula, Unit } = require('../../db/models');
 const { uuid } = require('uuidv4');
-const { CustomError } = require('../utils');
+const { CustomError } = require('../utils/errors');
 
 // GET /api/formulas
 exports.getAll = async (req, res, next) => {
