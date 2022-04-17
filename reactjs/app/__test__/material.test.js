@@ -38,10 +38,8 @@ describe('POST /api/materials', () => {
       supplierId: 'a210ae06-ade4-400a-810a-292b4e30d54e',
       userId: 'e05b897e-eb9d-4345-8845-666450c6b6be',
     });
-
     id = response.body.id;
     console.log(response.body);
-
     expect(response.status).toBe(201);
     expect(response.body.name).toBe('Soy Wax Blend');
   });
@@ -53,7 +51,7 @@ describe('GET /api/materials/:id', () => {
     const response = await request.get('/api/materials/fd434df6-0076-417c-a6ba-b38e18d2a539').set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body.name).toBe('Coconut Soy Wax Blend');
+    expect(response.body.name).toBe('Coconut Soy Wax');
   });
 });
 
@@ -63,7 +61,6 @@ describe('PUT /api/materials/:id', () => {
     const response = await request.put('/api/materials/fd434df6-0076-417c-a6ba-b38e18d2a539').set('Authorization', `Bearer ${token}`).send({
       name: 'Coconut Soy Wax',
     });
-
     expect(response.status).toBe(200);
     expect(response.body.name).toBe('Coconut Soy Wax');
   });

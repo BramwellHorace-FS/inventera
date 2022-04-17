@@ -12,7 +12,7 @@ exports.getOne = async (req, res, next) => {
 
     if (!user) throw new CustomError('NotFoundError', 404, `No user with id ${id}`);
 
-    res.status(200).json(user);
+    res.status(200).json({ user });
   } catch (err) {
     next(err);
   }
@@ -37,7 +37,7 @@ exports.update = async (req, res, next) => {
       website: website || user.website,
     });
 
-    res.status(200).json(user);
+    res.status(200).json({ user });
   } catch (err) {
     next(err);
   }
