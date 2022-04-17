@@ -1,7 +1,7 @@
 const { User } = require('../../db/models');
 const { uuid } = require('uuidv4');
 const bcrypt = require('bcrypt');
-const { CustomError } = require('../utils');
+const { CustomError } = require('../utils/errors');
 
 // GET /api/user
 exports.getOne = async (req, res, next) => {

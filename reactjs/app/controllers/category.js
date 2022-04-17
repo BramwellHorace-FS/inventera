@@ -1,6 +1,6 @@
 const { Category } = require('../../db/models');
 const { uuid } = require('uuidv4');
-const { CustomError } = require('../utils');
+const { CustomError } = require('../utils/errors');
 
 // GET /api/categories
 exports.getAll = async (req, res, next) => {
