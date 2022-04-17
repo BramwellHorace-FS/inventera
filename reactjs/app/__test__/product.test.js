@@ -68,7 +68,7 @@ describe('PUT /api/products/:id', () => {
 
 // DELETE /api/products/:id
 describe('DELETE /api/products/:id', () => {
-  it('should return a 200 status code and a product', async () => {
+  it('should return a 204 status code', async () => {
     const response = await request.delete(`/api/products/${id}`).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(204);
