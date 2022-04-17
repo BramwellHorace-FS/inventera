@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Col,
@@ -8,13 +8,50 @@ import {
   Button,
   Image,
 } from 'react-bootstrap';
+import axios from 'axios';
 
 export default function SettingsForm() {
+  const [fileInput, setFileInput] = useState('');
+  const [imagePreviewUrl, setImagePreviewUrl] = useState('');
+
+  const handleImageChange = (e) => {
+    e.preventDefault();
+
+    const reader = new FileReader();
+    const file = e.target.files[0];
+
+    reader.onloadend = () => {
+      setFileInput(file);
+      setImagePreviewUrl(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const uploadImage = (imageStr) => {
+    // upload to /api/upload
+    const response = axios.post('/api/upload', {
+      image: imageStr,
+    });
+
+    console.log(fileInput);
+
+    console.log(response);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!imagePreviewUrl) return;
+
+    uploadImage(imagePreviewUrl);
+  };
+
   return (
     <Container fluid className="mb-5">
       <Row>
         <Col sm={12}>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             {/* Avatar */}
             <Form.Group>
               <Row>
@@ -29,7 +66,8 @@ export default function SettingsForm() {
                   <Form.Label className="text-muted h6 mt-3">
                     Upload avatar
                   </Form.Label>
-                  <Form.Control type="file" />
+                  <Form.Control type="file" onChange={handleImageChange} />
+                  {imagePreviewUrl && <Image src={imagePreviewUrl} fluid />}
                 </Col>
               </Row>
             </Form.Group>
