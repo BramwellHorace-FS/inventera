@@ -9,11 +9,7 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default function ProductionForm({
-  validated,
-  handleSubmit,
-  handleClose,
-}) {
+export default function ProductionForm({ handleClose }) {
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Form.Group>
