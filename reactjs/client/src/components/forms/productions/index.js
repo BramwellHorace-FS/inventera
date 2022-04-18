@@ -7,6 +7,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import validateForm from '../../../utils/validateForm';
 import ProductSelect from '../productSelect';
@@ -25,6 +26,11 @@ export default function ProductionForm({ handleClose }) {
     dueDate: '',
   });
 
+  // Redux distpatch
+  // const dispatch = useDispatch();
+
+  // Redux state - will be added when conntecting to the database
+
   // handleChange
   const handleChange = (e) => {
     setFormData({
@@ -39,7 +45,7 @@ export default function ProductionForm({ handleClose }) {
   };
 
   // handleAddProduct
-  const handleAddProduct = () => {
+  const handleAddInput = () => {
     setSelectInput([
       ...selectInput,
       <ProductSelect key={selectInput.length + 1} defaultValue="" />,
@@ -47,7 +53,7 @@ export default function ProductionForm({ handleClose }) {
   };
 
   // handleRemoveProduct
-  const handleRemoveProduct = () => {
+  const handleRemoveInput = () => {
     setSelectInput(selectInput.slice(0, selectInput.length - 1));
   };
 
@@ -98,7 +104,7 @@ export default function ProductionForm({ handleClose }) {
                           <button
                             type="button"
                             className="btn btn-danger"
-                            onClick={handleRemoveProduct}
+                            onClick={handleRemoveInput}
                           >
                             Remove
                           </button>
@@ -117,11 +123,7 @@ export default function ProductionForm({ handleClose }) {
       <Container fluid className="mt-3">
         <Row>
           <Col>
-            <Button
-              variant="secondary"
-              type="button"
-              onClick={handleAddProduct}
-            >
+            <Button variant="secondary" type="button" onClick={handleAddInput}>
               Add Product
             </Button>
           </Col>
