@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+// import { useDispatch, useSelector } from 'react-redux';
 import validateForm from '../../../utils/validateForm';
 
 export default function LoginForm() {
@@ -10,9 +11,34 @@ export default function LoginForm() {
     password: '',
   });
 
+  // Redux
+  // const dispatch = useDispatch();
+
+  // const { isAuthenticated, isLoading, success } = useSelector(
+  //   (state) => state.auth,
+  // );
+
+  // handleChange
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // handleSubmit
+  const handleSubmit = (e) => {
+    validateForm(e, setValidated);
+  };
+
   return (
     <>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form
+        noValidate
+        validated={validated}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      >
         <Form.Group>
           <Container fluid>
             <Row>
@@ -20,7 +46,12 @@ export default function LoginForm() {
                 <Form.Label className="text-muted h6 mt-3">
                   Email (demo@demo.com){' '}
                 </Form.Label>
-                <Form.Control type="email" placeholder="Enter email" required />
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  name="email"
+                  required
+                />
                 <Form.Control.Feedback type="invalid">
                   Please enter a valid email.
                 </Form.Control.Feedback>
@@ -35,7 +66,12 @@ export default function LoginForm() {
                 <Form.Label className="text-muted h6 mt-3">
                   Password (demo)
                 </Form.Label>
-                <Form.Control type="password" placeholder="Password" required />
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  required
+                />
                 <Form.Control.Feedback type="invalid">
                   Please enter a password.
                 </Form.Control.Feedback>
