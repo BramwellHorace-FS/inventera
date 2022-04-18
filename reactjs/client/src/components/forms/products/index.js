@@ -7,6 +7,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import validateForm from '../../../utils/validateForm';
 import UnitSelect from '../unitSelect';
@@ -24,6 +25,12 @@ export default function ProductForm({ handleClose }) {
     matUnit: '',
     material: '',
   });
+
+  // Redux State
+  // const { products, status } = useSelector((state) => state);
+
+  // Redux Dispatch
+  // const dispatch = useDispatch();
 
   // handleChange
   const handleChange = (e) => {
