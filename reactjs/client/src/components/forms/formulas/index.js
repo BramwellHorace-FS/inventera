@@ -7,6 +7,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import validateForm from '../../../utils/validateForm';
 
@@ -19,6 +20,11 @@ export default function FormulaForm({ handleClose }) {
     notes: '',
   });
 
+  // Redux
+  // const dispatch = useDispatch();
+
+  // const { formulas, status } = useSelector((state) => state.formula);
+
   // handleChange
   const handleChange = (e) => {
     setFormData({
@@ -30,6 +36,8 @@ export default function FormulaForm({ handleClose }) {
   // handleSubmit
   const handleSubmit = (e) => {
     validateForm(e, setValidated);
+
+    // ADD FUNCTION TO CALCULATE FORMULA BEFORE DISPATCHING
   };
 
   return (
@@ -69,7 +77,7 @@ export default function FormulaForm({ handleClose }) {
                 type="number"
                 placeholder="Enter container fill"
                 required
-                step="0.1"
+                step=".01"
                 name="containerFill"
               />
               <Form.Control.Feedback type="invalid">
