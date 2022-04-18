@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEfect } from 'react';
 import {
   Form,
   Button,
@@ -9,7 +9,20 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default function MaterialForm({ validated, handleSubmit, handleClose }) {
+export default function MaterialForm({ handleClose }) {
+  const [validated, setValidated] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    stock: '',
+    minStock: '',
+    price: '',
+    unit: '',
+    category: '',
+    supplier: '',
+    sku: '',
+    lastOrdered: '',
+  });
+
   return (
     <Form onSubmit={handleSubmit} noValidate validated={validated}>
       <Form.Group>
@@ -39,7 +52,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
                 Current Stock Level
               </Form.Label>
               <Form.Control
-                name="stockLevel"
+                name="stock"
                 type="number"
                 placeholder="Enter Current Stock Level"
                 required
@@ -54,7 +67,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
                 Min Stock Level
               </Form.Label>
               <Form.Control
-                name="minStockLevel"
+                name="minStock"
                 type="number"
                 placeholder="Enter Min Stock Level"
                 required
@@ -74,7 +87,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Price</Form.Label>
               <Form.Control
-                name="unitPrice"
+                name="price"
                 type="number"
                 placeholder="Enter Unit Price"
                 required
@@ -86,11 +99,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
             </Col>
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
-              <Form.Select
-                name="unitType"
-                placeholder="Select Unit Type"
-                required
-              >
+              <Form.Select name="unit" placeholder="Select Unit Type" required>
                 <option defaultValue="Select unit type">
                   Select unit type
                 </option>
@@ -116,7 +125,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Category </Form.Label>
               <Form.Control
-                name="Category"
+                name="category"
                 type="text"
                 placeholder="Enter Category"
                 required
@@ -128,7 +137,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Supplier </Form.Label>
               <Form.Control
-                name="Supplier"
+                name="supplier"
                 type="text"
                 placeholder="Enter Supplier"
                 required
@@ -147,7 +156,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">SKU </Form.Label>
               <Form.Control
-                name="SKU"
+                name="sku"
                 type="number"
                 placeholder="Enter SKU"
                 required
@@ -161,7 +170,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
                 Last Ordered
               </Form.Label>
               <Form.Control
-                name="LastOrdered"
+                name="lastOrdered"
                 type="date"
                 placeholder="Enter Last Ordered"
                 required
@@ -187,8 +196,7 @@ export default function MaterialForm({ validated, handleSubmit, handleClose }) {
   );
 }
 
+// PropTypes
 MaterialForm.propTypes = {
-  validated: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
