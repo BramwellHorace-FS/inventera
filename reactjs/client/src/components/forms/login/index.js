@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import validateForm from '../../../utils/validateForm';
 
-export default function LoginForm({ validated, handleSubmit }) {
+export default function LoginForm() {
+  const [validated, setValidated] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
   return (
     <>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -51,8 +57,3 @@ export default function LoginForm({ validated, handleSubmit }) {
     </>
   );
 }
-
-LoginForm.propTypes = {
-  validated: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-};
