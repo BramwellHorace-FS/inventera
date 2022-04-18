@@ -8,8 +8,9 @@ import {
   Col,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import validateForm from '../../../utils/validateForm';
 
-export default function ProductForm({ validated, handleSubmit, handleClose }) {
+export default function ProductForm({ handleClose }) {
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Form.Group>
