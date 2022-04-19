@@ -35,6 +35,7 @@ To address the above challenges and concerns, I will be working on the following
 - [x] Add comments to the codebase. As the codebase grows, it will be easier to understand what is going on.
 
 <br>
+
 ### April 19, 2022
 
 <br>
