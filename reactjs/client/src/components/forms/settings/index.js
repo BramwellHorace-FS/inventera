@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Col,
@@ -8,28 +8,81 @@ import {
   Button,
   Image,
 } from 'react-bootstrap';
+// import { useSelector, useDispatch } from 'react-redux';
 
 export default function SettingsForm() {
+  const [imageUrl, setImageUrl] = useState('');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    businessName: '',
+    website: '',
+  });
+
+  // Redux state
+  // const { user, status } = useSelector((state) => state.user);
+
+  // Redux dispatch - to update the Redux state
+  // const dispatch = useDispatch();
+
+  // Handle input change
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Handle file change and set imageUrl
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImageUrl(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  // On form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // dispatch update user action here with formData and imageUrl
+    // update user controller in backend
+    // dispatch({});
+  };
+
   return (
     <Container fluid className="mb-5">
       <Row>
         <Col sm={12}>
-          <Form>
+          <Form onChange={handleChange} onSubmit={handleSubmit}>
             {/* Avatar */}
             <Form.Group>
               <Row>
                 <Col sm={2} className="mb-5">
                   <Image
-                    src="https://via.placeholder.com/150"
+                    src={imageUrl || 'https://via.placeholder.com/150x150'}
                     fluid
                     roundedCircle
+                    className="avatar"
                   />
                 </Col>
                 <Col sm={3}>
                   <Form.Label className="text-muted h6 mt-3">
                     Upload avatar
                   </Form.Label>
-                  <Form.Control type="file" />
+                  <Form.Control type="file" onChange={handleFileChange} />
+                  <Form.Text>
+                    <small className="text-muted">
+                      Image must be less than 2MB and in .jpg, .jpeg, .png, or
+                      .gif format.
+                    </small>
+                  </Form.Text>
                 </Col>
               </Row>
             </Form.Group>
@@ -44,7 +97,8 @@ export default function SettingsForm() {
                     type="text"
                     placeholder="First name"
                     required
-                    defaultValue="First Name"
+                    defaultValue=""
+                    name="firstName"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please enter a first name.
@@ -58,7 +112,8 @@ export default function SettingsForm() {
                     type="text"
                     placeholder="Last name"
                     required
-                    defaultValue="Last Name"
+                    defaultValue=""
+                    name="lastName"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please enter a last name.
@@ -75,7 +130,8 @@ export default function SettingsForm() {
                     type="email"
                     placeholder="Enter email"
                     required
-                    defaultValue="email"
+                    defaultValue=""
+                    name="email"
                   />
                   <Form.Text className="text-muted">
                     {`We'll never share your email with anyone else.`}
@@ -97,7 +153,8 @@ export default function SettingsForm() {
                     type="password"
                     placeholder="Password"
                     required
-                    defaultValue="password"
+                    defaultValue=""
+                    name="password"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please enter a password.
@@ -112,7 +169,12 @@ export default function SettingsForm() {
                   <Form.Label className="text-muted h6 mt-3">
                     Business Name
                   </Form.Label>
-                  <Form.Control type="text" placeholder="Business name" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Business name"
+                    name="businessName"
+                    defaultValue=""
+                  />
                 </Col>
               </Row>
             </Form.Group>
@@ -123,7 +185,12 @@ export default function SettingsForm() {
                   <Form.Label className="text-muted h6 mt-3">
                     Website
                   </Form.Label>
-                  <Form.Control type="text" placeholder="Website" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Website"
+                    name="website"
+                    defaultValue=""
+                  />
                 </Col>
               </Row>
             </Form.Group>

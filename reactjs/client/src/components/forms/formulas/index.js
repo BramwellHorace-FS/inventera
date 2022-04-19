@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Form,
   Button,
@@ -7,11 +7,46 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import validateForm from '../../../utils/validateForm';
 
-export default function FormulaForm({ validated, handleSubmit, handleClose }) {
+export default function FormulaForm({ handleClose }) {
+  const [validated, setValidated] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    containerFill: '',
+    fragranceLoad: '',
+    notes: '',
+  });
+
+  // Redux
+  // const dispatch = useDispatch();
+
+  // const { formulas, status } = useSelector((state) => state.formula);
+
+  // handleChange
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // handleSubmit
+  const handleSubmit = (e) => {
+    validateForm(e, setValidated);
+
+    // ADD FUNCTION TO CALCULATE FORMULA BEFORE DISPATCHING
+  };
+
   return (
-    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form
+      onChange={handleChange}
+      noValidate
+      validated={validated}
+      onSubmit={handleSubmit}
+    >
       <Form.Group>
         <Container fluid>
           <Row>
@@ -21,6 +56,7 @@ export default function FormulaForm({ validated, handleSubmit, handleClose }) {
                 type="text"
                 placeholder="Enter formula name"
                 required
+                name="name"
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a name for the formula.
@@ -41,7 +77,8 @@ export default function FormulaForm({ validated, handleSubmit, handleClose }) {
                 type="number"
                 placeholder="Enter container fill"
                 required
-                step="0.1"
+                step=".01"
+                name="containerFill"
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a container fill in oz. Numbers only.
@@ -56,7 +93,7 @@ export default function FormulaForm({ validated, handleSubmit, handleClose }) {
                 type="number"
                 placeholder="Enter fragrance load"
                 required
-                step="0.1"
+                step=".01"
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a fragrance load percentage. Numbers only.
@@ -90,7 +127,5 @@ export default function FormulaForm({ validated, handleSubmit, handleClose }) {
 }
 
 FormulaForm.propTypes = {
-  validated: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
