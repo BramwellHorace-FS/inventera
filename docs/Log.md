@@ -29,10 +29,37 @@ In addition, some models and routes needed updating from what I originally inten
 To address the above challenges and concerns, I will be working on the following:
 
 - [ ] Test deployment of the application on Heroku. Testing migrations and seeds.
-- [ ] Refactor the codebase to improve readability, maintainability, and consistency.
-- [ ] Replace the user route with an authentication route.
-- [ ] Update controllers/routes to return a 404 status code with a message when data is null.
-- [ ] Add comments to the codebase. As the codebase grows, it will be easier to understand what is going on.
+- [x] Refactor the codebase to improve readability, maintainability, and consistency.
+- [x] Replace the user route with an authentication route.
+- [x] Update controllers/routes to return a 404 status code with a message when data is null.
+- [x] Add comments to the codebase. As the codebase grows, it will be easier to understand what is going on.
+
+<br>
+### April 19, 2022
+
+<br>
+
+**🛠 Worked completed:**
+
+This week, the main tasks I wanted to focus on were authentication and testing. For authentication, I created an authentication controller that will handle all of the authentication logic. This includes creating a user and logging in a user. I also created the routes for the authentication controller. I then proceeded to create an auth middleware that is used to check for a valid token. This middleware was added to the routes I don't want to be accessible to the public or unauthorized users. I created utility functions to handle token generation that is used in the authentication controller.
+
+In addition to adding authentication to the backend, I began running tests on all of the API endpoints using [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest). These test cases were checking for the status code and the response body. As I continue to make improvements to the API, I will be running additional tests to ensure that the API is working as intended.
+
+Lastly, I added image upload functionality to the application and updated the forms on the front end. Currently, the image upload functionality is in its own route and controller. However, I am planning on adding this to the user route in the future once I added an avatar column to the database and updated the user model.
+
+**🛑 Challenges:**
+
+This week, there weren't any major challenges as it pertains to the project. However, there were some personal challenges that affected the quality of work produced this week.
+
+**⚡️ Plans:**
+
+This week I wasn't able to test the deployment of the application on Heroku. So that will be one of the first things I will do during the next milestone. In addition to testing deployment on Heroku, I plan to complete the following:
+
+- [ ] Update Redux to use Backend API.
+- [ ] Additional Refactoring.
+- [ ] Add an avatar column to the database and update the user model.
+- [ ] Update response body to include status code and message for each endpoint. This will be used to display messages on the front end.
+- [ ] Test new features.
 
 <!-- <br>
 
