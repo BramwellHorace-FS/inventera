@@ -12,7 +12,7 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      throw new CustomError('NotFoundError', 404, 'User not found');
+      throw new CustomError('NotFoundError', 404, 'Invalid email or password');
     }
 
     // Check if password is correct
@@ -20,7 +20,7 @@ exports.login = async (req, res, next) => {
 
     // If password is incorrect, return error message and 401 status code
     if (!isPasswordValid) {
-      throw new CustomError('InvalidCredentialsError', 401, 'Invalid credentials');
+      throw new CustomError('InvalidCredentialsError', 401, 'Invalid email or password');
     }
 
     // if password is correct, return success message and 200 status code

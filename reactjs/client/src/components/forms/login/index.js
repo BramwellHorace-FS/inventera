@@ -15,26 +15,17 @@ import {
   loginSuccess,
   loginFailure,
 } from '../../../redux/features/auth/loginSlice';
-import validateForm from '../../../utils/validateForm';
+import { userLogin } from '../../../api/auth';
 
 export default function LoginForm() {
-  const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: null,
+    password: null,
   });
 
   // REDUX
   const dispatch = useDispatch();
-  const { isAuthenticated, error, isLoading } = useSelector(
-    (state) => state.login,
-  );
-
-  console.log('isAuthenticated: ', isAuthenticated);
-  console.log('error: ', error);
-  console.log('isLoading: ', isLoading);
-  console.log(loginSuccess);
-  console.log(loginFailure);
+  const { error, isLoading } = useSelector((state) => state.login);
 
   const handleChange = (e) => {
     setFormData({
@@ -43,22 +34,31 @@ export default function LoginForm() {
     });
   };
 
-  const handleSubmit = (e) => {
-    // Validate form
-    validateForm(e, setValidated);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // dispatch action loginPending
+    if (!formData.email || !formData.password) {
+      dispatch(loginFailure('Please fill in all fields'));
+    }
+
     dispatch(loginPending());
+
+    try {
+      const res = await userLogin(formData);
+
+      if (res.error) {
+        dispatch(loginFailure(res.error.message));
+      } else {
+        dispatch(loginSuccess(res.data));
+      }
+    } catch (err) {
+      dispatch(loginFailure(err.message));
+    }
   };
 
   return (
     <>
-      <Form
-        noValidate
-        validated={validated}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-      >
+      <Form onChange={handleChange} onSubmit={handleSubmit}>
         <Form.Group>
           <Container fluid>
             {error && <Alert variant="danger">{error}</Alert>}
