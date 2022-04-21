@@ -105,6 +105,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: true,
       },
+      avatarUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          max: 255,
+        },
+      },
     },
     {
       sequelize,
