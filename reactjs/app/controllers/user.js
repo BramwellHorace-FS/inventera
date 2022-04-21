@@ -70,13 +70,33 @@ exports.update = async (req, res, next) => {
       businessName,
       website,
       avatarId,
-      avatarUrl: imageUrl.url,
+      avatarUrl: imageUrl || user.avatarUrl,
     });
 
     res.status(200).json({
       status: 'success',
       message: 'User updated successfully',
       user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// DELETE /api/user - deletes user object
+exports.deleteOne = async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+
+    if (!user) {
+      throw new CustomError('UserNotFoundError', 404, 'User not found');
+    }
+
+    await user.destroy();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User deleted successfully',
     });
   } catch (error) {
     next(error);
