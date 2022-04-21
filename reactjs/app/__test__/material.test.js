@@ -5,6 +5,12 @@ const request = supertest(app);
 let token;
 let id;
 
+describe('must pass', () => {
+  it('should pass', () => {
+    expect(true).toBe(true);
+  });
+});
+
 // beforeAll(async () => {
 //   const response = await request.post('/api/auth/login').send({
 //     email: 'johnmart@email.com',

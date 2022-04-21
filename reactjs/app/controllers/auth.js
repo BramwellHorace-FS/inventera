@@ -25,7 +25,6 @@ exports.login = async (req, res, next) => {
 
     // if password is correct, return success message and 200 status code
     res.status(200).json({
-      isLoggedIn: true,
       status: 'success',
       message: 'Logged in successfully',
       token: generateToken(user.id),
@@ -49,6 +48,7 @@ exports.register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
+      id: uuidv4(),
       email,
       password: hashedPassword,
       name,
@@ -58,7 +58,6 @@ exports.register = async (req, res, next) => {
     });
 
     res.status(201).json({
-      isLoggedIn: true,
       status: 'success',
       message: 'User created successfully',
       token: generateToken(newUser.id),

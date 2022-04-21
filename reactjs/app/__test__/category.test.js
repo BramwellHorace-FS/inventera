@@ -5,14 +5,28 @@ const request = supertest(app);
 let token;
 let id;
 
-// beforeAll(async () => {
-//   const response = await request.post('/api/auth/login').send({
-//     email: 'johnmart@email.com',
-//     password: 'Johnmart123!',
-//   });
+beforeAll(async () => {
+  const response = await request.post('/api/auth/login').send({
+    email: 'johnmart@email.com',
+    password: 'Johnmart123!',
+  });
 
-//   token = response.body.token;
-// });
+  token = response.body.token;
+});
+
+// GET /api/categories
+describe('GET /api/categories', () => {
+  it('it should return a status code of 200, a status of success, message and array of categories', async () => {
+    const response = await request.get('/api/categories').set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('categories');
+    expect(Array.isArray(response.body.categories)).toBe(true);
+  });
+});
 
 // // // GET /api/categories
 // describe('GET /api/categories', () => {
