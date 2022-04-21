@@ -92,7 +92,7 @@ exports.deleteOne = async (req, res, next) => {
 
     await category.destroy();
 
-    res.status(204).json();
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

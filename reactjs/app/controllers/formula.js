@@ -90,7 +90,7 @@ exports.deleteOne = async (req, res, next) => {
 
     await formula.destroy();
 
-    res.status(204).json();
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

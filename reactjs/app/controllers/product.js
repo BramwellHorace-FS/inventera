@@ -13,7 +13,11 @@ exports.getAll = async (req, res, next) => {
       ],
     });
 
-    res.status(200).json(products);
+    res.status(200).json({
+      status: 'success',
+      message: 'Products retrieved successfully',
+      products,
+    });
   } catch (err) {
     next(err);
   }
@@ -30,9 +34,15 @@ exports.getOne = async (req, res, next) => {
       ],
     });
 
-    if (!product) throw new CustomError('NotFoundError', 404, 'Product not found');
+    if (!product) {
+      throw new CustomError('NotFoundError', 404, 'Product not found');
+    }
 
-    res.status(200).json(product);
+    res.status(200).json({
+      status: 'success',
+      message: 'Product retrieved successfully',
+      product,
+    });
   } catch (err) {
     next(err);
   }
@@ -47,7 +57,11 @@ exports.create = async (req, res, next) => {
       userId: req.user.id,
     });
 
-    res.status(201).json(product);
+    res.status(201).json({
+      status: 'success',
+      message: 'Product created successfully',
+      product,
+    });
   } catch (err) {
     next(err);
   }
@@ -66,7 +80,11 @@ exports.update = async (req, res, next) => {
 
     await product.update(req.body);
 
-    res.status(200).json(product);
+    res.status(200).json({
+      status: 'success',
+      message: 'Product updated successfully',
+      product,
+    });
   } catch (err) {
     next(err);
   }
