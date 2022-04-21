@@ -70,6 +70,7 @@ exports.update = async (req, res, next) => {
       businessName,
       website,
       avatarId,
+      avatarUrl: imageUrl.url,
     });
 
     res.status(200).json({
