@@ -11,7 +11,11 @@ exports.getAll = async (req, res, next) => {
       ],
       attributes: ['id', 'name'],
     });
-    res.status(200).json(boards);
+    res.status(200).json({
+      status: 'success',
+      message: 'Production boards retrieved successfully',
+      boards,
+    });
   } catch (err) {
     next(err);
   }

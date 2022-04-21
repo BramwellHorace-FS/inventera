@@ -6,7 +6,11 @@ exports.getAll = async (req, res, next) => {
       attributes: ['id', 'name', 'abbr'],
     });
 
-    res.status(200).json(units);
+    res.status(200).json({
+      status: 'success',
+      message: 'Units retrieved successfully',
+      units,
+    });
   } catch (err) {
     next(err);
   }

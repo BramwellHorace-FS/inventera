@@ -14,7 +14,11 @@ exports.getAll = async (req, res, next) => {
       ],
     });
 
-    res.status(200).json(materials);
+    res.status(200).json({
+      status: 'success',
+      message: 'Materials retrieved successfully',
+      materials,
+    });
   } catch (err) {
     next(err);
   }
@@ -32,9 +36,15 @@ exports.getOne = async (req, res, next) => {
       ],
     });
 
-    if (!material) throw new CustomError('NotFoundError', 404, 'Material not found');
+    if (!material) {
+      throw new CustomError('NotFoundError', 404, 'Material not found');
+    }
 
-    res.status(200).json(material);
+    res.status(200).json({
+      status: 'success',
+      message: 'Material retrieved successfully',
+      material,
+    });
   } catch (err) {
     next(err);
   }
@@ -49,7 +59,11 @@ exports.create = async (req, res, next) => {
       userId: req.user.id,
     });
 
-    res.status(201).json(material);
+    res.status(201).json({
+      status: 'success',
+      message: 'Material created successfully',
+      material,
+    });
   } catch (err) {
     next(err);
   }
@@ -69,7 +83,11 @@ exports.update = async (req, res, next) => {
 
     await material.update(req.body);
 
-    res.status(200).json(material);
+    res.status(200).json({
+      status: 'success',
+      message: 'Material updated successfully',
+      material,
+    });
   } catch (err) {
     next(err);
   }

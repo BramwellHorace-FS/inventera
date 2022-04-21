@@ -9,7 +9,11 @@ exports.getAll = async (req, res, next) => {
       where: { userId: req.user.id },
     });
 
-    res.status(200).json(productions);
+    res.status(200).json({
+      status: 'success',
+      message: 'Productions retrieved successfully',
+      productions,
+    });
   } catch (err) {
     next(err);
   }
@@ -22,9 +26,15 @@ exports.getOne = async (req, res, next) => {
       where: { userId: req.user.id },
     });
 
-    if (!production) throw new CustomError('NotFoundError', 404, 'Production not found');
+    if (!production) {
+      throw new CustomError('NotFoundError', 404, 'Production not found');
+    }
 
-    res.status(200).json(production);
+    res.status(200).json({
+      status: 'success',
+      message: 'Production retrieved successfully',
+      production,
+    });
   } catch (err) {
     next(err);
   }
@@ -39,7 +49,11 @@ exports.create = async (req, res, next) => {
       userId: req.user.id,
     });
 
-    res.status(201).json(production);
+    res.status(201).json({
+      status: 'success',
+      message: 'Production created successfully',
+      production,
+    });
   } catch (err) {
     next(err);
   }
@@ -54,7 +68,11 @@ exports.update = async (req, res, next) => {
 
     await production.update(req.body);
 
-    res.status(200).json(production);
+    res.status(200).json({
+      status: 'success',
+      message: 'Production updated successfully',
+      production,
+    });
   } catch (err) {
     next(err);
   }
