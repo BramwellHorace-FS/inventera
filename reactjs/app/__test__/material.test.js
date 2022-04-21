@@ -5,78 +5,90 @@ const request = supertest(app);
 let token;
 let id;
 
-describe('must pass', () => {
-  it('should pass', () => {
-    expect(true).toBe(true);
+beforeAll(async () => {
+  const response = await request.post('/api/auth/login').send({
+    email: 'johnmart@email.com',
+    password: 'Johnmart123!',
+  });
+
+  token = response.body.token;
+});
+
+// GET /api/materials
+describe('GET /api/materials', () => {
+  it('should return a status code of 200, a status of success, message and array of materials', async () => {
+    const response = await request.get('/api/materials').set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('materials');
+    expect(Array.isArray(response.body.materials)).toBe(true);
   });
 });
 
-// beforeAll(async () => {
-//   const response = await request.post('/api/auth/login').send({
-//     email: 'johnmart@email.com',
-//     password: 'Johnmart123!',
-//   });
+// POST /api/materials
+describe('POST /api/materials', () => {
+  it('should return a status code of 201, a status of success, message and a material', async () => {
+    const response = await request.post('/api/materials').set('Authorization', `Bearer ${token}`).send({
+      name: 'All Natural Beeswax',
+      stock: 32,
+      minStock: 10,
+      unitId: '47cba104-5bbd-4b5b-af25-e63be0ebaf20',
+      unitCost: 2.32,
+      sku: 'ANB',
+      categoryId: '02e585a2-9f3f-457e-b5b3-5887af0a2aba',
+      supplierId: 'a210ae06-ade4-400a-810a-292b4e30d54e',
+      userId: 'e05b897e-eb9d-4345-8845-666450c6b6be',
+    });
 
-//   token = response.body.token;
-// });
+    id = response.body.material.id;
 
-// // GET /api/materials
-// describe('GET /api/materials', () => {
-//   it('should return a 200 status code and an array of materials', async () => {
-//     const response = await request.get('/api/materials').set('Authorization', `Bearer ${token}`);
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('material');
+    expect(response.body.material.name).toBe('All Natural Beeswax');
+  });
+});
 
-//     expect(response.status).toBe(200);
-//     expect(Array.isArray(response.body)).toBe(true);
-//   });
-// });
+// GET /api/materials/:id
+describe('GET /api/materials/:id', () => {
+  it('should return a status code of 200, a status of success, message and a material', async () => {
+    const response = await request.get(`/api/materials/${id}`).set('Authorization', `Bearer ${token}`);
 
-// // POST /api/materials
-// describe('POST /api/materials', () => {
-//   it('should return a 201 status code and a material', async () => {
-//     const response = await request.post('/api/materials').set('Authorization', `Bearer ${token}`).send({
-//       name: 'Soy Wax Blend',
-//       stock: 32,
-//       minStock: 10,
-//       unitId: '47cba104-5bbd-4b5b-af25-e63be0ebaf20',
-//       unitCost: 2.32,
-//       sku: 'NAT-SWA',
-//       categoryId: '02e585a2-9f3f-457e-b5b3-5887af0a2aba',
-//       supplierId: 'a210ae06-ade4-400a-810a-292b4e30d54e',
-//       userId: 'e05b897e-eb9d-4345-8845-666450c6b6be',
-//     });
-//     id = response.body.id;
-//     console.log(response.body);
-//     expect(response.status).toBe(201);
-//     expect(response.body.name).toBe('Soy Wax Blend');
-//   });
-// });
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('material');
+    expect(response.body.material.name).toBe('All Natural Beeswax');
+  });
+});
 
-// // GET /api/materials/:id
-// describe('GET /api/materials/:id', () => {
-//   it('should return a 200 status code and a material', async () => {
-//     const response = await request.get('/api/materials/fd434df6-0076-417c-a6ba-b38e18d2a539').set('Authorization', `Bearer ${token}`);
+// PUT /api/materials/:id
+describe('PUT /api/materials/:id', () => {
+  it('should return a status code of 200, a status of success, message and a material', async () => {
+    const response = await request.put(`/api/materials/${id}`).set('Authorization', `Bearer ${token}`).send({
+      stock: 35,
+    });
 
-//     expect(response.status).toBe(200);
-//     expect(response.body.name).toBe('Coconut Soy Wax');
-//   });
-// });
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('material');
+    expect(response.body.material.stock).toBe(35);
+  });
+});
 
-// // PUT /api/materials/:id
-// describe('PUT /api/materials/:id', () => {
-//   it('should return a 200 status code and a material', async () => {
-//     const response = await request.put('/api/materials/fd434df6-0076-417c-a6ba-b38e18d2a539').set('Authorization', `Bearer ${token}`).send({
-//       name: 'Coconut Soy Wax',
-//     });
-//     expect(response.status).toBe(200);
-//     expect(response.body.name).toBe('Coconut Soy Wax');
-//   });
-// });
+// DELETE /api/materials/:id
+describe('DELETE /api/materials/:id', () => {
+  it('should return a status code of 204', async () => {
+    const response = await request.delete(`/api/materials/${id}`).set('Authorization', `Bearer ${token}`);
 
-// // DELETE /api/materials/:id
-// describe('DELETE /api/materials/:id', () => {
-//   it('should return a 204 status code', async () => {
-//     const response = await request.delete(`/api/materials/${id}`).set('Authorization', `Bearer ${token}`);
-
-//     expect(response.status).toBe(204);
-//   });
-// });
+    expect(response.status).toBe(204);
+  });
+});

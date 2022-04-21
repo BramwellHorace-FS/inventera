@@ -16,7 +16,7 @@ beforeAll(async () => {
 
 // GET /api/formulas
 describe('GET /api/formulas', () => {
-  it('it should return a status code of 200, a status of success, message and array of formulas', async () => {
+  it('should return a status code of 200, a status of success, message and array of formulas', async () => {
     const response = await request.get('/api/formulas').set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -30,7 +30,7 @@ describe('GET /api/formulas', () => {
 
 // POST /api/formulas
 describe('POST /api/formulas', () => {
-  it('it should return a status code of 201, a status of success, message and a formula', async () => {
+  it('should return a status code of 201, a status of success, message and a formula', async () => {
     const response = await request.post('/api/formulas').set('Authorization', `Bearer ${token}`).send({
       name: '16oz Candle',
       containerSize: 16,
@@ -56,7 +56,7 @@ describe('POST /api/formulas', () => {
 
 // GET /api/formulas/:id
 describe('GET /api/formulas/:id', () => {
-  it('it should return a status code of 200, a status of success, message and a formula', async () => {
+  it('should return a status code of 200, a status of success, message and a formula', async () => {
     const response = await request.get(`/api/formulas/${id}`).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -70,7 +70,7 @@ describe('GET /api/formulas/:id', () => {
 
 // PUT /api/formulas/:id
 describe('PUT /api/formulas/:id', () => {
-  it('it should return a status code of 200, a status of success, message and a formula', async () => {
+  it('should return a status code of 200, a status of success, message and a formula', async () => {
     const response = await request.put(`/api/formulas/${id}`).set('Authorization', `Bearer ${token}`).send({
       name: '16 oz Candle',
     });
@@ -86,7 +86,7 @@ describe('PUT /api/formulas/:id', () => {
 
 // DELETE /api/formulas/:id
 describe('DELETE /api/formulas/:id', () => {
-  it('it should return a status code of 204', async () => {
+  it('should return a status code of 204', async () => {
     const response = await request.delete(`/api/formulas/${id}`).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(204);

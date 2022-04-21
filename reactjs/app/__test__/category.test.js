@@ -16,7 +16,7 @@ beforeAll(async () => {
 
 // GET /api/categories
 describe('GET /api/categories', () => {
-  it('it should return a status code of 200, a status of success, message and array of categories', async () => {
+  it('should return a status code of 200, a status of success, message and array of categories', async () => {
     const response = await request.get('/api/categories').set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -30,7 +30,7 @@ describe('GET /api/categories', () => {
 
 // POST /api/categories
 describe('POST /api/categories', () => {
-  it('it should return a status code of 201, a status of success, message and a category', async () => {
+  it('should return a status code of 201, a status of success, message and a category', async () => {
     const response = await request.post('/api/categories').set('Authorization', `Bearer ${token}`).send({
       name: 'Glitter',
     });
@@ -48,7 +48,7 @@ describe('POST /api/categories', () => {
 
 // GET /api/categories/:id
 describe('GET /api/categories/:id', () => {
-  it('it should return a status code of 200, a status of success, message and a category', async () => {
+  it('should return a status code of 200, a status of success, message and a category', async () => {
     const response = await request.get(`/api/categories/${id}`).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -62,7 +62,7 @@ describe('GET /api/categories/:id', () => {
 
 // PUT /api/categories/:id
 describe('PUT /api/categories/:id', () => {
-  it('it should return a status code of 200, a status of success, message and a category', async () => {
+  it('should return a status code of 200, a status of success, message and a category', async () => {
     const response = await request.put(`/api/categories/${id}`).set('Authorization', `Bearer ${token}`).send({
       name: 'Glitter',
     });
@@ -78,7 +78,7 @@ describe('PUT /api/categories/:id', () => {
 
 // DELETE /api/categories/:id
 describe('DELETE /api/categories/:id', () => {
-  it('it should return a status code 204', async () => {
+  it('should return a status code 204', async () => {
     const response = await request.delete(`/api/categories/${id}`).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(204);
