@@ -5,13 +5,18 @@ const { CustomError } = require('../utils/errors');
 // GET /api/categories
 exports.getAll = async (req, res, next) => {
   try {
+    // Checks for categories that belong to the user
     const categories = await Category.findAll({
       where: {
         userId: req.user.id,
       },
     });
 
-    res.status(200).json(categories);
+    res.status(200).json({
+      status: 'success',
+      message: 'Categories retrieved successfully',
+      categories,
+    });
   } catch (error) {
     next(error);
   }
@@ -24,9 +29,15 @@ exports.getOne = async (req, res, next) => {
       where: { userId: req.user.id },
     });
 
-    if (!category) throw new CustomError('NotFoundError', 404, 'Category not found');
+    if (!category) {
+      throw new CustomError('NotFoundError', 404, 'Category not found');
+    }
 
-    res.status(200).json(category);
+    res.status(200).json({
+      status: 'success',
+      message: 'Category retrieved successfully',
+      category,
+    });
   } catch (error) {
     next(error);
   }
@@ -43,7 +54,11 @@ exports.create = async (req, res, next) => {
       id: uuid(),
     });
 
-    res.status(201).json(category);
+    res.status(201).json({
+      status: 'success',
+      message: 'Category created successfully',
+      category,
+    });
   } catch (error) {
     next(error);
   }
@@ -58,7 +73,11 @@ exports.update = async (req, res, next) => {
 
     await category.update(req.body);
 
-    res.status(200).json(category);
+    res.status(200).json({
+      status: 'success',
+      message: 'Category updated successfully',
+      category,
+    });
   } catch (error) {
     next(error);
   }
