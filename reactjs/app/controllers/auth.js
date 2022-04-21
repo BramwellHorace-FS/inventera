@@ -42,7 +42,7 @@ exports.register = async (req, res, next) => {
     const user = await User.findOne({ where: { email } });
 
     if (user) {
-      throw new CustomError('UserAlreadyExistsError', 409, 'User already exists');
+      throw new CustomError('UserAlreadyExistsError', 409, 'Email address already in use');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -59,8 +59,7 @@ exports.register = async (req, res, next) => {
 
     res.status(201).json({
       status: 'success',
-      message: 'User created successfully',
-      token: generateToken(newUser.id),
+      message: 'Account created successfully.',
     });
   } catch (error) {
     next(error);

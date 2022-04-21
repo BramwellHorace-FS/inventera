@@ -4,13 +4,14 @@ const initialState = {
   isAuthenticated: false,
   isLoading: false,
   error: null,
+  success: null,
 };
 
 const registerSlice = createSlice({
   name: 'register',
   initialState,
   reducers: {
-    registerPennding: (state) => {
+    registerPending: (state) => {
       state.isLoading = true;
       state.error = null;
     },
@@ -18,6 +19,7 @@ const registerSlice = createSlice({
       state.isLoading = false;
       state.isAuthenticated = true;
       state.error = null;
+      state.success = 'Account created successfully. Please login';
     },
     registerFailure: (state, action) => {
       state.isLoading = false;
@@ -28,6 +30,6 @@ const registerSlice = createSlice({
 
 const { actions, reducer } = registerSlice;
 
-export const { registerPennding, registerSuccess, registerFailure } = actions;
+export const { registerPending, registerSuccess, registerFailure } = actions;
 
 export default reducer;

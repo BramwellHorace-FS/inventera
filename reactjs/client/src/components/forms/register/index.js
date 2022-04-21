@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-// import { useDispatch, useSelector } from 'react-redux';
-import validateForm from '../../../utils/validateForm';
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Alert,
+  Spinner,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  registerPending,
+  registerSuccess,
+  registerFailure,
+} from '../../../redux/features/auth/registerSlice';
+import { userRegister } from '../../../api/auth';
 
 export default function RegisterForm() {
-  const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,33 +26,45 @@ export default function RegisterForm() {
     website: '',
   });
 
-  // Redux
-  // const dispatch = useDispatch();
-  // const { isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { error, isLoading, success } = useSelector((state) => state.register);
 
-  // handleChange
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trim(),
     });
   };
 
-  // handleSubmit
-  const handleSubmit = (e) => {
-    validateForm(e, setValidated);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.password) {
+      dispatch(registerFailure('Please fill name, email and password'));
+    }
+
+    dispatch(registerPending());
+
+    try {
+      const res = await userRegister(formData);
+
+      if (res.status === 'success') {
+        dispatch(registerSuccess());
+      } else {
+        dispatch(registerFailure(res.error.message));
+      }
+    } catch (err) {
+      dispatch(registerFailure(err.response.data.error.message));
+    }
   };
 
   return (
     <>
-      <Form
-        noValidate
-        onChange={handleChange}
-        validated={validated}
-        onSubmit={handleSubmit}
-      >
+      <Form onChange={handleChange} onSubmit={handleSubmit}>
         <Form.Group>
           <Container fluid>
+            {error && <Alert variant="danger">{error}</Alert>}
+            {success && <Alert variant="success">{success}</Alert>}
             <Row>
               <Col>
                 <Form.Label className="text-muted h6 mt-3">Email</Form.Label>
@@ -51,9 +75,6 @@ export default function RegisterForm() {
                   defaultValue={formData.email}
                   required
                 />
-                <Form.Control.Feedback type="invalid">
-                  Please enter a valid email.
-                </Form.Control.Feedback>
               </Col>
             </Row>
           </Container>
@@ -71,9 +92,6 @@ export default function RegisterForm() {
                   defaultValue={formData.password}
                   required
                 />
-                <Form.Control.Feedback type="invalid">
-                  Please enter a password.
-                </Form.Control.Feedback>
               </Col>
             </Row>
           </Container>
@@ -93,9 +111,6 @@ export default function RegisterForm() {
                   defaultValue={formData.name}
                   required
                 />
-                <Form.Control.Feedback type="invalid">
-                  Please enter a full name.
-                </Form.Control.Feedback>
               </Col>
             </Row>
           </Container>
@@ -112,7 +127,7 @@ export default function RegisterForm() {
                   type="text"
                   placeholder="Business name"
                   name="businessName"
-                  defaaultValue={formData.businessName}
+                  defaultValue={formData.businessName}
                 />
               </Col>
             </Row>
@@ -146,6 +161,12 @@ export default function RegisterForm() {
         <p>Already have an account? • </p>
         <Link to="/">Login</Link>
       </Container>
+
+      {isLoading && (
+        <span className="w-100 d-flex align-items-center justify-content-center mt-3">
+          <Spinner animation="border" variant="primary" />
+        </span>
+      )}
     </>
   );
 }

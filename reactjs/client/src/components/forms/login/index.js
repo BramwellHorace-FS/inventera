@@ -71,9 +71,6 @@ export default function LoginForm() {
                 required
                 defaultValue={formData.email}
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter a valid email.
-              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
@@ -89,9 +86,6 @@ export default function LoginForm() {
                 required
                 defaultValue={formData.password}
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter a password.
-              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
