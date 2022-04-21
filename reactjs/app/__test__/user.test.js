@@ -4,39 +4,61 @@ const request = supertest(app);
 
 let token;
 
-describe('must pass', () => {
-  it('should pass', () => {
-    expect(true).toBe(true);
+beforeAll(async () => {
+  const response = await request.post('/api/auth/login').send({
+    email: 'thomasrhett@email.com',
+    password: 'ThomasRhett123!',
+  });
+
+  console.log(response.body);
+
+  token = response.body.token;
+});
+
+// GET /api/user
+describe('GET /api/user', () => {
+  it('should return a status code of 200, a status of success, message and a user', async () => {
+    const response = await request.get('/api/user').set('Authorization', `Bearer ${token}`);
+
+    console.log(response.body);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('user');
+    expect(response.body.user.name).toBe('Thomas');
   });
 });
 
-// beforeAll(async () => {
-//   const response = await request.post('/api/auth/login').send({
-//     email: 'johnmart@email.com',
-//     password: 'Johnmart123!',
-//   });
+// PUT /api/user
+describe('PUT /api/user', () => {
+  it('should return a status code of 200, a status of success, message and a user', async () => {
+    const response = await request.put('/api/user').set('Authorization', `Bearer ${token}`).send({
+      name: 'Thomas',
+    });
 
-//   token = response.body.token;
-// });
+    console.log(response.body);
 
-// // GET /api/user
-// describe('GET /api/user', () => {
-//   it('should return a 200 status code and an array of users', async () => {
-//     const response = await request.get('/api/user').set('Authorization', `Bearer ${token}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('user');
+    expect(response.body.user.name).toBe('Thomas');
+  });
+});
+
+// DELETE /api/user
+// describe('DELETE /api/user', () => {
+//   it('should return a status code of 200, a status of success, message and a user', async () => {
+//     const response = await request.delete('/api/user').set('Authorization', `Bearer ${token}`);
+
+//     console.log(response.body);
 
 //     expect(response.status).toBe(200);
-//     expect(response.body).toHaveProperty('user');
-//   });
-// });
-
-// // PUT /api/user
-// describe('PUT /api/user', () => {
-//   it('should return a 200 status code and a user', async () => {
-//     const response = await request.put('/api/user').set('Authorization', `Bearer ${token}`).send({
-//       name: 'John Martin',
-//     });
-
-//     expect(response.status).toBe(200);
-//     expect(response.body).toHaveProperty('user');
+//     expect(response.body).toHaveProperty('status');
+//     expect(response.body.status).toBe('success');
+//     expect(response.body).toHaveProperty('message');
 //   });
 // });

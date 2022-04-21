@@ -70,7 +70,7 @@ exports.update = async (req, res, next) => {
       businessName,
       website,
       avatarId,
-      avatarUrl: imageUrl.url,
+      avatarUrl: imageUrl || user.avatarUrl,
     });
 
     res.status(200).json({
@@ -95,7 +95,6 @@ exports.deleteOne = async (req, res, next) => {
     await user.destroy();
 
     res.status(200).json({
-      isAuthenticated: false,
       status: 'success',
       message: 'User deleted successfully',
     });
