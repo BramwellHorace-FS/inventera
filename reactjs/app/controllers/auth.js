@@ -45,6 +45,15 @@ exports.register = async (req, res, next) => {
       throw new CustomError('UserAlreadyExistsError', 409, 'Email address already in use');
     }
 
+    // password must be at least 8 characters long, and contain at least one number, one lowercase and one uppercase letter, and one special character
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const errMsg =
+      'Password must be at least 8 characters long, and contain at least one number, one lowercase, one uppercase letter, and one special character';
+
+    if (!regex.test(password)) {
+      throw new CustomError('InvalidPasswordError', 400, errMsg);
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({

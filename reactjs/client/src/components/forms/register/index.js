@@ -29,6 +29,7 @@ export default function RegisterForm() {
   const dispatch = useDispatch();
   const { error, isLoading, success } = useSelector((state) => state.register);
 
+  // handle input change
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -36,6 +37,7 @@ export default function RegisterForm() {
     });
   };
 
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,94 +63,82 @@ export default function RegisterForm() {
   return (
     <>
       <Form onChange={handleChange} onSubmit={handleSubmit}>
-        <Form.Group>
-          <Container fluid>
-            {error && <Alert variant="danger">{error}</Alert>}
-            {success && <Alert variant="success">{success}</Alert>}
-            <Row>
-              <Col>
-                <Form.Label className="text-muted h6 mt-3">Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter email"
-                  name="email"
-                  defaultValue={formData.email}
-                  required
-                />
-              </Col>
-            </Row>
-          </Container>
-        </Form.Group>
+        <Container fluid>
+          {error && <Alert variant="danger">{error}</Alert>}
+          {success && <Alert variant="success">{success}</Alert>}
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6 mt-3">Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                name="email"
+                defaultValue={formData.email}
+                required
+              />
+            </Col>
+          </Row>
+        </Container>
 
-        <Form.Group>
-          <Container fluid>
-            <Row>
-              <Col>
-                <Form.Label className="text-muted h6 mt-3">Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  defaultValue={formData.password}
-                  required
-                />
-              </Col>
-            </Row>
-          </Container>
-        </Form.Group>
+        <Container fluid>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6 mt-3">Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                name="password"
+                defaultValue={formData.password}
+                required
+              />
+            </Col>
+          </Row>
+        </Container>
 
-        <Form.Group>
-          <Container fluid>
-            <Row>
-              <Col>
-                <Form.Label className="text-muted h6 mt-3">
-                  Full name
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Full name"
-                  name="name"
-                  defaultValue={formData.name}
-                  required
-                />
-              </Col>
-            </Row>
-          </Container>
-        </Form.Group>
+        <Container fluid>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6 mt-3">Full name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Full name"
+                name="name"
+                defaultValue={formData.name}
+                required
+              />
+            </Col>
+          </Row>
+        </Container>
 
-        <Form.Group>
-          <Container fluid>
-            <Row>
-              <Col>
-                <Form.Label className="text-muted h6 mt-3">
-                  Business name
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Business name"
-                  name="businessName"
-                  defaultValue={formData.businessName}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </Form.Group>
+        <Container fluid>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6 mt-3">
+                Business name
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Business name"
+                name="businessName"
+                defaultValue={formData.businessName}
+              />
+            </Col>
+          </Row>
+        </Container>
 
-        <Form.Group>
-          <Container fluid>
-            <Row>
-              <Col>
-                <Form.Label className="text-muted h6 mt-3">Website </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Website"
-                  name="website"
-                  defaultValue={formData.website}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </Form.Group>
+        <Container fluid>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6 mt-3">Website </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Website"
+                name="website"
+                defaultValue={formData.website}
+              />
+            </Col>
+          </Row>
+        </Container>
 
         <Container fluid className="mt-3">
           <Button variant="primary" type="submit" className="w-100">
