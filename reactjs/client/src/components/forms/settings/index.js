@@ -51,6 +51,8 @@ export default function SettingsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(imageUrl);
+
     // dispatch update user action here with formData and imageUrl
     // update user controller in backend
     // dispatch({});

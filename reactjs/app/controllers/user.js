@@ -1,5 +1,5 @@
 const { User } = require('../../db/models');
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 const { CustomError } = require('../utils/errors');
 const { cloudinary } = require('../utils/cloudinary');
@@ -24,43 +24,60 @@ exports.getOne = async (req, res, next) => {
 };
 
 // PUT /api/user - updates user object
+exports.update = async (req, res, next) => {
+  try {
+    let password;
+    let imageUrl;
 
-// // GET /api/user
-// exports.getOne = async (req, res, next) => {
-//   try {
-//     const id = req.user.id;
+    const user = await User.findByPk(req.user.id);
 
-//     const user = await User.findByPk(id);
+    const avatarId = user.avatarId || uuidv4();
 
-//     if (!user) throw new CustomError('NotFoundError', 404, `No user with id ${id}`);
+    if (!user) {
+      throw new CustomError('UserNotFoundError', 404, 'User not found');
+    }
 
-//     res.status(200).json({ user });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    const { name, email, password: newPassword, businessName, website, image } = req.body;
 
-// // PUT /api/user/:id
-// exports.update = async (req, res, next) => {
-//   try {
-//     const id = req.user.id;
+    if (newPassword) {
+      password = await bcrypt.hash(newPassword, 10);
+    }
 
-//     if (!id) throw new CustomError('NotFoundError', 404, `No user with id ${id}`);
+    if (image) {
+      imageUrl = await cloudinary.uploader.upload(
+        image,
+        {
+          public_id: `${avatarId}`,
+          tags: 'profile-image',
+          folder: 'avatars',
+          transformation: [{ width: 150, height: 150, crop: 'fill' }],
+        },
+        (err, result) => {
+          if (err) {
+            throw new CustomError('CloudinaryError', 500, err.message);
+          }
 
-//     const user = await User.findByPk(id);
-//     const { email, password, name, businessName, website } = req.body;
-//     const salt = await bcrypt.genSalt(10);
+          return result.url;
+        }
+      );
+    }
 
-//     await user.update({
-//       name: name || user.name,
-//       email: email || user.email,
-//       password: password ? await bcrypt.hash(password, salt) : user.password,
-//       businessName: businessName || user.businessName,
-//       website: website || user.website,
-//     });
+    await user.update({
+      name,
+      email,
+      password,
+      password,
+      businessName,
+      website,
+      avatarId,
+    });
 
-//     res.status(200).json({ user });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    res.status(200).json({
+      status: 'success',
+      message: 'User updated successfully',
+      user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
