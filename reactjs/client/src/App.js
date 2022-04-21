@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Dashboard from './pages/dashboard';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -11,9 +12,19 @@ import Formulas from './pages/formulas';
 import NotFound from './pages/404';
 import Layout from './layout';
 import Settings from './pages/settings';
+import { loginSuccess } from './redux/features/auth/loginSlice';
 
 export default function App() {
-  if (!localStorage.getItem('token')) {
+  const { isAuthenticated } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.token) {
+      dispatch(loginSuccess());
+    }
+  }, [dispatch]);
+
+  if (!isAuthenticated) {
     return (
       <BrowserRouter>
         <Routes>

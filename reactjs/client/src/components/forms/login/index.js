@@ -23,7 +23,6 @@ export default function LoginForm() {
     password: null,
   });
 
-  // REDUX
   const dispatch = useDispatch();
   const { error, isLoading } = useSelector((state) => state.login);
 
@@ -43,16 +42,19 @@ export default function LoginForm() {
 
     dispatch(loginPending());
 
+    // Make a post request to the server to login a user and get a token
     try {
       const res = await userLogin(formData);
 
-      if (res.error) {
-        dispatch(loginFailure(res.error.message));
-      } else {
-        dispatch(loginSuccess(res.data));
+      if (res.status === 'success') {
+        dispatch(loginSuccess());
+
+        localStorage.token = res.token;
       }
+
+      dispatch(loginFailure(res.error.message));
     } catch (err) {
-      dispatch(loginFailure(err.message));
+      dispatch(loginFailure(err.response.data.error.message));
     }
   };
 
