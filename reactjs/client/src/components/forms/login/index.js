@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-// import { useDispatch, useSelector } from 'react-redux';
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Alert,
+  Spinner,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  loginPending,
+  loginSuccess,
+  loginFailure,
+} from '../../../redux/features/auth/loginSlice';
 import validateForm from '../../../utils/validateForm';
 
 export default function LoginForm() {
@@ -11,14 +24,18 @@ export default function LoginForm() {
     password: '',
   });
 
-  // Redux
-  // const dispatch = useDispatch();
+  // REDUX
+  const dispatch = useDispatch();
+  const { isAuthenticated, error, isLoading } = useSelector(
+    (state) => state.login,
+  );
 
-  // const { isAuthenticated, isLoading, success } = useSelector(
-  //   (state) => state.auth,
-  // );
+  console.log('isAuthenticated: ', isAuthenticated);
+  console.log('error: ', error);
+  console.log('isLoading: ', isLoading);
+  console.log(loginSuccess);
+  console.log(loginFailure);
 
-  // handleChange
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -26,9 +43,12 @@ export default function LoginForm() {
     });
   };
 
-  // handleSubmit
   const handleSubmit = (e) => {
+    // Validate form
     validateForm(e, setValidated);
+
+    // dispatch action loginPending
+    dispatch(loginPending());
   };
 
   return (
@@ -41,16 +61,16 @@ export default function LoginForm() {
       >
         <Form.Group>
           <Container fluid>
+            {error && <Alert variant="danger">{error}</Alert>}
             <Row>
               <Col>
-                <Form.Label className="text-muted h6 mt-3">
-                  Email (demo@demo.com){' '}
-                </Form.Label>
+                <Form.Label className="text-muted h6 mt-3">Email</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
                   name="email"
                   required
+                  defaultValue={formData.email}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please enter a valid email.
@@ -63,14 +83,13 @@ export default function LoginForm() {
           <Container fluid>
             <Row>
               <Col>
-                <Form.Label className="text-muted h6 mt-3">
-                  Password (demo)
-                </Form.Label>
+                <Form.Label className="text-muted h6 mt-3">Password</Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Password"
                   name="password"
                   required
+                  defaultValue={formData.password}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please enter a password.
@@ -84,6 +103,11 @@ export default function LoginForm() {
           <Button variant="primary" type="submit" className="w-100">
             Login
           </Button>
+          {isLoading && (
+            <span className="w-100 d-flex align-items-center justify-content-center mt-3">
+              <Spinner animation="border" variant="primary" />
+            </span>
+          )}
         </Container>
       </Form>
       <Container fluid className="d-flex gap-1 mt-3 justify-content-center">
