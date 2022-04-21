@@ -1,5 +1,5 @@
 const { Product, Unit, Category } = require('../../db/models');
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 const { CustomError } = require('../utils/errors');
 
 // GET /api/products
@@ -52,7 +52,7 @@ exports.getOne = async (req, res, next) => {
 exports.create = async (req, res, next) => {
   try {
     const product = await Product.create({
-      id: uuid(),
+      id: uuidv4(),
       ...req.body,
       userId: req.user.id,
     });

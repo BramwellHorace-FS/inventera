@@ -1,5 +1,5 @@
 const { Formula, Unit } = require('../../db/models');
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 const { CustomError } = require('../utils/errors');
 
 // GET /api/formulas
@@ -46,7 +46,7 @@ exports.getOne = async (req, res, next) => {
 exports.create = async (req, res, next) => {
   try {
     const formula = await Formula.create({
-      id: uuid(),
+      id: uuidv4(),
       ...req.body,
       userId: req.user.id,
     });

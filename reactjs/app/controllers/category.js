@@ -1,5 +1,5 @@
 const { Category } = require('../../db/models');
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 const { CustomError } = require('../utils/errors');
 
 // GET /api/categories
@@ -51,7 +51,7 @@ exports.create = async (req, res, next) => {
     const category = await Category.create({
       name,
       userId: req.user.id,
-      id: uuid(),
+      id: uuidv4(),
     });
 
     res.status(201).json({
