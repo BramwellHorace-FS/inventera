@@ -32,7 +32,7 @@ describe('GET /api/categories', () => {
 describe('POST /api/categories', () => {
   it('it should return a status code of 201, a status of success, message and a category', async () => {
     const response = await request.post('/api/categories').set('Authorization', `Bearer ${token}`).send({
-      name: 'The Flamin Candle',
+      name: 'Glitter',
     });
 
     id = response.body.category.id;
@@ -42,7 +42,7 @@ describe('POST /api/categories', () => {
     expect(response.body.status).toBe('success');
     expect(response.body).toHaveProperty('message');
     expect(response.body).toHaveProperty('category');
-    expect(response.body.category.name).toBe('The Flamin Candle');
+    expect(response.body.category.name).toBe('Glitter');
   });
 });
 
@@ -56,7 +56,7 @@ describe('GET /api/categories/:id', () => {
     expect(response.body.status).toBe('success');
     expect(response.body).toHaveProperty('message');
     expect(response.body).toHaveProperty('category');
-    expect(response.body.category.name).toBe('The Flamin Candle');
+    expect(response.body.category.name).toBe('Glitter');
   });
 });
 
@@ -64,7 +64,7 @@ describe('GET /api/categories/:id', () => {
 describe('PUT /api/categories/:id', () => {
   it('it should return a status code of 200, a status of success, message and a category', async () => {
     const response = await request.put(`/api/categories/${id}`).set('Authorization', `Bearer ${token}`).send({
-      name: 'The Flamin Candle',
+      name: 'Glitter',
     });
 
     expect(response.status).toBe(200);
@@ -72,7 +72,7 @@ describe('PUT /api/categories/:id', () => {
     expect(response.body.status).toBe('success');
     expect(response.body).toHaveProperty('message');
     expect(response.body).toHaveProperty('category');
-    expect(response.body.category.name).toBe('The Flamin Candle');
+    expect(response.body.category.name).toBe('Glitter');
   });
 });
 
