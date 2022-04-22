@@ -38,7 +38,6 @@ export default function RegisterForm() {
   // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.clear();
 
     dispatch(registerPending());
 
