@@ -12,7 +12,7 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      throw new CustomError('NotFoundError', 404, 'User not found');
+      throw new CustomError('NotFoundError', 404, 'Invalid email or password');
     }
 
     // Check if password is correct
@@ -20,7 +20,7 @@ exports.login = async (req, res, next) => {
 
     // If password is incorrect, return error message and 401 status code
     if (!isPasswordValid) {
-      throw new CustomError('InvalidCredentialsError', 401, 'Invalid credentials');
+      throw new CustomError('InvalidCredentialsError', 401, 'Invalid email or password');
     }
 
     // if password is correct, return success message and 200 status code
@@ -42,7 +42,16 @@ exports.register = async (req, res, next) => {
     const user = await User.findOne({ where: { email } });
 
     if (user) {
-      throw new CustomError('UserAlreadyExistsError', 409, 'User already exists');
+      throw new CustomError('UserAlreadyExistsError', 409, 'Email address already in use');
+    }
+
+    // password must be at least 8 characters long, and contain at least one number, one lowercase and one uppercase letter, and one special character
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const errMsg =
+      'Password must be at least 8 characters long, and contain at least one number, one lowercase, one uppercase letter, and one special character';
+
+    if (!regex.test(password)) {
+      throw new CustomError('InvalidPasswordError', 400, errMsg);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -59,8 +68,7 @@ exports.register = async (req, res, next) => {
 
     res.status(201).json({
       status: 'success',
-      message: 'User created successfully',
-      token: generateToken(newUser.id),
+      message: 'Account created successfully. Please login',
     });
   } catch (error) {
     next(error);

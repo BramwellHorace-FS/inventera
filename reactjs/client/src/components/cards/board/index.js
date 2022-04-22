@@ -10,7 +10,9 @@ export default function ProductionBoard({ title, items }) {
       <p>{title}</p>
       <Container
         className={
-          items.length === 0 ? `${styles.container}` : `${styles.containerFill}`
+          items && items.length === 0
+            ? `${styles.container}`
+            : `${styles.containerFill}`
         }
       >
         {items &&

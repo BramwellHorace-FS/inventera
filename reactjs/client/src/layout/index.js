@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
-import { getUsers } from '../redux/features/users/usersSlice';
 import Sidebar from '../components/sidebar';
 import SiteModal from '../components/modal';
 import useValidate from '../hooks';
@@ -22,16 +20,10 @@ export default function Layout({ children }) {
 
   const { validated, handleSubmit } = useValidate();
 
-  const dispatch = useDispatch();
-  const { users, status } = useSelector((state) => state.users);
-
-  const onLogout = () => {
-    dispatch({ type: 'users/logout' });
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    window.location.redirect('/');
   };
-
-  useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
 
   return (
     <div className={styles.layout}>
@@ -44,15 +36,12 @@ export default function Layout({ children }) {
           />
         </Link>
         <Navigation />
-        {status === 'loading' && <div>Loading...</div>}
-        {status === 'error' && <div>Error!</div>}
-        {status === 'success' && (
-          <User
-            userName={users.userName}
-            avatar={users.avatar}
-            onLogout={onLogout}
-          />
-        )}
+
+        <User
+          userName="No name"
+          avatar="https://via.placeholder.com/150x150"
+          handleLogout={handleLogout}
+        />
       </Sidebar>
       <main>
         {children}

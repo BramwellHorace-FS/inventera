@@ -66,7 +66,7 @@ export default function SettingsForm() {
             {/* Avatar */}
             <Form.Group>
               <Row>
-                <Col sm={2} className="mb-5">
+                <Col className="mb-5">
                   <Image
                     src={imageUrl || 'https://via.placeholder.com/150x150'}
                     fluid
@@ -74,7 +74,7 @@ export default function SettingsForm() {
                     className="avatar"
                   />
                 </Col>
-                <Col sm={3}>
+                <Col>
                   <Form.Label className="text-muted h6 mt-3">
                     Upload avatar
                   </Form.Label>
