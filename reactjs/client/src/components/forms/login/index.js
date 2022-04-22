@@ -9,23 +9,17 @@ import {
   Alert,
   Spinner,
 } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  loginPending,
-  loginSuccess,
-  loginFailure,
-} from '../../../redux/features/auth/loginSlice';
-import { userLogin } from '../../../api/auth';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
-    email: null,
-    password: null,
+    email: '',
+    password: '',
   });
 
-  const dispatch = useDispatch();
-  const { error, isLoading } = useSelector((state) => state.login);
+  const error = '';
+  const isLoading = false;
 
+  // onChnage handler for the form
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -33,27 +27,11 @@ export default function LoginForm() {
     });
   };
 
+  // onSubmit handler for the form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.email || !formData.password) {
-      dispatch(loginFailure('Please fill in all fields'));
-    }
-
-    dispatch(loginPending());
-
-    try {
-      const res = await userLogin(formData);
-
-      if (res.status === 'success') {
-        dispatch(loginSuccess());
-        localStorage.token = res.token;
-      }
-
-      dispatch(loginFailure(res.error.message));
-    } catch (err) {
-      dispatch(loginFailure(err.response.data.error.message));
-    }
+    setFormData({ email: '', password: '' });
   };
 
   return (

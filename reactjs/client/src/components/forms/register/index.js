@@ -9,13 +9,13 @@ import {
   Alert,
   Spinner,
 } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  registerPending,
-  registerSuccess,
-  registerFailure,
-} from '../../../redux/features/auth/registerSlice';
-import { userRegister } from '../../../api/auth';
+// import { useDispatch, useSelector } from 'react-redux';
+// import {
+//   registerPending,
+//   registerSuccess,
+//   registerFailure,
+// } from '../../../redux/features/auth/registerSlice';
+// import { userRegister } from '../../../api/auth';
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -26,8 +26,12 @@ export default function RegisterForm() {
     website: '',
   });
 
-  const dispatch = useDispatch();
-  const { error, isLoading, success } = useSelector((state) => state.register);
+  const error = '';
+  const isLoading = '';
+  const success = '';
+
+  // const dispatch = useDispatch();
+  // const { error, isLoading, success } = useSelector((state) => state.register);
 
   // handle input change
   const handleChange = (e) => {
@@ -41,23 +45,23 @@ export default function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.password) {
-      dispatch(registerFailure('Please fill name, email and password'));
-    }
+    // if (!formData.name || !formData.email || !formData.password) {
+    //   dispatch(registerFailure('Please fill name, email and password'));
+    // }
 
-    dispatch(registerPending());
+    // dispatch(registerPending());
 
-    try {
-      const res = await userRegister(formData);
+    // try {
+    //   const res = await userRegister(formData);
 
-      if (res.status === 'success') {
-        dispatch(registerSuccess());
-      } else {
-        dispatch(registerFailure(res.error.message));
-      }
-    } catch (err) {
-      dispatch(registerFailure(err.response.data.error.message));
-    }
+    //   if (res.status === 'success') {
+    //     dispatch(registerSuccess());
+    //   } else {
+    //     dispatch(registerFailure(res.error.message));
+    //   }
+    // } catch (err) {
+    //   dispatch(registerFailure(err.message));
+    // }
   };
 
   return (

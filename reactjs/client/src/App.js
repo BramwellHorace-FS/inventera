@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import Dashboard from './pages/dashboard';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -12,19 +11,23 @@ import Formulas from './pages/formulas';
 import NotFound from './pages/404';
 import Layout from './layout';
 import Settings from './pages/settings';
-import { loginSuccess } from './redux/features/auth/loginSlice';
 
 export default function App() {
-  const { isAuthenticated } = useSelector((state) => state.login);
-  const dispatch = useDispatch();
+  const [jwt, setJwt] = useState('');
+
+  const checkJwt = () => {
+    const { token } = localStorage;
+
+    if (token) {
+      setJwt(token);
+    }
+  };
 
   useEffect(() => {
-    if (localStorage.token) {
-      dispatch(loginSuccess());
-    }
-  }, [dispatch]);
+    checkJwt();
+  }, []);
 
-  if (!isAuthenticated) {
+  if (!jwt) {
     return (
       <BrowserRouter>
         <Routes>
