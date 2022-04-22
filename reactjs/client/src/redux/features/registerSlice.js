@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  isRegistered: false,
+  success: '',
   isLoading: false,
   error: null,
 };
@@ -13,9 +13,9 @@ const registerSlice = createSlice({
     registerPending(state) {
       state.isLoading = true;
     },
-    registerSuccess(state) {
+    registerSuccess(state, action) {
       state.isLoading = false;
-      state.isRegistered = true;
+      state.success = action.payload;
       state.error = null;
     },
     registerFailure(state, action) {

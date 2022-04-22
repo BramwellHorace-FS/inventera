@@ -13,6 +13,7 @@ import Formulas from './pages/formulas';
 import NotFound from './pages/404';
 import Layout from './layout';
 import Settings from './pages/settings';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
   const dispatch = useDispatch();

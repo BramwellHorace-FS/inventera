@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  Form,
-  Button,
-  Container,
-  Row,
-  Col,
-  Alert,
-  Spinner,
-} from 'react-bootstrap';
-// import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   registerPending,
-//   registerSuccess,
-//   registerFailure,
-// } from '../../../redux/features/auth/registerSlice';
-// import { userRegister } from '../../../api/auth';
+  registerSuccess,
+  registerPending,
+  registerFailure,
+} from '../../../redux/features/registerSlice';
+import authService from '../../../service/authService';
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -26,14 +24,10 @@ export default function RegisterForm() {
     website: '',
   });
 
-  const error = '';
-  const isLoading = '';
-  const success = '';
+  const dispatch = useDispatch();
+  const { isLoading, error, success } = useSelector((state) => state.register);
 
-  // const dispatch = useDispatch();
-  // const { error, isLoading, success } = useSelector((state) => state.register);
-
-  // handle input change
+  // Handle input change
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -44,24 +38,21 @@ export default function RegisterForm() {
   // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.clear();
 
-    // if (!formData.name || !formData.email || !formData.password) {
-    //   dispatch(registerFailure('Please fill name, email and password'));
-    // }
+    dispatch(registerPending());
 
-    // dispatch(registerPending());
+    let msg;
 
-    // try {
-    //   const res = await userRegister(formData);
+    const isRegistered = await authService.register(formData);
 
-    //   if (res.status === 'success') {
-    //     dispatch(registerSuccess());
-    //   } else {
-    //     dispatch(registerFailure(res.error.message));
-    //   }
-    // } catch (err) {
-    //   dispatch(registerFailure(err.message));
-    // }
+    if (isRegistered.error) {
+      msg = isRegistered.error.message;
+      dispatch(registerFailure(msg));
+    } else {
+      msg = isRegistered.data.message;
+      dispatch(registerSuccess(msg));
+    }
   };
 
   return (
