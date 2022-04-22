@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  Form,
-  Button,
-  Container,
-  Row,
-  Col,
-  Alert,
-  Spinner,
-} from 'react-bootstrap';
+  loginPending,
+  loginSuccess,
+  loginFailure,
+} from '../../../redux/features/loginSlice';
+import authService from '../../../service/authService';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -16,8 +21,8 @@ export default function LoginForm() {
     password: '',
   });
 
-  const error = '';
-  const isLoading = false;
+  const dispatch = useDispatch();
+  const { error, isLoading } = useSelector((state) => state.login);
 
   // onChnage handler for the form
   const handleChange = (e) => {
@@ -31,7 +36,21 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setFormData({ email: '', password: '' });
+    dispatch(loginPending());
+
+    let msg;
+    let token;
+
+    const isAuth = await authService.login(formData);
+
+    if (isAuth.error) {
+      msg = isAuth.error.message;
+      dispatch(loginFailure(msg));
+    } else {
+      token = isAuth.data.token;
+      dispatch(loginSuccess(token));
+      localStorage.user = token;
+    }
   };
 
   return (

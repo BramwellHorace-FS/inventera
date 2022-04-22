@@ -41,7 +41,7 @@ export default function Productions() {
       </SiteModal>
 
       <Container className={styles.boards}>
-        <ProductionBoard title="To Do" />
+        <ProductionBoard title="To Do" items={[]} />
         <ProductionBoard title="In progress" items={[]} />
         <ProductionBoard title="Completed" items={[]} />
       </Container>
