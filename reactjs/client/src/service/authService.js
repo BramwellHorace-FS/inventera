@@ -11,8 +11,11 @@ const login = async (user) => {
 
 // Register request to the server
 const register = async (user) => {
-  const response = await axios.post('/api/auth/register', user);
-  return response.data;
+  try {
+    return await axios.post('/api/auth/register', user);
+  } catch (err) {
+    return err.response.data;
+  }
 };
 
 const authService = {
