@@ -1,10 +1,21 @@
 import React from 'react';
 import { Image, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { logout, reset } from '../../redux/features/auth/authSlice';
 import styles from './styles.module.css';
 
-export default function User({ userName, avatar, handleLogout }) {
+export default function User({ userName, avatar }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate('/');
+  };
+
   return (
     <Container className={styles.user}>
       <Row className="align-items-center gap-2">
@@ -25,5 +36,4 @@ export default function User({ userName, avatar, handleLogout }) {
 User.propTypes = {
   userName: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
-  handleLogout: PropTypes.func.isRequired,
 };

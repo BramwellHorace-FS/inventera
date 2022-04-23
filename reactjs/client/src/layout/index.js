@@ -20,11 +20,6 @@ export default function Layout({ children }) {
 
   const { validated, handleSubmit } = useValidate();
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    window.location.redirect('/');
-  };
-
   return (
     <div className={styles.layout}>
       <Sidebar>
@@ -37,11 +32,7 @@ export default function Layout({ children }) {
         </Link>
         <Navigation />
 
-        <User
-          userName="No name"
-          avatar="https://via.placeholder.com/150x150"
-          handleLogout={handleLogout}
-        />
+        <User userName="No name" avatar="https://via.placeholder.com/150x150" />
       </Sidebar>
       <main>
         {children}

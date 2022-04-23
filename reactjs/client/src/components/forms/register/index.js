@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  registerSuccess,
-  registerPending,
-  registerFailure,
-} from '../../../redux/features/registerSlice';
-import authService from '../../../service/authService';
+import { toast } from 'react-toastify';
+import { register, reset } from '../../../redux/features/auth/authSlice';
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -25,7 +20,24 @@ export default function RegisterForm() {
   });
 
   const dispatch = useDispatch();
-  const { isLoading, error, success } = useSelector((state) => state.register);
+  const navigate = useNavigate();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth,
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      toast.success('Registration successful. Please login.');
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -39,27 +51,21 @@ export default function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(registerPending());
+    const userData = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      businessName: formData.businessName,
+      website: formData.website,
+    };
 
-    let msg;
-
-    const isRegistered = await authService.register(formData);
-
-    if (isRegistered.error) {
-      msg = isRegistered.error.message;
-      dispatch(registerFailure(msg));
-    } else {
-      msg = isRegistered.data.message;
-      dispatch(registerSuccess(msg));
-    }
+    dispatch(register(userData));
   };
 
   return (
     <>
       <Form onChange={handleChange} onSubmit={handleSubmit}>
         <Container fluid>
-          {error && <Alert variant="danger">{error}</Alert>}
-          {success && <Alert variant="success">{success}</Alert>}
           <Row>
             <Col>
               <Form.Label className="text-muted h6 mt-3">Email</Form.Label>

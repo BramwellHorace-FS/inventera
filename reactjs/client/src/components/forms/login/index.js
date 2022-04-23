@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Alert from 'react-bootstrap/Alert';
+import { toast } from 'react-toastify';
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  loginPending,
-  loginSuccess,
-  loginFailure,
-} from '../../../redux/features/loginSlice';
-import authService from '../../../service/authService';
+import { login, reset } from '../../../redux/features/auth/authSlice';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -22,7 +17,23 @@ export default function LoginForm() {
   });
 
   const dispatch = useDispatch();
-  const { error, isLoading } = useSelector((state) => state.login);
+  const navigate = useNavigate();
+
+  const { isLoading, isSuccess, isError, message, user } = useSelector(
+    (state) => state.auth,
+  );
+
+  useEffect(() => {
+    if (isSuccess || user) {
+      navigate('/');
+    }
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    dispatch(reset());
+  }, [dispatch, isSuccess, isError, message, user, navigate]);
 
   // onChnage handler for the form
   const handleChange = (e) => {
@@ -36,28 +47,19 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(loginPending());
-
-    let msg;
-    let token;
-
-    const isAuth = await authService.login(formData);
-
-    if (isAuth.error) {
-      msg = isAuth.error.message;
-      dispatch(loginFailure(msg));
-    } else {
-      token = isAuth.data.token;
-      dispatch(loginSuccess(token));
-      localStorage.user = token;
+    if (!formData.email || !formData.password) {
+      toast.error('Please enter email and password');
+      return;
     }
+
+    dispatch(login(formData));
   };
 
   return (
     <>
       <Form onChange={handleChange} onSubmit={handleSubmit}>
         <Container fluid>
-          {error && <Alert variant="danger">{error}</Alert>}
+          {/* {error && <Alert variant="danger">{error}</Alert>} */}
           <Row>
             <Col>
               <Form.Label className="text-muted h6 mt-3">Email</Form.Label>
