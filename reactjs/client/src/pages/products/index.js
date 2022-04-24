@@ -18,10 +18,10 @@ export default function Products() {
       <PageHeader>
         <Container>
           <Row>
-            <Col sm={9}>
+            <Col sm={6}>
               <h2>Products</h2>
             </Col>
-            <Col sm={3} className="d-flex justify-content-end">
+            <Col sm={6} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Product

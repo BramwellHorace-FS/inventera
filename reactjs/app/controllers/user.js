@@ -16,7 +16,14 @@ exports.getOne = async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'User retrieved successfully',
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        businessName: user.businessName,
+        website: user.website,
+        avatarUrl: user.avatarUrl,
+      },
     });
   } catch (error) {
     next(error);

@@ -22,7 +22,7 @@ export default function RegisterForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth,
   );
 
@@ -31,13 +31,13 @@ export default function RegisterForm() {
       toast.error(message);
     }
 
-    if (isSuccess || user) {
+    if (isSuccess) {
       toast.success('Registration successful. Please login.');
       navigate('/');
     }
 
     dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [isError, isSuccess, message, navigate, dispatch]);
 
   // Handle input change
   const handleChange = (e) => {
