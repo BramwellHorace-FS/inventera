@@ -11,12 +11,12 @@ const initialState = {
 
 // Get Materials
 export const getMaterials = createAsyncThunk(
-  'material/getgMaterials',
+  'material/getMaterials',
   async (token, thunkAPI) => {
     const materials = await materialService.getMaterials(token);
 
     if (materials.error) {
-      return thunkAPI.rejectWithValue(materials.error.message);
+      return thunkAPI.rejectWithValue(materials.error);
     }
 
     return materials.materials;

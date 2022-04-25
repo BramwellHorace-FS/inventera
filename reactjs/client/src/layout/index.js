@@ -14,6 +14,7 @@ import User from '../components/user';
 import { fetchUserData } from '../redux/features/user/userSlice';
 import { fetchUnits } from '../redux/features/unit/unitSlice';
 import { fetchBoards } from '../redux/features/productionBoard/productionBoardSlice';
+import { getMaterials } from '../redux/features/material/materialSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -28,18 +29,21 @@ export default function Layout({ children }) {
   const { userData } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.auth);
   const { boards } = useSelector((state) => state.board);
+  const { materials } = useSelector((state) => state.material);
 
   useEffect(() => {
     if (user) {
       dispatch(fetchUserData(user.token));
       dispatch(fetchUnits(user.token));
       dispatch(fetchBoards(user.token));
+      dispatch(getMaterials(user.token));
     }
   }, [dispatch, user]);
 
   useEffect(() => {
     console.log(boards);
-  }, [boards]);
+    console.log(materials);
+  }, [boards, materials]);
 
   return (
     <div className={styles.layout}>
