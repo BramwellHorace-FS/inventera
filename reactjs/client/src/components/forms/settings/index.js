@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,7 +9,11 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUserData } from '../../../redux/features/user/userSlice';
+import { logout, reset } from '../../../redux/features/auth/authSlice';
+import {
+  updateUserData,
+  deleteUserData,
+} from '../../../redux/features/user/userSlice';
 
 export default function SettingsForm() {
   const [imageUrl, setImageUrl] = useState('');
@@ -22,7 +27,9 @@ export default function SettingsForm() {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const { user } = useSelector((state) => state.auth);
   const { loading, error, success, userData } = useSelector(
     (state) => state.user,
   );
@@ -71,19 +78,38 @@ export default function SettingsForm() {
       return;
     }
 
-    const data = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      businessName: formData.businessName,
-      website: formData.website,
-      image: imageUrl,
-    };
-
-    dispatch(updateUserData(data));
+    dispatch(
+      updateUserData({
+        user: {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          businessName: formData.businessName,
+          website: formData.website,
+          image: imageUrl,
+        },
+        token: user.token,
+      }),
+    );
 
     if (success) {
       toast.success('User updated successfully');
+    }
+
+    if (error) {
+      toast.error(error.message);
+    }
+  };
+
+  // Handle delete user
+  const handleDelete = () => {
+    dispatch(deleteUserData(user.token));
+
+    if (success) {
+      toast.success('User deleted successfully');
+      dispatch(logout());
+      dispatch(reset());
+      navigate('/');
     }
 
     if (error) {
@@ -193,7 +219,7 @@ export default function SettingsForm() {
             </Button>
           </Col>
           <Col md={12} xl={9} lg={10}>
-            <Button variant="danger" type="button">
+            <Button variant="danger" type="button" onClick={handleDelete}>
               Delete Account
             </Button>
           </Col>

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import userService from './userService';
 
-const user = JSON.parse(localStorage.getItem('user'));
-const { token } = user;
+// const user = JSON.parse(localStorage.getItem('user'));
+// const token = user ? user.token : null;
 
 // Initial state for user data
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
 // Fetch user data
 export const fetchUserData = createAsyncThunk(
   'user/fetchUserData',
-  async (thunkAPI) => {
+  async (token, thunkAPI) => {
     const userData = await userService.getUserData(token);
 
     if (userData.error) {
@@ -30,7 +30,7 @@ export const fetchUserData = createAsyncThunk(
 export const updateUserData = createAsyncThunk(
   'user/updateUserData',
   async (data, thunkAPI) => {
-    const userData = await userService.updateUserData(token, data);
+    const userData = await userService.updateUserData(data.user, data.token);
 
     if (userData.error) {
       return thunkAPI.rejectWithValue(userData.error.message);
@@ -43,7 +43,7 @@ export const updateUserData = createAsyncThunk(
 // Delete user data
 export const deleteUserData = createAsyncThunk(
   'user/deleteUserData',
-  async (thunkAPI) => {
+  async (token, thunkAPI) => {
     const userData = await userService.deleteUserData(token);
 
     if (userData.error) {
@@ -58,7 +58,14 @@ export const deleteUserData = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.userData = null;
+      state.loading = false;
+      state.success = false;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUserData.pending, (state) => {
       state.loading = true;
@@ -110,3 +117,6 @@ export const userSlice = createSlice({
 
 // Export reducer
 export default userSlice.reducer;
+
+// Export actions
+export const { reset } = userSlice.actions;

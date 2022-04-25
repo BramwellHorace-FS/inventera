@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserData } from '../redux/features/user/userSlice';
 import Sidebar from '../components/sidebar';
 import SiteModal from '../components/modal';
 import useValidate from '../hooks';
@@ -12,6 +11,7 @@ import HelpButton from '../components/buttons/help';
 import Logo from '../assets/images/logo-light.png';
 import Navigation from '../components/navigation';
 import User from '../components/user';
+import { fetchUserData } from '../redux/features/user/userSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -23,14 +23,14 @@ export default function Layout({ children }) {
   const { validated, handleSubmit } = useValidate();
 
   const dispatch = useDispatch();
-  const { loading, error, userData } = useSelector((state) => state.user);
+  const { userData } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(fetchUserData());
-  }, [dispatch]);
-
-  console.log(loading);
-  console.log(error);
+    if (user) {
+      dispatch(fetchUserData(user.token));
+    }
+  }, [dispatch, user]);
 
   return (
     <div className={styles.layout}>

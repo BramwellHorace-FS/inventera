@@ -71,7 +71,7 @@ exports.update = async (req, res, next) => {
 
     await user.update({
       name,
-      email,
+      email: email.toLowerCase(),
       password,
       businessName,
       website,

@@ -58,7 +58,7 @@ exports.register = async (req, res, next) => {
 
     const newUser = await User.create({
       id: uuidv4(),
-      email,
+      email: email.toLowerCase(),
       password: hashedPassword,
       name,
       businessName,

@@ -15,7 +15,7 @@ const getUserData = async (token) => {
 };
 
 // Update user data
-const updateUserData = async (token, data) => {
+const updateUserData = async (data, token) => {
   try {
     const res = await axios.put(`${BASE_URL}`, data, {
       headers: { Authorization: `Bearer ${token}` },
@@ -32,6 +32,11 @@ const deleteUserData = async (token) => {
     const res = await axios.delete(`${BASE_URL}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+
+    if (localStorage.user) {
+      localStorage.removeItem('user');
+    }
+
     return res.data;
   } catch (error) {
     return error.response.data;
