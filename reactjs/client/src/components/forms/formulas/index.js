@@ -7,7 +7,6 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
-// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import validateForm from '../../../utils/validateForm';
 

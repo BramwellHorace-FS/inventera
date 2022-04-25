@@ -12,6 +12,7 @@ import Logo from '../assets/images/logo-light.png';
 import Navigation from '../components/navigation';
 import User from '../components/user';
 import { fetchUserData } from '../redux/features/user/userSlice';
+import { fetchUnits } from '../redux/features/unit/unitSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -29,6 +30,7 @@ export default function Layout({ children }) {
   useEffect(() => {
     if (user) {
       dispatch(fetchUserData(user.token));
+      dispatch(fetchUnits());
     }
   }, [dispatch, user]);
 
