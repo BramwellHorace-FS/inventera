@@ -73,7 +73,6 @@ exports.update = async (req, res, next) => {
       name,
       email,
       password,
-      password,
       businessName,
       website,
       avatarId,
@@ -83,7 +82,14 @@ exports.update = async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'User updated successfully',
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        businessName: user.businessName,
+        website: user.website,
+        avatarUrl: user.avatarUrl,
+      },
     });
   } catch (error) {
     next(error);

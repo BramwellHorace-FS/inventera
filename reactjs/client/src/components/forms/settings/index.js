@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import { useSelector, useDispatch } from 'react-redux';
+import { updateUserData } from '../../../redux/features/user/userSlice';
 
 export default function SettingsForm() {
   const [imageUrl, setImageUrl] = useState('');
@@ -19,7 +22,24 @@ export default function SettingsForm() {
   });
 
   const dispatch = useDispatch();
-  const { userData } = useSelector((state) => state.user);
+
+  const { userData, isLoading } = useSelector((state) => state.user);
+
+  const { user } = useSelector((state) => state.auth);
+
+  // use effect
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        name: userData.name,
+        email: userData.email,
+        password: '',
+        passwordConfirm: '',
+        businessName: userData.businessName,
+        website: userData.website,
+      });
+    }
+  }, [userData, dispatch]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -45,9 +65,24 @@ export default function SettingsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // dispatch update user action here with formData and imageUrl
-    // update user controller in backend
-    dispatch({});
+    // check if password and password confirm match
+    if (formData.password !== formData.passwordConfirm) {
+      toast.error('Password and password confirm do not match');
+      return;
+    }
+
+    const data = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      businessName: formData.businessName,
+      website: formData.website,
+      image: imageUrl,
+    };
+
+    dispatch(updateUserData(data, user.token));
+
+    console.log(data);
   };
 
   return (
@@ -84,7 +119,7 @@ export default function SettingsForm() {
               type="text"
               name="name"
               placeholder="Name"
-              defaultValue={userData && userData.name}
+              defaultValue={formData.name}
               required
             />
           </Col>
@@ -97,7 +132,7 @@ export default function SettingsForm() {
               type="email"
               name="email"
               placeholder="Email"
-              defaultValue={userData && userData.email}
+              defaultValue={formData.email}
               required
             />
           </Col>
@@ -110,7 +145,7 @@ export default function SettingsForm() {
               type="text"
               name="businessName"
               placeholder="Business Name"
-              defaultValue={userData && userData.businessName}
+              defaultValue={formData.businessName}
             />
           </Col>
           <Col sm={12} lg={6}>
@@ -119,7 +154,7 @@ export default function SettingsForm() {
               type="text"
               name="website"
               placeholder="Website"
-              defaultValue={userData && userData.website}
+              defaultValue={formData.website}
             />
           </Col>
         </Row>
@@ -159,6 +194,14 @@ export default function SettingsForm() {
             </Button>
           </Col>
         </Row>
+        {/* Loading Spinner */}
+        {isLoading && (
+          <Row className="mt-5">
+            <Col>
+              <Spinner animation="border" variant="primary" />
+            </Col>
+          </Row>
+        )}
       </Form>
     </Container>
   );

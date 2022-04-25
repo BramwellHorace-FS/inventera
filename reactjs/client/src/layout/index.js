@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
 import Sidebar from '../components/sidebar';
@@ -11,27 +10,15 @@ import HelpButton from '../components/buttons/help';
 import Logo from '../assets/images/logo-light.png';
 import Navigation from '../components/navigation';
 import User from '../components/user';
-import { fetchUser } from '../redux/features/user/userSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
   const [show, setShow] = useState(false);
 
-  const dispatch = useDispatch();
-
-  const { userData } = useSelector((state) => state.user);
-  const { user } = useSelector((state) => state.auth);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const { validated, handleSubmit } = useValidate();
-
-  useEffect(() => {
-    if (user) {
-      dispatch(fetchUser(user.token));
-    }
-  }, [dispatch, user]);
 
   return (
     <div className={styles.layout}>
@@ -46,11 +33,8 @@ export default function Layout({ children }) {
         <Navigation />
 
         <User
-          userName={(userData && userData.name) || ''}
-          avatar={
-            (userData && userData.avatarUrl) ||
-            'https://via.placeholder.com/150x150'
-          }
+          userName="John Doe"
+          avatar="https://via.placeholder.com/150x150"
         />
       </Sidebar>
       <main>
