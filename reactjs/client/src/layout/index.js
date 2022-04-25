@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserData } from '../redux/features/user/userSlice';
 import Sidebar from '../components/sidebar';
 import SiteModal from '../components/modal';
 import useValidate from '../hooks';
@@ -20,6 +22,16 @@ export default function Layout({ children }) {
 
   const { validated, handleSubmit } = useValidate();
 
+  const dispatch = useDispatch();
+  const { loading, error, userData } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(fetchUserData());
+  }, [dispatch]);
+
+  console.log(loading);
+  console.log(error);
+
   return (
     <div className={styles.layout}>
       <Sidebar>
@@ -33,8 +45,11 @@ export default function Layout({ children }) {
         <Navigation />
 
         <User
-          userName="John Doe"
-          avatar="https://via.placeholder.com/150x150"
+          userName={(userData && userData.name) || ''}
+          avatar={
+            (userData && userData.avatarUrl) ||
+            'https://via.placeholder.com/150x150'
+          }
         />
       </Sidebar>
       <main>

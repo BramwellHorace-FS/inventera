@@ -23,9 +23,7 @@ export default function SettingsForm() {
 
   const dispatch = useDispatch();
 
-  const { userData, isLoading } = useSelector((state) => state.user);
-
-  const { user } = useSelector((state) => state.auth);
+  const { loading, error, userData } = useSelector((state) => state.user);
 
   // use effect
   useEffect(() => {
@@ -80,9 +78,13 @@ export default function SettingsForm() {
       image: imageUrl,
     };
 
-    dispatch(updateUserData(data, user.token));
+    dispatch(updateUserData(data));
 
-    console.log(data);
+    if (error) {
+      toast.error(error);
+    }
+
+    toast.success('User data updated');
   };
 
   return (
@@ -195,7 +197,7 @@ export default function SettingsForm() {
           </Col>
         </Row>
         {/* Loading Spinner */}
-        {isLoading && (
+        {loading && (
           <Row className="mt-5">
             <Col>
               <Spinner animation="border" variant="primary" />
