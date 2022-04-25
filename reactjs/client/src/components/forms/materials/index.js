@@ -7,9 +7,9 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
-// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import validateForm from '../../../utils/validateForm';
+import UnitSelect from '../unitSelect';
 
 export default function MaterialForm({ handleClose }) {
   const [validated, setValidated] = useState(false);
@@ -134,22 +134,7 @@ export default function MaterialForm({ handleClose }) {
             </Col>
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
-              <Form.Select
-                name="unit"
-                placeholder="Select Unit Type"
-                aria-label="Default select example"
-                required
-                defaultValue={formData.unit}
-              >
-                <option value="">Select Unit Type</option>
-                <option value="oz">Ounces (oz)</option>
-                <option value="kg">Kilograms (kg)</option>
-                <option value="g">Grams (g)</option>
-                <option value="l">Liters (l)</option>
-                <option value="ml">Milliliters (ml)</option>
-                <option value="piece">Pieces</option>
-                <option value="lb">Pounds (lb)</option>
-              </Form.Select>
+              <UnitSelect name="unit" defaultValue={formData.unit} />
               <Form.Control.Feedback type="invalid">
                 Please select a unit type.
               </Form.Control.Feedback>

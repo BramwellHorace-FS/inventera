@@ -7,7 +7,8 @@ const { CustomError } = require('../utils/errors');
 // POST /api/auth/login
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const email = req.body.email.toLowerCase();
+    const password = req.body.password;
 
     const user = await User.findOne({ where: { email } });
 
