@@ -8,6 +8,7 @@ const { token } = user;
 const initialState = {
   userData: null,
   loading: false,
+  success: false,
   error: null,
 };
 
@@ -62,38 +63,47 @@ export const userSlice = createSlice({
     builder.addCase(fetchUserData.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.success = false;
     });
     builder.addCase(fetchUserData.fulfilled, (state, action) => {
       state.loading = false;
       state.userData = action.payload;
+      state.success = true;
     });
     builder.addCase(fetchUserData.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
+      state.success = false;
     });
     builder.addCase(updateUserData.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.success = false;
     });
     builder.addCase(updateUserData.fulfilled, (state, action) => {
       state.loading = false;
       state.userData = action.payload;
+      state.success = true;
     });
     builder.addCase(updateUserData.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
+      state.success = false;
     });
     builder.addCase(deleteUserData.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.success = false;
     });
     builder.addCase(deleteUserData.fulfilled, (state, action) => {
       state.loading = false;
       state.userData = action.payload;
+      state.success = true;
     });
     builder.addCase(deleteUserData.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
+      state.success = false;
     });
   },
 });

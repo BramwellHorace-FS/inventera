@@ -34,7 +34,7 @@ exports.getOne = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     let password;
-    let imageUrl;
+    let imageUrl = '';
 
     const user = await User.findByPk(req.user.id);
 
@@ -76,7 +76,7 @@ exports.update = async (req, res, next) => {
       businessName,
       website,
       avatarId,
-      avatarUrl: imageUrl || user.avatarUrl,
+      avatarUrl: imageUrl.url,
     });
 
     res.status(200).json({

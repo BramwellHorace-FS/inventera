@@ -23,7 +23,9 @@ export default function SettingsForm() {
 
   const dispatch = useDispatch();
 
-  const { loading, error, userData } = useSelector((state) => state.user);
+  const { loading, error, success, userData } = useSelector(
+    (state) => state.user,
+  );
 
   // use effect
   useEffect(() => {
@@ -80,11 +82,13 @@ export default function SettingsForm() {
 
     dispatch(updateUserData(data));
 
-    if (error) {
-      toast.error(error);
+    if (success) {
+      toast.success('User updated successfully');
     }
 
-    toast.success('User data updated');
+    if (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -95,8 +99,8 @@ export default function SettingsForm() {
           <Col sm={12} lg={5}>
             <Image
               src={
-                (userData && userData.avatarUrl) ||
                 imageUrl ||
+                (userData && userData.avatarUrl) ||
                 'https://via.placeholder.com/150x150'
               }
               roundedCircle
@@ -163,13 +167,12 @@ export default function SettingsForm() {
         {/* Password */}
         <Row className="mt-3">
           <Col sm={12} lg={6}>
-            <Form.Label className="text-muted h6">Password</Form.Label>
+            <Form.Label className="text-muted h6">Change Password</Form.Label>
             <Form.Control
               type="password"
               name="password"
               placeholder="Password"
               defaultValue={formData.password}
-              required
             />
           </Col>
           <Col sm={12} lg={6}>
@@ -179,7 +182,6 @@ export default function SettingsForm() {
               name="passwordConfirm"
               placeholder="Confirm Password"
               defaultValue={formData.passwordConfirm}
-              required
             />
           </Col>
         </Row>
