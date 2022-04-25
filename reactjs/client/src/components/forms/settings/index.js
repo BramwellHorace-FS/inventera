@@ -1,31 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, reset } from '../../../redux/features/auth/authSlice';
 import {
-  Container,
-  Col,
-  Row,
-  Form,
-  ButtonGroup,
-  Button,
-  Image,
-} from 'react-bootstrap';
-// import { useSelector, useDispatch } from 'react-redux';
+  updateUserData,
+  deleteUserData,
+} from '../../../redux/features/user/userSlice';
 
 export default function SettingsForm() {
   const [imageUrl, setImageUrl] = useState('');
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     password: '',
+    passwordConfirm: '',
     businessName: '',
     website: '',
   });
 
-  // Redux state
-  // const { user, status } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // Redux dispatch - to update the Redux state
-  // const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { loading, error, success, userData } = useSelector(
+    (state) => state.user,
+  );
+
+  // use effect
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        name: userData.name,
+        email: userData.email,
+        password: '',
+        passwordConfirm: '',
+        businessName: userData.businessName,
+        website: userData.website,
+      });
+    }
+  }, [userData, dispatch]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -51,163 +72,167 @@ export default function SettingsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(imageUrl);
+    // check if password and password confirm match
+    if (formData.password !== formData.passwordConfirm) {
+      toast.error('Password and password confirm do not match');
+      return;
+    }
 
-    // dispatch update user action here with formData and imageUrl
-    // update user controller in backend
-    // dispatch({});
+    dispatch(
+      updateUserData({
+        user: {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          businessName: formData.businessName,
+          website: formData.website,
+          image: imageUrl,
+        },
+        token: user.token,
+      }),
+    );
+
+    if (success) {
+      toast.success('User updated successfully');
+    }
+
+    if (error) {
+      toast.error(error.message);
+    }
+  };
+
+  // Handle delete user
+  const handleDelete = () => {
+    dispatch(deleteUserData(user.token));
+
+    if (success) {
+      toast.success('User deleted successfully');
+      dispatch(logout());
+      dispatch(reset());
+      navigate('/');
+    }
+
+    if (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
     <Container fluid className="mb-5">
-      <Row>
-        <Col sm={12}>
-          <Form onChange={handleChange} onSubmit={handleSubmit}>
-            {/* Avatar */}
-            <Form.Group>
-              <Row>
-                <Col className="mb-5">
-                  <Image
-                    src={imageUrl || 'https://via.placeholder.com/150x150'}
-                    fluid
-                    roundedCircle
-                    className="avatar"
-                  />
-                </Col>
-                <Col>
-                  <Form.Label className="text-muted h6 mt-3">
-                    Upload avatar
-                  </Form.Label>
-                  <Form.Control type="file" onChange={handleFileChange} />
-                  <Form.Text>
-                    <small className="text-muted">
-                      Image must be less than 2MB and in .jpg, .jpeg, .png, or
-                      .gif format.
-                    </small>
-                  </Form.Text>
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* Name */}
-            <Form.Group>
-              <Row>
-                <Col sm={3}>
-                  <Form.Label className="text-muted h6 mt-3">
-                    First Name
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="First name"
-                    required
-                    defaultValue=""
-                    name="firstName"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please enter a first name.
-                  </Form.Control.Feedback>
-                </Col>
-                <Col sm={3}>
-                  <Form.Label className="text-muted h6 mt-3">
-                    Last Name
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Last name"
-                    required
-                    defaultValue=""
-                    name="lastName"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please enter a last name.
-                  </Form.Control.Feedback>
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* Email */}
-            <Form.Group>
-              <Row>
-                <Col sm={6}>
-                  <Form.Label className="text-muted h6 mt-3">Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    required
-                    defaultValue=""
-                    name="email"
-                  />
-                  <Form.Text className="text-muted">
-                    {`We'll never share your email with anyone else.`}
-                  </Form.Text>
-                  <Form.Control.Feedback type="invalid">
-                    Please enter a valid email.
-                  </Form.Control.Feedback>
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* Password */}
-            <Form.Group>
-              <Row>
-                <Col sm={6}>
-                  <Form.Label className="text-muted h6 mt-3">
-                    Password
-                  </Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    required
-                    defaultValue=""
-                    name="password"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please enter a password.
-                  </Form.Control.Feedback>
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* Business Name */}
-            <Form.Group>
-              <Row>
-                <Col sm={6}>
-                  <Form.Label className="text-muted h6 mt-3">
-                    Business Name
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Business name"
-                    name="businessName"
-                    defaultValue=""
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* Website */}
-            <Form.Group>
-              <Row>
-                <Col sm={6}>
-                  <Form.Label className="text-muted h6 mt-3">
-                    Website
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Website"
-                    name="website"
-                    defaultValue=""
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* Buttons */}
-            <ButtonGroup className="my-3 gap-2">
-              {/* Submit */}
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-              {/* Delete Account */}
-              <Button variant="danger">Delete Account</Button>
-            </ButtonGroup>
-          </Form>
-        </Col>
-      </Row>
+      <Form onChange={handleChange} onSubmit={handleSubmit} className="w-50">
+        {/* User Avatar */}
+        <Row className="w-75">
+          <Col sm={12} lg={5}>
+            <Image
+              src={
+                imageUrl ||
+                (userData && userData.avatarUrl) ||
+                'https://via.placeholder.com/150x150'
+              }
+              roundedCircle
+              className="avatar w-100 h-auto"
+            />
+          </Col>
+          <Col sm={12} lg={7}>
+            <Form.Label className="text-muted h6 mt-3">
+              Upload a profile picture
+            </Form.Label>
+            <Form.Control type="file" onChange={handleFileChange} />
+            <Form.Text className="text-muted">
+              Image must be less than 2MB
+            </Form.Text>
+          </Col>
+        </Row>
+        {/* Name  */}
+        <Row className="mt-5">
+          <Col>
+            <Form.Label className="text-muted h6">Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              placeholder="Name"
+              defaultValue={formData.name}
+              required
+            />
+          </Col>
+        </Row>
+        {/* Email */}
+        <Row className="mt-3">
+          <Col>
+            <Form.Label className="text-muted h6">Email</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Email"
+              defaultValue={formData.email}
+              required
+            />
+          </Col>
+        </Row>
+        {/* Business Name & Website */}
+        <Row className="mt-3">
+          <Col sm={12} lg={6}>
+            <Form.Label className="text-muted h6">Business Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="businessName"
+              placeholder="Business Name"
+              defaultValue={formData.businessName}
+            />
+          </Col>
+          <Col sm={12} lg={6}>
+            <Form.Label className="text-muted h6">Website</Form.Label>
+            <Form.Control
+              type="text"
+              name="website"
+              placeholder="Website"
+              defaultValue={formData.website}
+            />
+          </Col>
+        </Row>
+        {/* Password */}
+        <Row className="mt-3">
+          <Col sm={12} lg={6}>
+            <Form.Label className="text-muted h6">Change Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Password"
+              defaultValue={formData.password}
+            />
+          </Col>
+          <Col sm={12} lg={6}>
+            <Form.Label className="text-muted h6">Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="passwordConfirm"
+              placeholder="Confirm Password"
+              defaultValue={formData.passwordConfirm}
+            />
+          </Col>
+        </Row>
+        {/* Submit Button  & Delete Button */}
+        <Row className="mt-5 gap-2 w-75">
+          <Col md={12} xl={2} lg={2}>
+            <Button variant="primary" type="submit">
+              Save
+            </Button>
+          </Col>
+          <Col md={12} xl={9} lg={10}>
+            <Button variant="danger" type="button" onClick={handleDelete}>
+              Delete Account
+            </Button>
+          </Col>
+        </Row>
+        {/* Loading Spinner */}
+        {loading && (
+          <Row className="mt-5">
+            <Col>
+              <Spinner animation="border" variant="primary" />
+            </Col>
+          </Row>
+        )}
+      </Form>
     </Container>
   );
 }

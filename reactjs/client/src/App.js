@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess } from './redux/features/loginSlice';
+import { ToastContainer } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import Dashboard from './pages/dashboard';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -13,25 +13,21 @@ import Formulas from './pages/formulas';
 import NotFound from './pages/404';
 import Layout from './layout';
 import Settings from './pages/settings';
+import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
-  const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.login);
+  const { user } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (localStorage.user) {
-      dispatch(loginSuccess(localStorage.user));
-    }
-  }, [dispatch]);
-
-  if (!isLoggedIn) {
+  if (!user) {
     return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     );
   }
@@ -50,6 +46,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

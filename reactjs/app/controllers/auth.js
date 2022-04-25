@@ -58,7 +58,7 @@ exports.register = async (req, res, next) => {
 
     const newUser = await User.create({
       id: uuidv4(),
-      email,
+      email: email.toLowerCase(),
       password: hashedPassword,
       name,
       businessName,
@@ -69,6 +69,12 @@ exports.register = async (req, res, next) => {
     res.status(201).json({
       status: 'success',
       message: 'Account created successfully. Please login',
+      user: {
+        email: newUser.email,
+        name: newUser.name,
+        businessName: newUser.businessName,
+        website: newUser.website,
+      },
     });
   } catch (error) {
     next(error);

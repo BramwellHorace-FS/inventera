@@ -20,10 +20,10 @@ export default function Productions() {
       <PageHeader>
         <Container>
           <Row>
-            <Col sm={8}>
+            <Col sm={6}>
               <h2>Productions</h2>
             </Col>
-            <Col sm={4} className="d-flex justify-content-end">
+            <Col sm={6} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Start Production

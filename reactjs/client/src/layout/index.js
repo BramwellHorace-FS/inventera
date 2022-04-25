@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
+import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../components/sidebar';
 import SiteModal from '../components/modal';
 import useValidate from '../hooks';
@@ -10,6 +11,7 @@ import HelpButton from '../components/buttons/help';
 import Logo from '../assets/images/logo-light.png';
 import Navigation from '../components/navigation';
 import User from '../components/user';
+import { fetchUserData } from '../redux/features/user/userSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -20,10 +22,15 @@ export default function Layout({ children }) {
 
   const { validated, handleSubmit } = useValidate();
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    window.location.redirect('/');
-  };
+  const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUserData(user.token));
+    }
+  }, [dispatch, user]);
 
   return (
     <div className={styles.layout}>
@@ -38,9 +45,11 @@ export default function Layout({ children }) {
         <Navigation />
 
         <User
-          userName="No name"
-          avatar="https://via.placeholder.com/150x150"
-          handleLogout={handleLogout}
+          userName={(userData && userData.name) || ''}
+          avatar={
+            (userData && userData.avatarUrl) ||
+            'https://via.placeholder.com/150x150'
+          }
         />
       </Sidebar>
       <main>

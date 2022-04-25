@@ -16,7 +16,14 @@ exports.getOne = async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'User retrieved successfully',
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        businessName: user.businessName,
+        website: user.website,
+        avatarUrl: user.avatarUrl,
+      },
     });
   } catch (error) {
     next(error);
@@ -27,7 +34,7 @@ exports.getOne = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     let password;
-    let imageUrl;
+    let imageUrl = '';
 
     const user = await User.findByPk(req.user.id);
 
@@ -64,19 +71,25 @@ exports.update = async (req, res, next) => {
 
     await user.update({
       name,
-      email,
-      password,
+      email: email.toLowerCase(),
       password,
       businessName,
       website,
       avatarId,
-      avatarUrl: imageUrl || user.avatarUrl,
+      avatarUrl: imageUrl.url,
     });
 
     res.status(200).json({
       status: 'success',
       message: 'User updated successfully',
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        businessName: user.businessName,
+        website: user.website,
+        avatarUrl: user.avatarUrl,
+      },
     });
   } catch (error) {
     next(error);

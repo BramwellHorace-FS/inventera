@@ -87,8 +87,20 @@ a {
 /* IMAGES
 ======================================== */
 
+/* Avatar section */
+.settings {
+  width: 100%;
+}
+
+/* Avatar */
 .avatar {
   max-width: 150px;
   height: 150px;
   object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .settings {
+    max-width: 50%;
+  }
 }
