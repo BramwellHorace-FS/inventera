@@ -11,8 +11,8 @@ const initialState = {
 // Get all units
 export const fetchUnits = createAsyncThunk(
   'units/fetchUnits',
-  async (thunkAPI) => {
-    const data = await unitService.getUnits();
+  async (token, thunkAPI) => {
+    const data = await unitService.getUnits(token);
 
     if (data.error) {
       return thunkAPI.rejectWithValue(data.error.message);

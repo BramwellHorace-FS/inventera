@@ -29,10 +29,10 @@ app.use(morgan('dev'));
 
 // Use Routes
 app.use('/api/user', authenticate, userRouter);
-app.use('/api/units', unitRouter);
+app.use('/api/units', authenticate, unitRouter);
 app.use('/api/categories', authenticate, categoryRouter);
 app.use('/api/suppliers', authenticate, supplierRouter);
-app.use('/api/boards', productionBoardRouter);
+app.use('/api/boards', authenticate, productionBoardRouter);
 app.use('/api/formulas', authenticate, formulaRouter);
 app.use('/api/materials', authenticate, materialRouter);
 app.use('/api/products', authenticate, productRouter);
