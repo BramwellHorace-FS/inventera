@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
-
+import { useSelector } from 'react-redux';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
@@ -14,6 +14,8 @@ export default function Productions() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const { boards } = useSelector((state) => state.board);
 
   return (
     <>
@@ -41,9 +43,14 @@ export default function Productions() {
       </SiteModal>
 
       <Container className={styles.boards}>
-        <ProductionBoard title="To Do" items={[]} />
-        <ProductionBoard title="In progress" items={[]} />
-        <ProductionBoard title="Completed" items={[]} />
+        {boards &&
+          boards.map((board) => (
+            <ProductionBoard
+              key={board.id}
+              title={board.name}
+              items={board.productions}
+            />
+          ))}
       </Container>
     </>
   );
