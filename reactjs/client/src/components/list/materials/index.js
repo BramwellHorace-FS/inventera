@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Spinner, Form, Button, ButtonGroup } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import SiteModal from '../../modal';
 import MaterialForm from '../../forms/materials';
@@ -11,30 +12,30 @@ import {
   createMaterial,
   deleteMaterial,
 } from '../../../redux/features/material/materialSlice';
+import vars from '../../../variables';
 
 export default function MaterialList({ handleShow, show, handleClose }) {
   const [materialsChecked, setMaterialsChecked] = useState([]);
-  const [formData, setFormData] = useState({
-    name: '',
-    stock: '',
-    minStock: '',
-    unitCost: '',
-    unit: '',
-    category: '',
-    supplier: '',
-    sku: '',
-    lastOrdered: '',
-  });
+  const [formData, setFormData] = useState(vars.formData);
 
-  const { materials, material, error } = useSelector((state) => state.material);
+  const { materials, error } = useSelector((state) => state.material);
   const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
-  // Handle checked materials
+  useEffect(() => {
+    // if there is an error, show it
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
+  // Method to handle items checked
   const handleChecked = (e, id) => {
     const checkedMaterials = [...materialsChecked];
 
+    // if the material is checked, add it to the array
+    // if the material is not checked, remove it from the array
     if (e.target.checked) {
       checkedMaterials.push(id);
     } else {
@@ -44,11 +45,15 @@ export default function MaterialList({ handleShow, show, handleClose }) {
     setMaterialsChecked(checkedMaterials);
   };
 
-  // Handle edit material
+  // Method to handle edting of a material
   const handleEdit = () => {
     handleShow();
+
     const checkedMaterials = [...materialsChecked];
 
+    // if there is only one material checked,
+    // fetch the material to be edited,
+    // and set the form data to the material
     if (checkedMaterials.length === 1) {
       const id = checkedMaterials[0];
       const { token } = user;
@@ -61,7 +66,7 @@ export default function MaterialList({ handleShow, show, handleClose }) {
     }
   };
 
-  // Handle delete material
+  // Function to handle the deletion of material(s)
   const handleDelete = () => {
     const checkedMaterials = [...materialsChecked];
 
@@ -76,7 +81,6 @@ export default function MaterialList({ handleShow, show, handleClose }) {
     });
 
     dispatch(getMaterials(user.token));
-
     setMaterialsChecked([]);
   };
 
@@ -84,40 +88,53 @@ export default function MaterialList({ handleShow, show, handleClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const { token } = user;
+
     const checkedMaterials = [...materialsChecked];
 
+    // if there is only one material checked,
+    // update the material
     if (checkedMaterials.length === 1) {
       const id = checkedMaterials[0];
-      const { token } = user;
       const data = {
         materialId: id,
         token,
       };
 
-      // update
       dispatch(updateMaterial(data));
     } else {
-      // create
-      const { token } = user;
+      // if there is no material checked,
+      // create the material
+      const lastOrdered = new Date(formData.lastOrdered);
+
       const data = {
-        material: formData,
+        material: {
+          name: formData.name.trim(),
+          stock: formData.stock.trim(),
+          minStock: formData.minStock.trim(),
+          unitCost: formData.unitCost.trim(),
+          unit: formData.unit.trim(),
+          category: formData.category.trim(),
+          supplier: formData.supplier.trim(),
+          sku: formData.sku.trim(),
+          lastOrdered: lastOrdered.toISOString(),
+          categoryId: formData.categoryId,
+          supplierId: formData.supplierId,
+        },
         token,
       };
 
       dispatch(createMaterial(data));
     }
+
+    handleClose();
+    setFormData(vars.formData);
   };
 
+  // handle change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log(formData);
   };
-
-  useEffect(() => {
-    console.log(material);
-    console.log(error);
-    console.log(materials);
-  }, [material, dispatch, error, materials]);
 
   return (
     <>

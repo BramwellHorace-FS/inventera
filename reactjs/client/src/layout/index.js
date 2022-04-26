@@ -16,6 +16,7 @@ import { fetchUnits } from '../redux/features/unit/unitSlice';
 import { fetchBoards } from '../redux/features/productionBoard/productionBoardSlice';
 import { getMaterials } from '../redux/features/material/materialSlice';
 import { getCategories } from '../redux/features/category/categorySlice';
+import { getSuppliers } from '../redux/features/supplier/supplierSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -29,8 +30,6 @@ export default function Layout({ children }) {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.auth);
-  const { boards } = useSelector((state) => state.board);
-  const { materials } = useSelector((state) => state.material);
 
   useEffect(() => {
     if (user) {
@@ -39,13 +38,11 @@ export default function Layout({ children }) {
       dispatch(fetchBoards(user.token));
       dispatch(getMaterials(user.token));
       dispatch(getCategories(user.token));
+      dispatch(getSuppliers(user.token));
     }
   }, [dispatch, user]);
 
-  useEffect(() => {
-    console.log(boards);
-    console.log(materials);
-  }, [boards, materials]);
+  useEffect(() => {}, []);
 
   return (
     <div className={styles.layout}>

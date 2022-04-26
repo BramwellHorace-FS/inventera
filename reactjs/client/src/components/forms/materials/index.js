@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Form,
   Button,
@@ -8,9 +8,9 @@ import {
   Col,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-// import validateForm from '../../../utils/validateForm';
 import UnitSelect from '../unitSelect';
 import CategorySelect from '../categorySelect';
+import SupplierSelect from '../supplierSelect';
 
 export default function MaterialForm({
   handleClose,
@@ -18,7 +18,16 @@ export default function MaterialForm({
   handleSubmit,
   formData,
 }) {
-  console.log('formData', formData);
+  const [createCat, setCreateCat] = useState(false);
+  const [createSup, setCreateSup] = useState(false);
+
+  const handleCreateCat = () => {
+    setCreateCat(!createCat);
+  };
+
+  const handleCreateSup = () => {
+    setCreateSup(!createSup);
+  };
 
   return (
     <Form onChange={handleChange} onSubmit={handleSubmit}>
@@ -80,7 +89,7 @@ export default function MaterialForm({
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Price</Form.Label>
               <Form.Control
-                name="price"
+                name="unitCost"
                 type="number"
                 placeholder="Enter Unit Price"
                 required
@@ -90,32 +99,88 @@ export default function MaterialForm({
               />
             </Col>
             <Col sm={6}>
-              <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
               <UnitSelect name="unit" defaultValue={formData.unit} />
             </Col>
           </Row>
         </Container>
       </Form.Group>
 
-      <Form.Group>
+      <Form.Group className="mt-3">
         <Container fluid>
           <Row>
+            {/* Category */}
             <Col sm={6}>
-              <Form.Label className="text-muted h6 mt-3">Category </Form.Label>
-              <CategorySelect
-                name="category"
-                defaultValue={formData.category}
-              />
+              {!createCat ? (
+                <>
+                  <CategorySelect
+                    name="category"
+                    defaultValue={formData.category}
+                  />
+                  {/* Create new category  */}
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateCat}
+                  >
+                    Create new category
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Form.Label className="text-muted h6">Category</Form.Label>
+                  <Form.Control
+                    name="category"
+                    type="text"
+                    placeholder="Enter Category"
+                    required
+                    defaultValue={formData.category}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateCat}
+                  >
+                    Select existing category
+                  </button>
+                </>
+              )}
             </Col>
+            {/* Supplier */}
             <Col sm={6}>
-              <Form.Label className="text-muted h6 mt-3">Supplier </Form.Label>
-              <Form.Control
-                name="supplier"
-                type="text"
-                placeholder="Enter Supplier"
-                required
-                defaultValue={formData.supplier}
-              />
+              {!createSup ? (
+                <>
+                  <SupplierSelect
+                    name="supplier"
+                    defaultValue={formData.supplier}
+                  />
+                  {/* Create new supplier  */}
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateSup}
+                  >
+                    Create new supplier
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Form.Label className="text-muted h6">Supplier</Form.Label>
+                  <Form.Control
+                    name="supplier"
+                    type="text"
+                    placeholder="Enter Supplier"
+                    required
+                    defaultValue={formData.supplier}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateSup}
+                  >
+                    Select existing supplier
+                  </button>
+                </>
+              )}
             </Col>
           </Row>
         </Container>

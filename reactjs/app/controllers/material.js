@@ -53,11 +53,43 @@ exports.getOne = async (req, res, next) => {
 // POST /api/materials
 exports.create = async (req, res, next) => {
   try {
-    const material = await Material.create({
+    console.log(req.body);
+
+    if (req.body.category.length !== 0) {
+      const category = await Category.create({
+        name: req.body.category,
+        userId: req.user.id,
+        id: uuidv4(),
+      });
+
+      req.body.category = category.id;
+    }
+
+    if (req.body.supplier.length !== 0) {
+      const supplier = await Supplier.create({
+        name: req.body.supplier,
+        userId: req.user.id,
+        id: uuidv4(),
+      });
+
+      req.body.supplier = supplier.id;
+    }
+
+    const data = {
       id: uuidv4(),
-      ...req.body,
+      name: req.body.name,
+      stock: Number(req.body.stock),
+      minStock: Number(req.body.minStock),
+      categoryId: req.body.category || req.body.categoryId,
+      supplierId: req.body.supplier || req.body.supplierId,
+      unitId: req.body.unit,
+      unitCost: Number(req.body.unitCost),
+      lastOrdered: req.body.lastOrdered,
+      sku: req.body.sku,
       userId: req.user.id,
-    });
+    };
+
+    const material = await Material.create(data);
 
     res.status(201).json({
       status: 'success',

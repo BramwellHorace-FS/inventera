@@ -5,6 +5,7 @@ import unitReducer from './features/unit/unitSlice';
 import productionBoardReducer from './features/productionBoard/productionBoardSlice';
 import materialReducer from './features/material/materialSlice';
 import categoryReducer from './features/category/categorySlice';
+import supplierReducer from './features/supplier/supplierSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     board: productionBoardReducer,
     material: materialReducer,
     category: categoryReducer,
+    supplier: supplierReducer,
   },
 });

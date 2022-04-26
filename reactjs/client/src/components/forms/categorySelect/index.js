@@ -8,22 +8,16 @@ function CategorySelect() {
   return (
     <>
       {/* Select form */}
-      <Form.Group>
-        <Form.Label className="text-muted h6">Category</Form.Label>
-        <Form.Control
-          as="select"
-          name="category"
-          defaultValue="Select Category"
-        >
-          <option value="Select Category">Select Category</option>
-          {categories &&
-            categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-        </Form.Control>
-      </Form.Group>
+      <Form.Label className="text-muted h6">Category</Form.Label>
+      <Form.Select name="categoryId" defaultValue="Select Category">
+        <option value="Select Category">Select Category</option>
+        {categories &&
+          categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+      </Form.Select>
     </>
   );
 }
