@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg, BsArrowRight } from 'react-icons/bs';
@@ -15,6 +16,8 @@ export default function Dashboard() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const { materials } = useSelector((state) => state.material);
 
   return (
     <>
@@ -47,7 +50,7 @@ export default function Dashboard() {
           <Col sm={12} lg={3}>
             <DashboardCard
               title="Materials"
-              itemCount="0"
+              itemCount={materials && materials.length}
               linkTo="/materials"
             />
           </Col>

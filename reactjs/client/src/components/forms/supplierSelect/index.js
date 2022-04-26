@@ -1,18 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
-export default function SupplierSelect() {
+export default function SupplierSelect({ defaultValue }) {
   const { suppliers } = useSelector((state) => state.supplier);
 
   return (
     <>
       {/* Select form */}
       <Form.Label className="text-muted h6">Supplier</Form.Label>
-      <Form.Select name="supplierId" defaultValue="Select Supplier">
-        <option value="Select Supplier">Select Supplier</option>
+      <Form.Select name="supplierId" defaultValue={defaultValue} required>
+        <option value="">Select Supplier</option>
         {suppliers &&
           suppliers.map((supplier) => (
+            // if defaultValue is the same as the supplierId, then it will be selected
             <option key={supplier.id} value={supplier.id}>
               {supplier.name}
             </option>
@@ -21,3 +23,7 @@ export default function SupplierSelect() {
     </>
   );
 }
+
+SupplierSelect.propTypes = {
+  defaultValue: PropTypes.string.isRequired,
+};

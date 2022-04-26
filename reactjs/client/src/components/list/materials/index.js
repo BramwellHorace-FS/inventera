@@ -18,17 +18,31 @@ export default function MaterialList({ handleShow, show, handleClose }) {
   const [materialsChecked, setMaterialsChecked] = useState([]);
   const [formData, setFormData] = useState(vars.formData);
 
-  const { materials, error } = useSelector((state) => state.material);
+  const { materials, error, material } = useSelector((state) => state.material);
   const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
+  const { token } = user;
+
   useEffect(() => {
-    // if there is an error, show it
     if (error) {
       toast.error(error);
     }
   }, [error]);
+
+  useEffect(() => {
+    const checkedMaterials = [...materialsChecked];
+
+    if (checkedMaterials.length === 1) {
+      const id = checkedMaterials[0];
+      const data = {
+        materialId: id,
+        token,
+      };
+      dispatch(getMaterial(data));
+    }
+  }, [materialsChecked, dispatch, token]);
 
   // Method to handle items checked
   const handleChecked = (e, id) => {
@@ -49,20 +63,20 @@ export default function MaterialList({ handleShow, show, handleClose }) {
   const handleEdit = () => {
     handleShow();
 
-    const checkedMaterials = [...materialsChecked];
-
-    // if there is only one material checked,
-    // fetch the material to be edited,
-    // and set the form data to the material
-    if (checkedMaterials.length === 1) {
-      const id = checkedMaterials[0];
-      const { token } = user;
-      const data = {
-        materialId: id,
-        token,
-      };
-
-      dispatch(getMaterial(data));
+    if (Object.keys(material).length > 0) {
+      setFormData({
+        name: material.name,
+        stock: material.stock,
+        minStock: material.minStock,
+        unitCost: material.unitCost,
+        unit: material.unit.id,
+        category: material.category.name,
+        categoryId: material.category.id,
+        supplier: material.supplier.name,
+        supplierId: material.supplier.id,
+        sku: material.sku,
+        lastOrdered: material.lastOrdered,
+      });
     }
   };
 
@@ -71,7 +85,7 @@ export default function MaterialList({ handleShow, show, handleClose }) {
     const checkedMaterials = [...materialsChecked];
 
     checkedMaterials.forEach((id) => {
-      const { token } = user;
+      // const { token } = user;
       const data = {
         materialId: id,
         token,
@@ -88,25 +102,36 @@ export default function MaterialList({ handleShow, show, handleClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { token } = user;
+    // const { token } = user;
 
     const checkedMaterials = [...materialsChecked];
+
+    const lastOrdered = new Date(formData.lastOrdered);
 
     // if there is only one material checked,
     // update the material
     if (checkedMaterials.length === 1) {
       const id = checkedMaterials[0];
       const data = {
-        materialId: id,
         token,
+        materialId: id,
+        material: {
+          name: formData.name,
+          stock: formData.stock,
+          minStock: formData.minStock,
+          unitCost: formData.unitCost,
+          unit: formData.unit,
+          category: formData.category,
+          supplier: formData.supplier,
+          sku: formData.sku,
+          lastOrdered: lastOrdered.toISOString(),
+        },
       };
 
       dispatch(updateMaterial(data));
     } else {
       // if there is no material checked,
       // create the material
-      const lastOrdered = new Date(formData.lastOrdered);
-
       const data = {
         material: {
           name: formData.name.trim(),

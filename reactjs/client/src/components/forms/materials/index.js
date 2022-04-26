@@ -114,7 +114,7 @@ export default function MaterialForm({
                 <>
                   <CategorySelect
                     name="category"
-                    defaultValue={formData.category}
+                    defaultValue={formData.categoryId}
                   />
                   {/* Create new category  */}
                   <button
@@ -151,7 +151,7 @@ export default function MaterialForm({
                 <>
                   <SupplierSelect
                     name="supplier"
-                    defaultValue={formData.supplier}
+                    defaultValue={formData.supplierId}
                   />
                   {/* Create new supplier  */}
                   <button
@@ -207,6 +207,7 @@ export default function MaterialForm({
                 type="date"
                 placeholder="Enter Last Ordered"
                 defaultValue={formData.lastOrdered}
+                required
               />
             </Col>
           </Row>
@@ -240,6 +241,8 @@ MaterialForm.propTypes = {
     supplier: PropTypes.string,
     sku: PropTypes.string,
     lastOrdered: PropTypes.string,
+    supplierId: PropTypes.string,
+    categoryId: PropTypes.string,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
 };
