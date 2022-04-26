@@ -207,7 +207,6 @@ export default function MaterialForm({
                 type="date"
                 placeholder="Enter Last Ordered"
                 defaultValue={formData.lastOrdered}
-                required
               />
             </Col>
           </Row>

@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import { BsPlusLg, BsArrowRight } from 'react-icons/bs';
+import { BsArrowRight } from 'react-icons/bs';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
-import SiteModal from '../../components/modal';
-import MaterialForm from '../../components/forms/materials';
+// import SiteModal from '../../components/modal';
+// import MaterialForm from '../../components/forms/materials';
 import DashboardCard from '../../components/cards/dashboard';
 import MiniList from '../../components/list/dashboard';
 import styles from './styles.module.css';
 
 export default function Dashboard() {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const navigate = useNavigate();
 
   const { materials } = useSelector((state) => state.material);
 
@@ -29,21 +26,13 @@ export default function Dashboard() {
             </Col>
 
             <Col sm={5} className="d-flex justify-content-end">
-              <PrimaryButton onClick={handleShow}>
-                <BsPlusLg />
-                Add Material
+              <PrimaryButton onClick={() => navigate('/materials')}>
+                View Inventory
               </PrimaryButton>
             </Col>
           </Row>
         </Container>
       </PageHeader>
-      <SiteModal
-        show={show}
-        handleClose={handleClose}
-        modalTitle="Add Material"
-      >
-        <MaterialForm handleClose={handleClose} />
-      </SiteModal>
 
       <Container className="mt-5">
         <Row className={styles.row}>
@@ -55,19 +44,19 @@ export default function Dashboard() {
             />
           </Col>
           <Col sm={12} lg={3}>
-            <DashboardCard title="Products" itemCount="0" linkTo="/products" />
+            <DashboardCard title="Products" itemCount={0} linkTo="/products" />
           </Col>
 
           <Col sm={12} lg={3}>
             <DashboardCard
               title="Productions"
-              itemCount="0"
+              itemCount={0}
               linkTo="/products"
             />
           </Col>
 
           <Col sm={12} lg={3}>
-            <DashboardCard title="Formulas" itemCount="0" linkTo="/products" />
+            <DashboardCard title="Formulas" itemCount={0} linkTo="/products" />
           </Col>
         </Row>
       </Container>
@@ -78,7 +67,17 @@ export default function Dashboard() {
           <Col sm={6}>
             <Container className="ps-0 mt-3">
               <h4 className="mb-3">Materials</h4>
-              <MiniList name="" stock={0} unit="" minStock={0} />
+              {materials &&
+                materials.length > 0 &&
+                materials.map((material) => (
+                  <MiniList
+                    key={material.id}
+                    stock={Number(material.stock)}
+                    unit={material.unit.abbr}
+                    minStock={Number(material.minStock)}
+                    name={material.name}
+                  />
+                ))}
               <Link
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/materials"

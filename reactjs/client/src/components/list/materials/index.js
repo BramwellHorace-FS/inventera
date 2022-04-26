@@ -70,9 +70,7 @@ export default function MaterialList({ handleShow, show, handleClose }) {
         minStock: material.minStock,
         unitCost: material.unitCost,
         unit: material.unit.id,
-        category: material.category.name,
         categoryId: material.category.id,
-        supplier: material.supplier.name,
         supplierId: material.supplier.id,
         sku: material.sku,
         lastOrdered: material.lastOrdered,
@@ -159,6 +157,7 @@ export default function MaterialList({ handleShow, show, handleClose }) {
   // handle change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(formData);
   };
 
   return (

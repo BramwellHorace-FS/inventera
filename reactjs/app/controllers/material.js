@@ -102,6 +102,7 @@ exports.create = async (req, res, next) => {
 };
 
 // PUT /api/materials/:id
+// create category is new and save to db
 exports.update = async (req, res, next) => {
   try {
     const material = await Material.findByPk(req.params.id, {
