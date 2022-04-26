@@ -101,7 +101,14 @@ export const deleteMaterial = createAsyncThunk(
 export const materialSlice = createSlice({
   name: 'material',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.material = {};
+      state.loading = false;
+      state.error = null;
+      state.success = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getMaterials.pending, (state) => {
       state.loading = true;
@@ -175,3 +182,5 @@ export const materialSlice = createSlice({
 });
 
 export default materialSlice.reducer;
+
+export const { reset } = materialSlice.actions;

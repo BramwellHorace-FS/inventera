@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Form,
   Button,
@@ -8,51 +8,20 @@ import {
   Col,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import validateForm from '../../../utils/validateForm';
+// import validateForm from '../../../utils/validateForm';
 import UnitSelect from '../unitSelect';
+import CategorySelect from '../categorySelect';
 
-export default function MaterialForm({ handleClose }) {
-  const [validated, setValidated] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    stock: '',
-    minStock: '',
-    price: '',
-    unit: '',
-    category: '',
-    supplier: '',
-    sku: '',
-    lastOrdered: '',
-  });
-
-  // Redux state
-  // const { materials, status } = useSelector((state) => state.materials);
-
-  // Redux dispatch
-  // const dispatch = useDispatch();
-
-  // Handle form input changes
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // Handle form submission
-  const handleSubmit = (e) => {
-    validateForm(e, setValidated);
-  };
-
-  // on select change
+export default function MaterialForm({
+  handleClose,
+  handleChange,
+  handleSubmit,
+  formData,
+}) {
+  console.log('formData', formData);
 
   return (
-    <Form
-      onChange={handleChange}
-      onSubmit={handleSubmit}
-      noValidate
-      validated={validated}
-    >
+    <Form onChange={handleChange} onSubmit={handleSubmit}>
       <Form.Group>
         <Container fluid>
           <Row>
@@ -65,9 +34,6 @@ export default function MaterialForm({ handleClose }) {
                 required
                 defaultValue={formData.name}
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter a name.
-              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
@@ -89,9 +55,6 @@ export default function MaterialForm({ handleClose }) {
                 step=".01"
                 defaultValue={formData.stock}
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter stock level
-              </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">
@@ -106,9 +69,6 @@ export default function MaterialForm({ handleClose }) {
                 step=".01"
                 defaultValue={formData.minStock}
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter min stock level
-              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
@@ -126,18 +86,12 @@ export default function MaterialForm({ handleClose }) {
                 required
                 min="0"
                 step=".01"
-                defaultValue={formData.price}
+                defaultValue={formData.unitCost}
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter a valid unit price.
-              </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
               <UnitSelect name="unit" defaultValue={formData.unit} />
-              <Form.Control.Feedback type="invalid">
-                Please select a unit type.
-              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
@@ -148,16 +102,10 @@ export default function MaterialForm({ handleClose }) {
           <Row>
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Category </Form.Label>
-              <Form.Control
+              <CategorySelect
                 name="category"
-                type="text"
-                placeholder="Enter Category"
-                required
                 defaultValue={formData.category}
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter a category.
-              </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Supplier </Form.Label>
@@ -168,9 +116,6 @@ export default function MaterialForm({ handleClose }) {
                 required
                 defaultValue={formData.supplier}
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter a supplier.
-              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
@@ -219,4 +164,17 @@ export default function MaterialForm({ handleClose }) {
 // PropTypes
 MaterialForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  formData: PropTypes.shape({
+    name: PropTypes.string,
+    stock: PropTypes.string,
+    minStock: PropTypes.string,
+    unitCost: PropTypes.string,
+    unit: PropTypes.string,
+    category: PropTypes.string,
+    supplier: PropTypes.string,
+    sku: PropTypes.string,
+    lastOrdered: PropTypes.string,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
 };

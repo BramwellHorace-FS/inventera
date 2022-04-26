@@ -4,6 +4,7 @@ import userReducer from './features/user/userSlice';
 import unitReducer from './features/unit/unitSlice';
 import productionBoardReducer from './features/productionBoard/productionBoardSlice';
 import materialReducer from './features/material/materialSlice';
+import categoryReducer from './features/category/categorySlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     unit: unitReducer,
     board: productionBoardReducer,
     material: materialReducer,
+    category: categoryReducer,
   },
 });

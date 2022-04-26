@@ -15,6 +15,7 @@ import { fetchUserData } from '../redux/features/user/userSlice';
 import { fetchUnits } from '../redux/features/unit/unitSlice';
 import { fetchBoards } from '../redux/features/productionBoard/productionBoardSlice';
 import { getMaterials } from '../redux/features/material/materialSlice';
+import { getCategories } from '../redux/features/category/categorySlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -37,6 +38,7 @@ export default function Layout({ children }) {
       dispatch(fetchUnits(user.token));
       dispatch(fetchBoards(user.token));
       dispatch(getMaterials(user.token));
+      dispatch(getCategories(user.token));
     }
   }, [dispatch, user]);
 
