@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
-import { useSelector, useDispatch } from 'react-redux';
-import { getFormulas } from '../../redux/features/formulas/formulasSlice';
-import useValidate from '../../hooks';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
@@ -16,25 +13,15 @@ export default function Forumulas() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { validated, handleSubmit } = useValidate();
-
-  const dispatch = useDispatch();
-
-  const { formulas, status } = useSelector((state) => state.formulas);
-
-  useEffect(() => {
-    dispatch(getFormulas());
-  }, [dispatch]);
-
   return (
     <>
       <PageHeader>
         <Container>
           <Row>
-            <Col sm={9}>
+            <Col sm={6}>
               <h2>Formulas</h2>
             </Col>
-            <Col sm={3} className="d-flex justify-content-end">
+            <Col sm={6} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Add Formula
@@ -45,17 +32,13 @@ export default function Forumulas() {
       </PageHeader>
 
       <SiteModal show={show} handleClose={handleClose} modalTitle="Add Formula">
-        <FormulaForm
-          handleClose={handleClose}
-          validated={validated}
-          handleSubmit={handleSubmit}
-        />
+        <FormulaForm handleClose={handleClose} />
       </SiteModal>
 
       <Container className="mt-5">
         <Row>
           <Col sm={12}>
-            <FormulasList formulas={formulas} status={status} />
+            <FormulasList />
           </Col>
         </Row>
       </Container>

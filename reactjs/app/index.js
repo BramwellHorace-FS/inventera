@@ -19,7 +19,7 @@ const materialRouter = require('./routes/material');
 const productRouter = require('./routes/product');
 const productionRouter = require('./routes/production');
 const authRouter = require('./routes/auth');
-const avatarRouter = require('./routes/avatar');
+const tokenRouter = require('./routes/token');
 
 // Middlewares
 app.use(cors());
@@ -29,15 +29,15 @@ app.use(morgan('dev'));
 
 // Use Routes
 app.use('/api/user', authenticate, userRouter);
-app.use('/api/units', unitRouter);
+app.use('/api/units', authenticate, unitRouter);
 app.use('/api/categories', authenticate, categoryRouter);
 app.use('/api/suppliers', authenticate, supplierRouter);
-app.use('/api/boards', productionBoardRouter);
+app.use('/api/boards', authenticate, productionBoardRouter);
 app.use('/api/formulas', authenticate, formulaRouter);
 app.use('/api/materials', authenticate, materialRouter);
 app.use('/api/products', authenticate, productRouter);
 app.use('/api/productions', authenticate, productionRouter);
-app.use('/api/avatar', authenticate, avatarRouter);
+app.use('/api/token', tokenRouter);
 app.use('/api/auth', authRouter);
 
 // General 404 error handler
@@ -52,9 +52,9 @@ app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
     error: {
-      type: error.name,
-      status: error.status || 500,
+      status: 'error',
       message: error.message,
+      type: error.type,
     },
   });
 });

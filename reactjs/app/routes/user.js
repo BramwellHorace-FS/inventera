@@ -1,7 +1,8 @@
 const router = require('express').Router();
-const { getOne, update } = require('../controllers/user');
+const { getOne, update, deleteOne } = require('../controllers/user');
 
 router.get('/', getOne);
 router.put('/', update);
+router.delete('/', deleteOne);
 
 module.exports = router;

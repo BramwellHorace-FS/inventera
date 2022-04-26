@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
-import { getUsers } from '../redux/features/users/usersSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../components/sidebar';
 import SiteModal from '../components/modal';
 import useValidate from '../hooks';
@@ -12,6 +11,9 @@ import HelpButton from '../components/buttons/help';
 import Logo from '../assets/images/logo-light.png';
 import Navigation from '../components/navigation';
 import User from '../components/user';
+import { fetchUserData } from '../redux/features/user/userSlice';
+import { fetchUnits } from '../redux/features/unit/unitSlice';
+import { fetchBoards } from '../redux/features/productionBoard/productionBoardSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -23,15 +25,21 @@ export default function Layout({ children }) {
   const { validated, handleSubmit } = useValidate();
 
   const dispatch = useDispatch();
-  const { users, status } = useSelector((state) => state.users);
-
-  const onLogout = () => {
-    dispatch({ type: 'users/logout' });
-  };
+  const { userData } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.auth);
+  const { boards } = useSelector((state) => state.board);
 
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    if (user) {
+      dispatch(fetchUserData(user.token));
+      dispatch(fetchUnits(user.token));
+      dispatch(fetchBoards(user.token));
+    }
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    console.log(boards);
+  }, [boards]);
 
   return (
     <div className={styles.layout}>
@@ -44,15 +52,14 @@ export default function Layout({ children }) {
           />
         </Link>
         <Navigation />
-        {status === 'loading' && <div>Loading...</div>}
-        {status === 'error' && <div>Error!</div>}
-        {status === 'success' && (
-          <User
-            userName={users.userName}
-            avatar={users.avatar}
-            onLogout={onLogout}
-          />
-        )}
+
+        <User
+          userName={(userData && userData.name) || ''}
+          avatar={
+            (userData && userData.avatarUrl) ||
+            'https://via.placeholder.com/150x150'
+          }
+        />
       </Sidebar>
       <main>
         {children}

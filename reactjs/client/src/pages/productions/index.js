@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProductions } from '../../redux/features/productions/productionsSlice';
-import useValidate from '../../hooks';
+import { useSelector } from 'react-redux';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
@@ -17,25 +15,17 @@ export default function Productions() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { validated, handleSubmit } = useValidate();
-
-  const dispatch = useDispatch();
-
-  const { productions } = useSelector((state) => state.productions);
-
-  useEffect(() => {
-    dispatch(getProductions());
-  }, [dispatch]);
+  const { boards } = useSelector((state) => state.board);
 
   return (
     <>
       <PageHeader>
         <Container>
           <Row>
-            <Col sm={8}>
+            <Col sm={6}>
               <h2>Productions</h2>
             </Col>
-            <Col sm={4} className="d-flex justify-content-end">
+            <Col sm={6} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
                 Start Production
@@ -49,17 +39,18 @@ export default function Productions() {
         handleClose={handleClose}
         modalTitle="Start Production"
       >
-        <ProductionForm
-          handleClose={handleClose}
-          validated={validated}
-          handleSubmit={handleSubmit}
-        />
+        <ProductionForm handleClose={handleClose} />
       </SiteModal>
 
       <Container className={styles.boards}>
-        <ProductionBoard title="To Do" items={productions} />
-        <ProductionBoard title="In progress" items={[]} />
-        <ProductionBoard title="Completed" items={[]} />
+        {boards &&
+          boards.map((board) => (
+            <ProductionBoard
+              key={board.id}
+              title={board.name}
+              items={board.productions}
+            />
+          ))}
       </Container>
     </>
   );

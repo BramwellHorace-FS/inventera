@@ -16,17 +16,21 @@ beforeAll(async () => {
 
 // GET /api/productions
 describe('GET /api/productions', () => {
-  it('should return a 200 status code and an array of production items', async () => {
+  it('should return a status code of 200, a status of success, message and array of productions', async () => {
     const response = await request.get('/api/productions').set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('productions');
+    expect(Array.isArray(response.body.productions)).toBe(true);
   });
 });
 
 // POST /api/productions
 describe('POST /api/productions', () => {
-  it('should return a 201 status code and a production item', async () => {
+  it('should return a status code of 201, a status of success, message and a production', async () => {
     const response = await request.post('/api/productions').set('Authorization', `Bearer ${token}`).send({
       name: 'Astrological Collection',
       quantity: 32,
@@ -35,38 +39,51 @@ describe('POST /api/productions', () => {
       userId: 'e05b897e-eb9d-4345-8845-666450c6b6be',
       productionBoardId: '6249ef1c-c110-4070-bb11-5ede29a9979c',
     });
-    id = response.body.id;
-    console.log(response.body);
+
+    id = response.body.production.id;
+
     expect(response.status).toBe(201);
-    expect(response.body.name).toBe('Astrological Collection');
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('production');
+    expect(response.body.production.name).toBe('Astrological Collection');
   });
 });
 
 // GET /api/productions/:id
 describe('GET /api/productions/:id', () => {
-  it('should return a 200 status code and a production item', async () => {
+  it('should return a status code of 200, a status of success, message and a production', async () => {
     const response = await request.get(`/api/productions/${id}`).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body.name).toBe('Astrological Collection');
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('production');
+    expect(response.body.production.name).toBe('Astrological Collection');
   });
 });
 
 // PUT /api/productions/:id
 describe('PUT /api/productions/:id', () => {
-  it('should return a 200 status code and a production item', async () => {
+  it('should return a status code of 200, a status of success, message and a production', async () => {
     const response = await request.put(`/api/productions/${id}`).set('Authorization', `Bearer ${token}`).send({
       status: 1,
     });
 
     expect(response.status).toBe(200);
-    expect(response.body.name).toBe('Astrological Collection');
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.status).toBe('success');
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('production');
+    expect(response.body.production.status).toBe(1);
   });
 });
 
 // DELETE /api/productions/:id
 describe('DELETE /api/productions/:id', () => {
-  it('should return a 204 status code', async () => {
+  it('should return a status code of 204', async () => {
     const response = await request.delete(`/api/productions/${id}`).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(204);

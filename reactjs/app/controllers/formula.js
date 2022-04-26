@@ -1,5 +1,5 @@
 const { Formula, Unit } = require('../../db/models');
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 const { CustomError } = require('../utils/errors');
 
 // GET /api/formulas
@@ -10,7 +10,11 @@ exports.getAll = async (req, res, next) => {
       include: [{ model: Unit, as: 'unit' }],
     });
 
-    res.status(200).json(formulas);
+    res.status(200).json({
+      status: 'success',
+      message: 'Formulas retrieved successfully',
+      formulas,
+    });
   } catch (error) {
     next(error);
   }
@@ -24,9 +28,15 @@ exports.getOne = async (req, res, next) => {
       include: [{ model: Unit, as: 'unit' }],
     });
 
-    if (!formula) throw new CustomError('NotFoundError', 404, 'Formula not found');
+    if (!formula) {
+      throw new CustomError('NotFoundError', 404, 'Formula not found');
+    }
 
-    res.status(200).json(formula);
+    res.status(200).json({
+      status: 'success',
+      message: 'Formula retrieved successfully',
+      formula,
+    });
   } catch (error) {
     next(error);
   }
@@ -36,12 +46,16 @@ exports.getOne = async (req, res, next) => {
 exports.create = async (req, res, next) => {
   try {
     const formula = await Formula.create({
-      id: uuid(),
+      id: uuidv4(),
       ...req.body,
       userId: req.user.id,
     });
 
-    res.status(201).json(formula);
+    res.status(201).json({
+      status: 'success',
+      message: 'Formula created successfully',
+      formula,
+    });
   } catch (error) {
     next(error);
   }
@@ -57,7 +71,11 @@ exports.update = async (req, res, next) => {
 
     await formula.update(req.body);
 
-    res.status(200).json(formula);
+    res.status(200).json({
+      status: 'success',
+      message: 'Formula updated successfully',
+      formula,
+    });
   } catch (error) {
     next(error);
   }
@@ -72,7 +90,7 @@ exports.deleteOne = async (req, res, next) => {
 
     await formula.destroy();
 
-    res.status(204).json();
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

@@ -1,5 +1,5 @@
 const { Supplier } = require('../../db/models');
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 const { CustomError } = require('../utils/errors');
 
 // GET /api/suppliers
@@ -9,7 +9,11 @@ exports.getAll = async (req, res, next) => {
       where: { userId: req.user.id },
     });
 
-    res.status(200).json(suppliers);
+    res.status(200).json({
+      status: 'success',
+      message: 'Suppliers retrieved successfully',
+      suppliers,
+    });
   } catch (error) {
     next(error);
   }
@@ -22,9 +26,15 @@ exports.getOne = async (req, res, next) => {
       where: { userId: req.user.id },
     });
 
-    if (!supplier) throw new CustomError('NotFoundError', 404, 'Supplier not found');
+    if (!supplier) {
+      throw new CustomError('NotFoundError', 404, 'Supplier not found');
+    }
 
-    res.status(200).json(supplier);
+    res.status(200).json({
+      status: 'success',
+      message: 'Supplier retrieved successfully',
+      supplier,
+    });
   } catch (error) {
     next(error);
   }
@@ -34,12 +44,16 @@ exports.getOne = async (req, res, next) => {
 exports.create = async (req, res, next) => {
   try {
     const supplier = await Supplier.create({
-      id: uuid(),
+      id: uuidv4(),
       ...req.body,
       userId: req.user.id,
     });
 
-    res.status(201).json(supplier);
+    res.status(201).json({
+      status: 'success',
+      message: 'Supplier created successfully',
+      supplier,
+    });
   } catch (error) {
     next(error);
   }
@@ -54,7 +68,11 @@ exports.update = async (req, res, next) => {
 
     await supplier.update(req.body);
 
-    res.status(200).json(supplier);
+    res.status(200).json({
+      status: 'success',
+      message: 'Supplier updated successfully',
+      supplier,
+    });
   } catch (error) {
     next(error);
   }
