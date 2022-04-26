@@ -62,6 +62,37 @@ This week I wasn't able to test the deployment of the application on Heroku. So 
 - [ ] Update response body to include status code and message for each endpoint. This will be used to display messages on the front end.
 - [ ] Test new features.
 
+<br>
+
+### April 26, 2022
+
+<br>
+
+**🛠 Worked completed:**
+
+This week, my primary task was to update the Redux features created in the previous month to use the Backend API. Initially, I was going to update the thunk functions with the URLs and data required to make the API calls. However, I decided to remove the existing files and start from scratch. I did this partly out of frustration from the challenges I faced, which I will briefly discuss later.
+
+Entering this milestone, I set out to have all the necessary slices containing the actions and reducers necessary for the application to function. Unfortunately, I was only able to get a few of them done. These include Auth, User, Material, Unit, Category, and Supplier slices. To make the necessary API calls, I created a service file that contains the functions that make those calls. I then imported those functions inside the createAsyncThunk functions and returned the data or error messages to the reducers. While this turned out to be the fix to some issues I faced, it took me more time than planned. There is more work I have to get done for the application to be fully functional with the backend API.
+
+**🛑 Challenges:**
+
+This week has turned out to be one of the most challenging weeks working on this final project. I thought I had a pretty good grasp on Redux Toolkit. However, I found myself getting stuck on seemingly simple tasks such as making asynchronous calls to the API. While using the mock API data with Redux, I didn't have many issues making calls to the mock API. However, when I replaced the mock API with the backend API I created for my project, I began running into several issues. For example, after logging in the user and trying to fetch the user data, I would see that the application wasn't being populated with the user data. After checking out Redux Dev Tools, I noticed that the action for fetching the user data was stuck pending. I can't recall exactly why this occurred. However, I remember having to console log quite a bit and create a service file to make the calls to the API.
+
+The next issue I had was after logging out of the application and logging in with a different user, the previous user data was still being displayed. This was because, in the user slice, I was accessing the JWT token from the local storage. Since the token was set using the previous user token, once the new user logged in, the token which was set using the previous user's token was still being used. This was causing the application to display the previous user's data. Since the user in the auth slice was being set to the new user after logging in, I used the useSelector hook to access the user state which contained the new user's JWT token.
+
+Another issue I had was getting a JWT malformed error when passing the token to the backend. After console logging to see what was happening, I was able to see that an object was being passed to the backend instead of the token. This was caused by me trying to pass more than one argument into the createAsyncThunk function. I was able to fix this by creating a data object that contained the token and the data I wanted to send and destructuring it in the thunk and before passing it to the service function which makes the API calls.
+
+There were a few other minor issues I had. However, I was able to find solutions to them by revisiting the Redux Toolkit documentation and looking at the examples.
+
+**⚡️ Plans:**
+
+Since I was unable to finish all of the Redux features, I will continue to work on them. I also still haven't gotten around to testing deployment on Heroku, as I have been focusing on trying to finish up the development of the application. So, my next steps for the next milestone are the following:
+
+- [ ] Finish Redux features.
+- [ ] Add an empty state to the application.
+- [ ] Iron out any issues with the application.
+- [ ] Test deployment on Heroku.
+
 <!-- <br>
 
 ---
