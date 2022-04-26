@@ -57,10 +57,10 @@ This week, there weren't any major challenges as it pertains to the project. How
 This week I wasn't able to test the deployment of the application on Heroku. So that will be one of the first things I will do during the next milestone. In addition to testing deployment on Heroku, I plan to complete the following:
 
 - [ ] Update Redux to use Backend API.
-- [ ] Additional Refactoring.
-- [ ] Add an avatar column to the database and update the user model.
-- [ ] Update response body to include status code and message for each endpoint. This will be used to display messages on the front end.
-- [ ] Test new features.
+- [x] Additional Refactoring.
+- [x] Add an avatar column to the database and update the user model.
+- [x] Update response body to include status code and message for each endpoint. This will be used to display messages on the front end.
+- [x] Test new features.
 
 <br>
 
