@@ -15,6 +15,7 @@ export default function Dashboard() {
   const { materials } = useSelector((state) => state.material);
   const { products } = useSelector((state) => state.product);
   const { formulas } = useSelector((state) => state.formula);
+  const { productions } = useSelector((state) => state.production);
 
   return (
     <>
@@ -54,7 +55,7 @@ export default function Dashboard() {
           <Col sm={12} lg={3}>
             <DashboardCard
               title="Productions"
-              itemCount={0}
+              itemCount={productions ? productions.length : 0}
               linkTo="/products"
             />
           </Col>
