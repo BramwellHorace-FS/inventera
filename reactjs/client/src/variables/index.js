@@ -31,7 +31,7 @@ const formulaData = {
   fragranceLoad: '',
   fragranceAmount: '',
   waxAmount: '',
-  unitId: '',
+  unit: '',
   note: '',
 };
 
