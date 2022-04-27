@@ -1,130 +1,151 @@
-import React, { useState } from 'react';
-import {
-  Form,
-  Button,
-  ButtonGroup,
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
+import React from 'react';
+import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import validateForm from '../../../utils/validateForm';
+import UnitSelect from '../unitSelect';
 
-export default function FormulaForm({ handleClose }) {
-  const [validated, setValidated] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    containerFill: '',
-    fragranceLoad: '',
-    notes: '',
-  });
-
-  // Redux
-  // const dispatch = useDispatch();
-
-  // const { formulas, status } = useSelector((state) => state.formula);
-
-  // handleChange
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // handleSubmit
-  const handleSubmit = (e) => {
-    validateForm(e, setValidated);
-
-    // ADD FUNCTION TO CALCULATE FORMULA BEFORE DISPATCHING
-  };
-
+export default function FormulaForm({
+  handleChange,
+  handleSubmit,
+  handleClose,
+  validated,
+  formData,
+}) {
   return (
     <Form
-      onChange={handleChange}
       noValidate
       validated={validated}
       onSubmit={handleSubmit}
+      onChange={handleChange}
     >
+      {/* FORMULA NAME */}
       <Form.Group>
-        <Container fluid>
+        <Container>
           <Row>
             <Col>
-              <Form.Label className="text-muted h6 mt-3">Name </Form.Label>
+              <Form.Label className="text-muted h6">
+                Formula Name <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter formula name"
-                required
                 name="name"
+                type="text"
+                placeholder="Formula Name"
+                defaultValue={formData.name}
+                required
               />
               <Form.Control.Feedback type="invalid">
-                Please enter a name for the formula.
+                Please provide a formula name.
               </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
 
-      <Form.Group>
-        <Container fluid>
+      {/* CONTAINER Size & MAX FILL */}
+      <Form.Group className="mt-3">
+        <Container>
           <Row>
-            <Col>
-              <Form.Label className="text-muted h6 mt-3">
-                Container Fill (oz)
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Container Size <span className="text-danger">*</span>
               </Form.Label>
               <Form.Control
+                name="containerSize"
                 type="number"
-                placeholder="Enter container fill"
-                required
                 step=".01"
+                min="0"
+                placeholder="Enter container size"
+                defaultValue={formData.containerSize}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide container size
+              </Form.Control.Feedback>
+            </Col>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Max Fill <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
                 name="containerFill"
+                type="number"
+                step=".01"
+                placeholder="Enter container max fill"
+                defaultValue={formData.containerFill}
+                required
               />
               <Form.Control.Feedback type="invalid">
-                Please enter a container fill in oz. Numbers only.
+                Please enter container max fill
               </Form.Control.Feedback>
             </Col>
+          </Row>
+        </Container>
+      </Form.Group>
 
-            <Col>
-              <Form.Label className="text-muted h6 mt-3">
-                Fragrance Load (%)
+      {/* FRAGRANCE LOAD & UNIT SELECT */}
+      <Form.Group>
+        <Container>
+          <Row>
+            <Col sm={6} className="mt-3">
+              <Form.Label className="text-muted h6">
+                Fragrance Load (%) <span className="text-danger">*</span>
               </Form.Label>
               <Form.Control
+                name="fragranceLoad"
                 type="number"
-                placeholder="Enter fragrance load"
-                required
                 step=".01"
+                min="0"
+                placeholder="Enter fragrance load percentage"
+                defaultValue={formData.fragranceLoad}
+                required
               />
               <Form.Control.Feedback type="invalid">
-                Please enter a fragrance load percentage. Numbers only.
+                Please provide fragrance load
               </Form.Control.Feedback>
             </Col>
-          </Row>
-        </Container>
-      </Form.Group>
-
-      <Form.Group>
-        <Container fluid>
-          <Row>
-            <Col>
-              <Form.Label className="text-muted h6 mt-3">Notes </Form.Label>
-              <Form.Control as="textarea" rows="3" placeholder="Enter notes" />
+            <Col sm={6}>
+              <UnitSelect defaultValue={formData.unit} />
             </Col>
           </Row>
         </Container>
       </Form.Group>
 
-      <ButtonGroup className="mt-3 d-flex gap-3 p-2">
-        <Button variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </ButtonGroup>
+      {/* NOTE */}
+      <Form.Group className="mt-1">
+        <Container>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6">Note</Form.Label>
+              <Form.Control as="textarea" rows="3" name="note" />
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      {/* BUTTONS */}
+      <Container className="d-flex justify-content-end mt-4 mb-2">
+        <Row>
+          <Col sm={6}>
+            <Button type="button" variant="outline-dark" onClick={handleClose}>
+              Cancel
+            </Button>
+          </Col>
+
+          <Col sm={6}>
+            <Button type="submit" variant="primary">
+              Save
+            </Button>
+          </Col>
+        </Row>
+      </Container>
     </Form>
   );
 }
 
+/* PROP TYPES */
 FormulaForm.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  validated: PropTypes.bool.isRequired,
+  formData: PropTypes.object.isRequired,
 };

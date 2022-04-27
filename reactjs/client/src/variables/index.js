@@ -24,9 +24,21 @@ const productData = {
   materials: [],
 };
 
+const formulaData = {
+  name: '',
+  containerSize: '',
+  containerFill: '',
+  fragranceLoad: '',
+  fragranceAmount: '',
+  waxAmount: '',
+  unit: '',
+  note: '',
+};
+
 const vars = {
   formData,
   productData,
+  formulaData,
 };
 
 export default vars;

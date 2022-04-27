@@ -7,6 +7,7 @@ import materialReducer from './features/material/materialSlice';
 import categoryReducer from './features/category/categorySlice';
 import supplierReducer from './features/supplier/supplierSlice';
 import productReducer from './features/product/productSlice';
+import formulaReducer from './features/formula/formulaSlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
     category: categoryReducer,
     supplier: supplierReducer,
     product: productReducer,
+    formula: formulaReducer,
   },
 });

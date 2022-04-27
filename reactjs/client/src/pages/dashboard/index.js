@@ -14,6 +14,7 @@ export default function Dashboard() {
 
   const { materials } = useSelector((state) => state.material);
   const { products } = useSelector((state) => state.product);
+  const { formulas } = useSelector((state) => state.formula);
 
   return (
     <>
@@ -59,7 +60,11 @@ export default function Dashboard() {
           </Col>
 
           <Col sm={12} lg={3}>
-            <DashboardCard title="Formulas" itemCount={0} linkTo="/products" />
+            <DashboardCard
+              title="Formulas"
+              itemCount={formulas ? formulas.length : 0}
+              linkTo="/formulas"
+            />
           </Col>
         </Row>
       </Container>
