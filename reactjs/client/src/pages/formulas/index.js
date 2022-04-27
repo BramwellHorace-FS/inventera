@@ -7,6 +7,7 @@ import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import FormulaForm from '../../components/forms/formulas';
+import FormulaTable from '../../components/tables/formula';
 import {
   updateFormula,
   deleteFormula,
@@ -30,6 +31,15 @@ export default function Formulas() {
   const { user } = useSelector((state) => state.auth);
 
   const { token } = user;
+
+  /* HANDLE SELECT */
+  const handleSelect = (e, id) => {
+    if (e.target.checked) {
+      setSelected([...selected, id]);
+    } else {
+      setSelected(selected.filter((item) => item !== id));
+    }
+  };
 
   /* HANDLE CHANGE */
   const handleChange = (e) => {
@@ -171,6 +181,24 @@ export default function Formulas() {
             )}
           </ButtonGroup>
         )}
+
+        {/* FORMULA TABLE */}
+        <FormulaTable handleSelect={handleSelect} />
+
+        {/* MODAL TO CREATE OR EDIT FORMULA */}
+        <SiteModal
+          show={show}
+          handleClose={handleClose}
+          modalTitle={selected.length === 1 ? 'Edit Formula' : 'Add Formula'}
+        >
+          <FormulaForm
+            handleSubmit={handleSubmit}
+            handleChange={handleChange}
+            handleClose={handleClose}
+            formData={formData}
+            validated={validated}
+          />
+        </SiteModal>
       </Container>
     </>
   );

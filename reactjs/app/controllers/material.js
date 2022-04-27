@@ -172,7 +172,11 @@ exports.deleteOne = async (req, res, next) => {
 
     await material.destroy();
 
-    res.status(204).end();
+    res.status(200).json({
+      status: 'success',
+      message: 'Material deleted successfully',
+      material,
+    });
   } catch (err) {
     next(err);
   }

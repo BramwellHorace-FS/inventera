@@ -7,14 +7,14 @@ export default function FormulaTable({ handleSelect }) {
   const { formulas, loading, success } = useSelector((state) => state.formula);
 
   return (
-    <Table response className="nowrap">
+    <Table responsive className="nowrap">
       <thead>
         <tr>
           <th>Name</th>
           <th>Container Fill</th>
           <th>Fragrance Load</th>
           <th>Wax Weight</th>
-          <th colSpan="5"> Notes</th>
+          <th> Notes</th>
         </tr>
       </thead>
       <tbody>
