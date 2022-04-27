@@ -5,8 +5,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { BsArrowRight } from 'react-icons/bs';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
-// import SiteModal from '../../components/modal';
-// import MaterialForm from '../../components/forms/materials';
 import DashboardCard from '../../components/cards/dashboard';
 import MiniList from '../../components/list/dashboard';
 import styles from './styles.module.css';
@@ -15,6 +13,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const { materials } = useSelector((state) => state.material);
+  const { products } = useSelector((state) => state.product);
 
   return (
     <>
@@ -44,7 +43,11 @@ export default function Dashboard() {
             />
           </Col>
           <Col sm={12} lg={3}>
-            <DashboardCard title="Products" itemCount={0} linkTo="/products" />
+            <DashboardCard
+              title="Products"
+              itemCount={products ? products.length : 0}
+              linkTo="/products"
+            />
           </Col>
 
           <Col sm={12} lg={3}>
@@ -86,14 +89,29 @@ export default function Dashboard() {
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/materials"
               >
-                View All Materials <BsArrowRight />
+                View All Materials
+                <BsArrowRight />
               </Link>
             </Container>
           </Col>
           <Col sm={6}>
             <Container className="p-0 mt-3">
               <h4 className="mb-3">Products</h4>
-              <p>No products found.</p>
+              {!products || products.length === 0 ? (
+                <p>No products found.</p>
+              ) : (
+                products &&
+                products.length > 0 &&
+                products.map((product) => (
+                  <MiniList
+                    key={product.id}
+                    stock={Number(product.stock)}
+                    unit={product.unit.abbr}
+                    minStock={Number(product.minStock)}
+                    name={product.name}
+                  />
+                ))
+              )}
               <Link
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/products"

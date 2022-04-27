@@ -1,47 +1,24 @@
 import React, { useState } from 'react';
-import {
-  Form,
-  Button,
-  ButtonGroup,
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import validateForm from '../../../utils/validateForm';
 import UnitSelect from '../unitSelect';
+import CategorySelect from '../categorySelect';
 
-export default function ProductForm({ handleClose }) {
-  const [validated, setValidated] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    stock: '',
-    minStock: '',
-    price: '',
-    sku: '',
-    category: '',
-    unit: '',
-    matUnit: '',
-    material: '',
-  });
+export default function ProducForm({
+  handleChange,
+  handleSubmit,
+  handleClose,
+  validated,
+  formData,
+  handleSelect,
+}) {
+  const [createCat, setCreateCat] = useState(false);
 
-  // Redux State
-  // const { products, status } = useSelector((state) => state);
+  const { materials } = useSelector((state) => state.material);
 
-  // Redux Dispatch
-  // const dispatch = useDispatch();
-
-  // handleChange
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // handleSubmit
-  const handleSubmit = (e) => {
-    validateForm(e, setValidated);
+  const handleCreateCat = () => {
+    setCreateCat(!createCat);
   };
 
   return (
@@ -51,162 +28,200 @@ export default function ProductForm({ handleClose }) {
       onSubmit={handleSubmit}
       onChange={handleChange}
     >
-      <Container fluid>
-        {/* PRODUCT NAME */}
+      {/* PRODUCT NAME */}
+      <Form.Group>
+        <Container>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6">
+                Product Name <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
+                name="name"
+                type="text"
+                placeholder="Product Name"
+                defaultValue={formData.name}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a product name.
+              </Form.Control.Feedback>
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      {/* STOCK & MIN STOCK */}
+      <Form.Group className="mt-3">
+        <Container>
+          <Row>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Stock <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
+                name="stock"
+                type="number"
+                step=".01"
+                placeholder="Enter stock level"
+                defaultValue={formData.stock}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide stock level
+              </Form.Control.Feedback>
+            </Col>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Min. Stock <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
+                name="minStock"
+                type="number"
+                step=".01"
+                placeholder="Enter stock level"
+                defaultValue={formData.minStock}
+                required
+              />
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      {/* UNIT TYPE & CATEGORY */}
+      <Form.Group className="mt-1">
+        <Container>
+          <Row>
+            {/* unit type */}
+            <Col sm={6}>
+              <UnitSelect defaultValue={formData.unit} />
+            </Col>
+            {/* category select */}
+            <Col sm={6} className="mt-2">
+              {!createCat ? (
+                <>
+                  <CategorySelect defaultValue={formData.categoryId} />
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateCat}
+                  >
+                    Create new category
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Form.Label className="text-muted h6">
+                    Category <span className="text-danger">*</span>
+                  </Form.Label>
+                  <Form.Control
+                    name="category"
+                    type="text"
+                    placeholder="Category"
+                    required
+                    defaultValue=""
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a category.
+                  </Form.Control.Feedback>
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-0"
+                    onClick={handleCreateCat}
+                  >
+                    Select existing category
+                  </button>
+                </>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      {/* UNIT COST & SKU */}
+      <Form.Group className="mt-1">
+        <Container>
+          <Row>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Unit Cost <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
+                name="unitCost"
+                type="number"
+                step=".01"
+                placeholder="Enter unit cost"
+                defaultValue={formData.unitCost}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter a unit cost
+              </Form.Control.Feedback>
+            </Col>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6"> SKU </Form.Label>
+              <Form.Control
+                name="sku"
+                text="text"
+                placeholder="SKU"
+                defaultValue={formData.sku}
+              />
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      {/* MATERIALS USED */}
+      <Form.Group className="mt-3">
+        <Container>
+          <Row>
+            <Col sm={12}>
+              <Form.Label className="text-muted h6">
+                Select Material(s)
+              </Form.Label>
+              <Form.Select
+                name="materials"
+                multiple
+                onChange={handleSelect}
+                defaultValue={formData.materials}
+              >
+                {materials &&
+                  materials.map((material) => (
+                    <option key={material.id} value={material.id}>
+                      {material.name}
+                    </option>
+                  ))}
+              </Form.Select>
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      <Container className="d-flex justify-content-end mt-4 mb-2">
         <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">Product Name</Form.Label>
-            <Form.Control
-              name="name"
-              type="text"
-              placeholder="Product Name"
-              defaultValue={formData.name}
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              {' '}
-              Please enter a product name.{' '}
-            </Form.Control.Feedback>
+          <Col sm={6}>
+            <Button type="button" variant="outline-dark" onClick={handleClose}>
+              Cancel
+            </Button>
           </Col>
-        </Row>
-        {/* STOCK LEVEL */}
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">Stock</Form.Label>
-            <Form.Control
-              name="stock"
-              type="number"
-              placeholder="Stock"
-              defaultValue={formData.stock}
-              min="0"
-              step=".01"
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              {' '}
-              Please enter a stock.{' '}
-            </Form.Control.Feedback>
-          </Col>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">Min Stock</Form.Label>
-            <Form.Control
-              name="minStock"
-              type="number"
-              placeholder="Min Stock"
-              defaultValue={formData.minStock}
-              min="0"
-              step=".01"
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              {' '}
-              Please enter a min stock.{' '}
-            </Form.Control.Feedback>
-          </Col>
-        </Row>
-        {/* UNIT & CATEGORY */}
-        <Row>
-          <Col>
-            <UnitSelect defaultValue={formData.unit} />
-          </Col>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">Category</Form.Label>
-            <Form.Control
-              name="category"
-              placeholder="Select Category"
-              defaultValue={formData.category}
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              {' '}
-              Please enter a category.{' '}
-            </Form.Control.Feedback>
-          </Col>
-        </Row>
-        {/* UNIT COST & SKU */}
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">Unit Cost</Form.Label>
-            <Form.Control
-              name="price"
-              type="number"
-              placeholder="Unit Cost"
-              defaultValue={formData.price}
-              min="0"
-              step=".01"
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              {' '}
-              Please enter a valid unit cost.{' '}
-            </Form.Control.Feedback>
-          </Col>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">SKU</Form.Label>
-            <Form.Control
-              name="sku"
-              type="text"
-              placeholder="SKU"
-              defaultValue={formData.sku}
-            />
-          </Col>
-        </Row>
-        {/* MATERIAL USED */}
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">
-              Materials Used
-            </Form.Label>
-            <Form.Select
-              name="material"
-              defaultValue={formData.material}
-              required
-              arial-label="Select material"
-            >
-              <option value="">Select Material</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              Please select a material.
-            </Form.Control.Feedback>
-          </Col>
-        </Row>
-        {/* AMOUNT & UNIT */}
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">Amount </Form.Label>
-            <Form.Control type="number" placeholder="0" required />
-            <Form.Control.Feedback type="invalid">
-              Please enter an amount.
-            </Form.Control.Feedback>
-          </Col>
-          <Col>
-            <UnitSelect defaultValue={formData.matUnit} />
-          </Col>
-        </Row>
-      </Container>
-      {/* ADD MORE MATERIAL */}
-      <Container fluid className="mt-3">
-        <Row>
-          <Col>
-            <Button type="button" variant="secondary">
-              Add Material
+
+          <Col sm={6}>
+            <Button type="submit" variant="primary">
+              Save
             </Button>
           </Col>
         </Row>
       </Container>
-      {/* BUTTONS */}
-      <ButtonGroup className="mt-3 d-flex gap-3 p-2">
-        <Button variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </ButtonGroup>
     </Form>
   );
 }
 
-ProductForm.propTypes = {
+// PropTypes
+ProducForm.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  validated: PropTypes.bool.isRequired,
+  formData: PropTypes.object.isRequired,
+  handleSelect: PropTypes.func.isRequired,
 };

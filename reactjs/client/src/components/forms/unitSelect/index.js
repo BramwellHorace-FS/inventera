@@ -8,7 +8,9 @@ function UnitSelect({ defaultValue }) {
 
   return (
     <>
-      <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
+      <Form.Label className="text-muted h6 mt-3">
+        Unit Type <span className="text-danger">*</span>
+      </Form.Label>
       <Form.Select
         name="unit"
         placeholder="Select Unit Type"

@@ -51,13 +51,26 @@ exports.getOne = async (req, res, next) => {
 // POST /api/products
 exports.create = async (req, res, next) => {
   try {
-    const product = await Product.create({
-      id: uuidv4(),
-      ...req.body,
-      userId: req.user.id,
-    });
+    if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
+      const category = await Category.create({
+        id: uuidv4(),
+        name: req.body.category,
+        userId: req.user.id,
+      });
 
-    res.status(201).json({
+      req.body.categoryId = category.id;
+    }
+
+    const data = {
+      ...req.body,
+      unitId: req.body.unit,
+      userId: req.user.id,
+      id: uuidv4(),
+    };
+
+    const product = await Product.create(data);
+
+    res.status(200).json({
       status: 'success',
       message: 'Product created successfully',
       product,
@@ -70,21 +83,51 @@ exports.create = async (req, res, next) => {
 // PUT /api/products/:id
 exports.update = async (req, res, next) => {
   try {
+    console.log(req.body);
+
+    if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
+      const category = await Category.create({
+        id: uuidv4(),
+        name: req.body.category,
+        userId: req.user.id,
+      });
+
+      req.body.categoryId = category.id;
+    }
+
+    const data = {
+      ...req.body,
+      unitId: req.body.unit,
+      userId: req.user.id,
+    };
+
     const product = await Product.findByPk(req.params.id, {
       where: { userId: req.user.id },
-      include: [
-        { model: Unit, as: 'unit' },
-        { model: Category, as: 'category' },
-      ],
     });
 
-    await product.update(req.body);
+    await product.update(data);
 
     res.status(200).json({
       status: 'success',
       message: 'Product updated successfully',
       product,
     });
+
+    // const product = await Product.findByPk(req.params.id, {
+    //   where: { userId: req.user.id },
+    //   include: [
+    //     { model: Unit, as: 'unit' },
+    //     { model: Category, as: 'category' },
+    //   ],
+    // });
+
+    // await product.update(req.body);
+
+    // res.status(200).json({
+    //   status: 'success',
+    //   message: 'Product updated successfully',
+    //   product,
+    // });
   } catch (err) {
     next(err);
   }
