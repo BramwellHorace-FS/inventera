@@ -1,20 +1,182 @@
-import React, { useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { Container, Row, Col, ButtonGroup, Button } from 'react-bootstrap';
 import { BsPlusLg } from 'react-icons/bs';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import ProductForm from '../../components/forms/products';
-import ProductList from '../../components/list/products';
+import ProductTable from '../../components/tables/product';
+import vars from '../../variables';
+
+import {
+  getProducts,
+  getProduct,
+  updateProduct,
+  createProduct,
+  deleteProduct,
+} from '../../redux/features/product/productSlice';
 
 export default function Products() {
   const [show, setShow] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [formData, setFormData] = useState(vars.productData);
+  const [validated, setValidated] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const { product, error, success } = useSelector((state) => state.product);
+  const { user } = useSelector((state) => state.auth);
+
+  const { token } = user;
+
+  /* HANDLE CHANGE */
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  /* HANDLE DELETE */
+  const handleDelete = () => {
+    const productsToDelete = [...selected];
+
+    if (productsToDelete.length > 0) {
+      productsToDelete.forEach((id) => {
+        const data = {
+          productId: id,
+          token,
+        };
+
+        dispatch(deleteProduct(data));
+      });
+
+      dispatch(getProducts(token));
+
+      setSelected([]);
+
+      if (success) {
+        toast.success('Product(s) deleted successfully');
+      }
+    }
+  };
+
+  /* HANDLE EDIT */
+  const handleEdit = () => {
+    handleShow();
+    setFormData({
+      ...product,
+      unit: product.unit.id,
+      category: product.categoryId,
+    });
+  };
+
+  /* HANDLE SELECT */
+  const handleSelect = (e, id) => {
+    const selectedProducts = [...selected];
+
+    if (e.target.checked) {
+      selectedProducts.push(id);
+    } else {
+      selectedProducts.splice(selectedProducts.indexOf(id), 1);
+      setFormData(vars.productData);
+    }
+
+    setSelected(selectedProducts);
+  };
+
+  /* HANDLE CREATE */
+  const handleCreate = () => {
+    const data = {
+      product: {
+        ...formData,
+      },
+      token,
+    };
+
+    dispatch(createProduct(data));
+
+    setFormData(vars.productData);
+
+    if (success) {
+      toast.success('Product created successfully');
+    }
+  };
+
+  /* HANDLE UPDATE */
+  const handleUpdate = () => {
+    const id = selected[0];
+
+    const data = {
+      token,
+      productId: id,
+      product: {
+        ...formData,
+      },
+    };
+
+    dispatch(updateProduct(data));
+
+    setFormData(vars.productData);
+
+    if (success) {
+      toast.success('Product updated successfully');
+    }
+  };
+
+  /* HANDLE SUBMIT */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
+    } else {
+      const selectedProducts = [...selected];
+
+      if (selectedProducts.length === 1) {
+        handleUpdate();
+      } else {
+        handleCreate();
+      }
+
+      setFormData(vars.productData);
+
+      handleClose();
+
+      dispatch(getProducts(token));
+    }
+  };
+
+  /* GET SINGLE PRODUCT IF SELECTED & DISPAYS ERRORS */
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+
+    if (selected && selected.length === 1) {
+      const id = selected[0];
+      const data = {
+        productId: id,
+        token,
+      };
+
+      dispatch(getProduct(data));
+    }
+  }, [error, selected, token, dispatch]);
+
+  /* GET PRODUCTS */
+  useEffect(() => {
+    dispatch(getProducts(token));
+  }, [token, dispatch, product]);
+
   return (
     <>
+      {/* PAGE HEADER */}
       <PageHeader>
         <Container>
           <Row>
@@ -24,22 +186,45 @@ export default function Products() {
             <Col sm={6} className="d-flex justify-content-end">
               <PrimaryButton onClick={handleShow}>
                 <BsPlusLg />
-                Add Product
+                <span>Add Product</span>
               </PrimaryButton>
             </Col>
           </Row>
         </Container>
       </PageHeader>
-      <SiteModal show={show} handleClose={handleClose} modalTitle="Add Product">
-        <ProductForm handleClose={handleClose} />
-      </SiteModal>
 
-      <Container className="mt-5">
-        <Row>
-          <Col sm={12}>
-            <ProductList />
-          </Col>
-        </Row>
+      {/* BUTTONS TO EDIT AND DELETE PRODUCTS */}
+      <Container className="mt-3">
+        {selected.length > 0 && (
+          <ButtonGroup className="mt-3">
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+            {selected.length === 1 && (
+              <Button variant="outline-dark" onClick={handleEdit}>
+                Edit
+              </Button>
+            )}
+          </ButtonGroup>
+        )}
+
+        {/* TABLE OF PRODUCTS */}
+        <ProductTable handleSelect={handleSelect} />
+
+        {/* MODAL TO CREATE OR EDIT PRODUCT */}
+        <SiteModal
+          show={show}
+          handleClose={handleClose}
+          modalTitle={selected.length === 1 ? 'Edit Product' : 'Add Product'}
+        >
+          <ProductForm
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            handleClose={handleClose}
+            validated={validated}
+            formData={formData}
+          />
+        </SiteModal>
       </Container>
     </>
   );

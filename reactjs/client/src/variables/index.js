@@ -12,8 +12,21 @@ const formData = {
   lastOrdered: '',
 };
 
+const productData = {
+  name: '',
+  stock: '',
+  minStock: '',
+  unitCost: '',
+  unit: '',
+  category: '',
+  categoryId: '',
+  sku: '',
+  material: '',
+};
+
 const vars = {
   formData,
+  productData,
 };
 
 export default vars;

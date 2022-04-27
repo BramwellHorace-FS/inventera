@@ -5,7 +5,6 @@ import { BsPlusLg } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import PrimaryButton from '../../components/buttons/primary';
 import PageHeader from '../../components/header';
-import validateForm from '../../utils/validateForm';
 import SiteModal from '../../components/modal';
 import MaterialForm from '../../components/forms/materials';
 import MaterialTable from '../../components/tables/material';
@@ -158,9 +157,6 @@ export default function Materials() {
       if (formData.lastOrdered) {
         lastOrdered = new Date(formData.lastOrdered);
       }
-
-      // validate form
-      validateForm(e, setValidated);
 
       if (selectedMaterials.length === 1) {
         handleUpdate(lastOrdered);

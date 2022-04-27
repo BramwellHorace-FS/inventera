@@ -17,6 +17,7 @@ import { fetchBoards } from '../redux/features/productionBoard/productionBoardSl
 import { getMaterials } from '../redux/features/material/materialSlice';
 import { getCategories } from '../redux/features/category/categorySlice';
 import { getSuppliers } from '../redux/features/supplier/supplierSlice';
+import { getProducts } from '../redux/features/product/productSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -39,6 +40,7 @@ export default function Layout({ children }) {
       dispatch(getMaterials(user.token));
       dispatch(getCategories(user.token));
       dispatch(getSuppliers(user.token));
+      dispatch(getProducts(user.token));
     }
   }, [dispatch, user]);
 
