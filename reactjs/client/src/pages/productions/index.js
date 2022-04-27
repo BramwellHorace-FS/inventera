@@ -16,6 +16,7 @@ export default function Productions() {
   const handleShow = () => setShow(true);
 
   const { boards } = useSelector((state) => state.board);
+  const { productions } = useSelector((state) => state.production);
 
   return (
     <>
@@ -48,7 +49,9 @@ export default function Productions() {
             <ProductionBoard
               key={board.id}
               title={board.name}
-              items={board.productions}
+              items={productions.filter(
+                (production) => production.productionBoardId === board.id,
+              )}
             />
           ))}
       </Container>

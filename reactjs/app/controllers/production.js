@@ -1,4 +1,4 @@
-const { Production } = require('../../db/models');
+const { Production, Unit } = require('../../db/models');
 const { v4: uuidv4 } = require('uuid');
 const { CustomError } = require('../utils/errors');
 
@@ -7,6 +7,12 @@ exports.getAll = async (req, res, next) => {
   try {
     const productions = await Production.findAll({
       where: { userId: req.user.id },
+      include: [
+        {
+          model: Unit,
+          as: 'unit',
+        },
+      ],
     });
 
     res.status(200).json({
@@ -24,6 +30,12 @@ exports.getOne = async (req, res, next) => {
   try {
     const production = await Production.findByPk(req.params.id, {
       where: { userId: req.user.id },
+      include: [
+        {
+          model: Unit,
+          as: 'unit',
+        },
+      ],
     });
 
     if (!production) {
@@ -64,6 +76,12 @@ exports.update = async (req, res, next) => {
   try {
     const production = await Production.findByPk(req.params.id, {
       where: { userId: req.user.id },
+      include: [
+        {
+          model: Unit,
+          as: 'unit',
+        },
+      ],
     });
 
     await production.update(req.body);

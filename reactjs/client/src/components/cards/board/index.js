@@ -22,7 +22,7 @@ export default function ProductionBoard({ title, items }) {
               title={item.name}
               dueDate={item.dueDate}
               itemCount={item.quantity}
-              itemUnit={item.itemUnit}
+              itemUnit={item.unit ? item.unit.name : 'pcs'}
             />
           ))}
         {items.length === 0 && (
@@ -44,7 +44,7 @@ ProductionBoard.propTypes = {
       name: PropTypes.string.isRequired,
       dueDate: PropTypes.string.isRequired,
       quantity: PropTypes.number.isRequired,
-      itemUnit: PropTypes.string.isRequired,
+      unit: PropTypes.shape({ name: PropTypes.string.isRequired }),
     }),
   ).isRequired,
 };

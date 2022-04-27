@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'productionBoardId',
         as: 'productionBoard',
       });
+
+      Production.belongsTo(models.Unit, {
+        foreignKey: 'unitId',
+        as: 'unit',
+      });
     }
   }
   Production.init(
@@ -70,6 +75,10 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Please enter a production board',
           },
         },
+      },
+      unitId: {
+        type: DataTypes.UUID,
+        allowNull: true,
       },
     },
     {
