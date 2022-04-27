@@ -29,7 +29,9 @@ export default function Materials() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { materials, material, error } = useSelector((state) => state.material);
+  const { materials, material, error, success } = useSelector(
+    (state) => state.material,
+  );
   const { user } = useSelector((state) => state.auth);
 
   const { token } = user;
@@ -45,9 +47,9 @@ export default function Materials() {
 
     // if materials selected, loop through and delete
     if (materialsToDelete.length > 0) {
-      materialsToDelete.forEach((mat) => {
+      materialsToDelete.forEach((id) => {
         const data = {
-          materialId: mat.id,
+          materialId: id,
           token,
         };
 
@@ -61,7 +63,9 @@ export default function Materials() {
       setSelected([]);
 
       // show successful message
-      toast.success('Material(s) deleted successfully.');
+      if (success) {
+        toast.success('Materials deleted successfully.');
+      }
     }
   };
 
@@ -71,8 +75,9 @@ export default function Materials() {
     setFormData({
       ...material,
       unit: material.unit.id,
-      category: material.category.id,
-      supplier: material.supplier.id,
+      category: material.categoryId,
+      supplier: material.supplierId,
+      lastOrdered: material.lastOrdered.substring(0, 10),
     });
   };
 
@@ -85,6 +90,7 @@ export default function Materials() {
       selectedMaterials.push(id);
     } else {
       selectedMaterials.splice(selectedMaterials.indexOf(id), 1);
+      setFormData(vars.formData);
     }
 
     setSelected(selectedMaterials);
@@ -93,24 +99,22 @@ export default function Materials() {
   /* HANDLE CREATE */
   const handleCreate = (date) => {
     const data = {
-      ...formData,
-      lastOrdered: date.toISOString(),
+      material: {
+        ...formData,
+        lastOrdered: date.toISOString(),
+      },
       token,
     };
 
     dispatch(createMaterial(data));
 
     // reset form
-    setFormData({});
-
-    // close modal
-    handleClose();
+    setFormData(vars.formData);
 
     // show successful message
-    toast.success('Material created successfully.');
-
-    // get materials
-    dispatch(getMaterials(token));
+    if (success) {
+      toast.success('Material created successfully.');
+    }
   };
 
   /* HANDLE UPDATE */
@@ -131,38 +135,48 @@ export default function Materials() {
     dispatch(updateMaterial(data));
 
     // reset form
-    setFormData({});
-
-    // close modal
-    handleClose();
+    setFormData(vars.formData);
 
     // show successful message
     toast.success('Material updated successfully.');
-
-    // update material list
-    dispatch(getMaterials(token));
   };
 
   /* HANDLE SUBMIT */
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const selectedMaterials = [...selected];
+    const form = e.currentTarget;
 
-    let lastOrdered;
-
-    if (formData.lastOrdered) {
-      lastOrdered = new Date(formData.lastOrdered);
-    }
-
-    if (selectedMaterials.length === 1) {
-      handleUpdate(lastOrdered);
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
     } else {
-      handleCreate(lastOrdered);
-    }
+      const selectedMaterials = [...selected];
 
-    // validate form
-    validateForm(e, setValidated);
+      let lastOrdered;
+
+      if (formData.lastOrdered) {
+        lastOrdered = new Date(formData.lastOrdered);
+      }
+
+      // validate form
+      validateForm(e, setValidated);
+
+      if (selectedMaterials.length === 1) {
+        handleUpdate(lastOrdered);
+      } else {
+        handleCreate(lastOrdered);
+      }
+
+      // reset form
+      setFormData(vars.formData);
+
+      // close modal
+      handleClose();
+
+      // dispatch get materials
+      dispatch(getMaterials(token));
+    }
   };
 
   useEffect(() => {
@@ -179,6 +193,10 @@ export default function Materials() {
       dispatch(getMaterial(data));
     }
   }, [error, dispatch, selected, token]);
+
+  useEffect(() => {
+    dispatch(getMaterials(token));
+  }, [dispatch, token, material]);
 
   return (
     <>

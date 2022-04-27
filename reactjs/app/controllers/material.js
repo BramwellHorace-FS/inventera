@@ -55,7 +55,7 @@ exports.create = async (req, res, next) => {
   try {
     console.log(req.body);
 
-    if (req.body.category.length !== 0) {
+    if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
       const category = await Category.create({
         name: req.body.category,
         userId: req.user.id,
@@ -65,7 +65,7 @@ exports.create = async (req, res, next) => {
       req.body.category = category.id;
     }
 
-    if (req.body.supplier.length !== 0) {
+    if (req.body.supplier && req.body.supplier.length !== 0 && !req.body.supplierId) {
       const supplier = await Supplier.create({
         name: req.body.supplier,
         userId: req.user.id,
@@ -107,7 +107,7 @@ exports.update = async (req, res, next) => {
   try {
     console.log(req.body);
 
-    if (req.body.category && req.body.category.length !== 0) {
+    if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
       const category = await Category.create({
         name: req.body.category,
         userId: req.user.id,
@@ -117,7 +117,7 @@ exports.update = async (req, res, next) => {
       req.body.category = category.id;
     }
 
-    if (req.body.supplier && req.body.supplier.length !== 0) {
+    if (req.body.supplier && req.body.supplier.length !== 0 && !req.body.supplierId) {
       const supplier = await Supplier.create({
         name: req.body.supplier,
         userId: req.user.id,
@@ -165,6 +165,7 @@ exports.update = async (req, res, next) => {
 // DELETE /api/materials/:id
 exports.deleteOne = async (req, res, next) => {
   try {
+    console.log(req.body);
     const material = await Material.findByPk(req.params.id, {
       where: { userId: req.user.id },
     });

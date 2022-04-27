@@ -233,7 +233,12 @@ export default function MaterialForm({
                 type="date"
                 placeholder="Enter Last Ordered"
                 defaultValue={formData.lastOrdered}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                {' '}
+                Please enter a last ordered date{' '}
+              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
@@ -257,9 +262,9 @@ MaterialForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   formData: PropTypes.shape({
     name: PropTypes.string,
-    stock: PropTypes.string,
-    minStock: PropTypes.string,
-    unitCost: PropTypes.string,
+    stock: PropTypes.any,
+    minStock: PropTypes.any,
+    unitCost: PropTypes.any,
     unit: PropTypes.string,
     category: PropTypes.string,
     supplier: PropTypes.string,
