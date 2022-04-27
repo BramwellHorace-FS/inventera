@@ -83,6 +83,9 @@ export default function ProducForm({
                 defaultValue={formData.minStock}
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide min stock level
+              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
