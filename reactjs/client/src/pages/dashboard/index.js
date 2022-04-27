@@ -39,7 +39,7 @@ export default function Dashboard() {
           <Col sm={12} lg={3}>
             <DashboardCard
               title="Materials"
-              itemCount={materials && materials.length}
+              itemCount={materials ? materials.length : 0}
               linkTo="/materials"
             />
           </Col>
@@ -67,7 +67,10 @@ export default function Dashboard() {
           <Col sm={6}>
             <Container className="ps-0 mt-3">
               <h4 className="mb-3">Materials</h4>
-              {materials &&
+              {!materials || materials.length === 0 ? (
+                <p>No materials found.</p>
+              ) : (
+                materials &&
                 materials.length > 0 &&
                 materials.map((material) => (
                   <MiniList
@@ -77,7 +80,8 @@ export default function Dashboard() {
                     minStock={Number(material.minStock)}
                     name={material.name}
                   />
-                ))}
+                ))
+              )}
               <Link
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/materials"
@@ -89,7 +93,7 @@ export default function Dashboard() {
           <Col sm={6}>
             <Container className="p-0 mt-3">
               <h4 className="mb-3">Products</h4>
-              <MiniList name="" stock={0} unit="" minStock={0} />
+              <p>No products found.</p>
               <Link
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/products"

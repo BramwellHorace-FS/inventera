@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Table, Form, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default function MaterialTable({ materials, handleSelect }) {
+export default function MaterialTable({
+  materials,
+  handleSelect,
+  loading,
+  success,
+}) {
   const [colors] = useState(['red', 'blue', 'green', 'yellow']);
 
   return (
@@ -20,11 +25,18 @@ export default function MaterialTable({ materials, handleSelect }) {
         </tr>
       </thead>
       <tbody>
-        {!materials.length && (
+        {loading && (
           <tr>
             <td colSpan={materials.length}>
               <Spinner animation="border" variant="primary" />
             </td>
+          </tr>
+        )}
+
+        {/* If no materials are found */}
+        {success && Object.keys(materials).length === 0 && (
+          <tr>
+            <p className="mt-3">No materials found.</p>
           </tr>
         )}
 
@@ -104,4 +116,6 @@ export default function MaterialTable({ materials, handleSelect }) {
 MaterialTable.propTypes = {
   materials: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleSelect: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
 };

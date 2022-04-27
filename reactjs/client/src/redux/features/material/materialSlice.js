@@ -118,6 +118,7 @@ export const materialSlice = createSlice({
     builder.addCase(getMaterials.fulfilled, (state, action) => {
       state.loading = false;
       state.materials = action.payload;
+      state.success = true;
     });
     builder.addCase(getMaterials.rejected, (state, action) => {
       state.loading = false;

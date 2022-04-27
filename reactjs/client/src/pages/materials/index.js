@@ -29,7 +29,7 @@ export default function Materials() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { materials, material, error, success } = useSelector(
+  const { materials, material, error, success, loading } = useSelector(
     (state) => state.material,
   );
   const { user } = useSelector((state) => state.auth);
@@ -229,7 +229,12 @@ export default function Materials() {
             )}
           </ButtonGroup>
         )}
-        <MaterialTable materials={materials} handleSelect={handleSelect} />
+        <MaterialTable
+          materials={materials}
+          handleSelect={handleSelect}
+          loading={loading}
+          success={success}
+        />
 
         <SiteModal
           show={show}
