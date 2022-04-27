@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import formulaService from './formulaService';
 
+/* INITIAL STATE */
 const initialState = {
   formulas: [],
   formula: {},
@@ -95,6 +96,7 @@ export const deleteFormula = createAsyncThunk(
   },
 );
 
+/* FORMULA SLICE */
 const formulaSlice = createSlice({
   name: 'formula',
   initialState,
@@ -103,6 +105,12 @@ const formulaSlice = createSlice({
       state.error = null;
       state.loading = false;
       state.success = false;
+    },
+    setFormulas: (state, action) => {
+      state.formulas = action.payload;
+    },
+    setFormula: (state, action) => {
+      state.formula = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -178,6 +186,6 @@ const formulaSlice = createSlice({
   },
 });
 
-export const { reset } = formulaSlice.actions;
+export const { reset, setFormula, setFormulas } = formulaSlice.actions;
 
 export default formulaSlice.reducer;

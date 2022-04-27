@@ -25,6 +25,7 @@
     "import/prefer-default-export": "off",
     "no-useless-return": "off",
     "react/forbid-prop-types": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-unused-vars": "off"
   }
 }
