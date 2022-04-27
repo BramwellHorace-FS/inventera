@@ -8,6 +8,7 @@ import categoryReducer from './features/category/categorySlice';
 import supplierReducer from './features/supplier/supplierSlice';
 import productReducer from './features/product/productSlice';
 import formulaReducer from './features/formula/formulaSlice';
+import productionReducer from './features/production/productionSlice';
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     supplier: supplierReducer,
     product: productReducer,
     formula: formulaReducer,
+    production: productionReducer,
   },
 });
