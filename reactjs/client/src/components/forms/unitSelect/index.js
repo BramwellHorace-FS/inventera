@@ -19,7 +19,7 @@ function UnitSelect({ defaultValue }) {
         <option value="">Select Unit Type</option>
         {units &&
           units.map((unit) => (
-            <option key={unit.id} value={unit.name}>
+            <option key={unit.id} value={unit.id}>
               {unit.name} ({unit.abbr})
             </option>
           ))}

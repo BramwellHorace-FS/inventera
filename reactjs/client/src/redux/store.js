@@ -3,6 +3,9 @@ import authReducer from './features/auth/authSlice';
 import userReducer from './features/user/userSlice';
 import unitReducer from './features/unit/unitSlice';
 import productionBoardReducer from './features/productionBoard/productionBoardSlice';
+import materialReducer from './features/material/materialSlice';
+import categoryReducer from './features/category/categorySlice';
+import supplierReducer from './features/supplier/supplierSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +13,8 @@ export const store = configureStore({
     user: userReducer,
     unit: unitReducer,
     board: productionBoardReducer,
+    material: materialReducer,
+    category: categoryReducer,
+    supplier: supplierReducer,
   },
 });
