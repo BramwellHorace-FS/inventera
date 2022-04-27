@@ -9,18 +9,19 @@ import SiteModal from '../../components/modal';
 import ProductForm from '../../components/forms/products';
 import ProductTable from '../../components/tables/product';
 import vars from '../../variables';
-
 import {
   getProducts,
-  getProduct,
   updateProduct,
   createProduct,
   deleteProduct,
+  reset,
+  getProduct,
 } from '../../redux/features/product/productSlice';
 
 export default function Products() {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
   const [formData, setFormData] = useState(vars.productData);
   const [validated, setValidated] = useState(false);
 
@@ -36,7 +37,11 @@ export default function Products() {
 
   /* HANDLE CHANGE */
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+      materials: selectedMaterials,
+    });
   };
 
   /* HANDLE DELETE */
@@ -57,8 +62,9 @@ export default function Products() {
 
       setSelected([]);
 
-      if (success) {
+      if (success && !error) {
         toast.success('Product(s) deleted successfully');
+        dispatch(reset());
       }
     }
   };
@@ -66,10 +72,12 @@ export default function Products() {
   /* HANDLE EDIT */
   const handleEdit = () => {
     handleShow();
+
     setFormData({
       ...product,
-      unit: product.unit.id,
-      category: product.categoryId,
+      category: '',
+      unit: product.unitId,
+      categoryId: product.categoryId,
     });
   };
 
@@ -87,6 +95,13 @@ export default function Products() {
     setSelected(selectedProducts);
   };
 
+  /* HANDLE MATERIALS SELECT */
+  const handleMaterialsSelect = (e) => {
+    const selectedOptions = [...e.target.selectedOptions].map((o) => o.value);
+
+    setSelectedMaterials(selectedOptions);
+  };
+
   /* HANDLE CREATE */
   const handleCreate = () => {
     const data = {
@@ -100,8 +115,9 @@ export default function Products() {
 
     setFormData(vars.productData);
 
-    if (success) {
+    if (success && !error) {
       toast.success('Product created successfully');
+      dispatch(reset());
     }
   };
 
@@ -121,8 +137,9 @@ export default function Products() {
 
     setFormData(vars.productData);
 
-    if (success) {
+    if (success && !error) {
       toast.success('Product updated successfully');
+      dispatch(reset());
     }
   };
 
@@ -156,16 +173,7 @@ export default function Products() {
   useEffect(() => {
     if (error) {
       toast.error(error);
-    }
-
-    if (selected && selected.length === 1) {
-      const id = selected[0];
-      const data = {
-        productId: id,
-        token,
-      };
-
-      dispatch(getProduct(data));
+      dispatch(reset());
     }
   }, [error, selected, token, dispatch]);
 
@@ -173,6 +181,20 @@ export default function Products() {
   useEffect(() => {
     dispatch(getProducts(token));
   }, [token, dispatch, product]);
+
+  /* SET PRODUCT */
+  useEffect(() => {
+    const selectedProducts = [...selected];
+
+    if (selectedProducts.length === 1) {
+      const data = {
+        productId: selectedProducts[0],
+        token,
+      };
+
+      dispatch(getProduct(data));
+    }
+  }, [selected]);
 
   return (
     <>
@@ -223,6 +245,7 @@ export default function Products() {
             handleClose={handleClose}
             validated={validated}
             formData={formData}
+            handleSelect={handleMaterialsSelect}
           />
         </SiteModal>
       </Container>

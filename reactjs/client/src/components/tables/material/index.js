@@ -84,7 +84,7 @@ export default function MaterialTable({
                   {material.minStock} {material.unit.abbr}
                 </span>
               </td>
-              <td>$ {material.unitCost}</td>
+              <td>$ {Number(material.unitCost).toFixed(2)}</td>
               <td>{material.sku}</td>
               <td>{material.supplier.name}</td>
               <td>

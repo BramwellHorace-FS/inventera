@@ -11,6 +11,7 @@ export default function ProducForm({
   handleClose,
   validated,
   formData,
+  handleSelect,
 }) {
   const [createCat, setCreateCat] = useState(false);
 
@@ -19,8 +20,6 @@ export default function ProducForm({
   const handleCreateCat = () => {
     setCreateCat(!createCat);
   };
-
-  console.log(handleClose);
 
   return (
     <Form
@@ -180,7 +179,12 @@ export default function ProducForm({
               <Form.Label className="text-muted h6">
                 Select Material(s)
               </Form.Label>
-              <Form.Select name="materials" multiple>
+              <Form.Select
+                name="materials"
+                multiple
+                onChange={handleSelect}
+                defaultValue={formData.materials}
+              >
                 {materials &&
                   materials.map((material) => (
                     <option key={material.id} value={material.id}>
@@ -219,4 +223,5 @@ ProducForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
   validated: PropTypes.bool.isRequired,
   formData: PropTypes.object.isRequired,
+  handleSelect: PropTypes.func.isRequired,
 };

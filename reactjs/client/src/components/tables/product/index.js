@@ -21,7 +21,7 @@ export default function ProductTable({ handleSelect }) {
         </tr>
       </thead>
       <tbody>
-        {loading && (
+        {loading && products && (
           <tr>
             <td colSpan={products.length}>
               <Spinner animation="border" variant="primary" />
@@ -30,7 +30,7 @@ export default function ProductTable({ handleSelect }) {
         )}
 
         {/* If no products are found */}
-        {success && Object.keys(products).length === 0 && (
+        {success && products && Object.keys(products).length === 0 && (
           <tr>
             <p className="mt-3">No products found.</p>
           </tr>
@@ -81,7 +81,7 @@ export default function ProductTable({ handleSelect }) {
                     {product.minStock} {product.unit.abbr}
                   </span>
                 </td>
-                <td>{product.unitCost}</td>
+                <td>$ {Number(product.unitCost).toFixed(2)}</td>
                 <td>{product.sku}</td>
                 <td>
                   <span

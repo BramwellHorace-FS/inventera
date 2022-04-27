@@ -21,7 +21,7 @@ const productData = {
   category: '',
   categoryId: '',
   sku: '',
-  material: '',
+  materials: [],
 };
 
 const vars = {

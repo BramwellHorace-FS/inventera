@@ -99,7 +99,16 @@ export const deleteProduct = createAsyncThunk(
 const productSlice = createSlice({
   name: 'product',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.loading = false;
+      state.error = null;
+      state.success = null;
+    },
+    setProduct: (state, action) => {
+      state.product = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, (state) => {
       state.loading = true;
@@ -136,13 +145,14 @@ const productSlice = createSlice({
       state.success = null;
     });
     builder.addCase(createProduct.fulfilled, (state, action) => {
-      state.products.push(action.payload);
+      state.product = action.payload;
       state.loading = false;
       state.success = true;
     });
     builder.addCase(createProduct.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
+      state.success = false;
     });
     builder.addCase(updateProduct.pending, (state) => {
       state.loading = true;
@@ -150,10 +160,7 @@ const productSlice = createSlice({
       state.success = null;
     });
     builder.addCase(updateProduct.fulfilled, (state, action) => {
-      const index = state.products.findIndex(
-        (product) => product.id === action.payload.id,
-      );
-      state.products[index] = action.payload;
+      state.product = action.payload;
       state.loading = false;
       state.success = true;
     });
@@ -167,18 +174,18 @@ const productSlice = createSlice({
       state.success = null;
     });
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
-      const index = state.products.findIndex(
-        (product) => product.id === action.payload.id,
-      );
-      state.products.splice(index, 1);
+      state.product = action.payload;
       state.loading = false;
       state.success = true;
     });
     builder.addCase(deleteProduct.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
+      state.success = false;
     });
   },
 });
+
+export const { reset, setProduct } = productSlice.actions;
 
 export default productSlice.reducer;
