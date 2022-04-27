@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Form, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function MaterialTable({ materials, handleSelect }) {
+  const [colors] = useState(['red', 'blue', 'green', 'yellow']);
+
   return (
     <Table responsive className="nowrap">
       <thead>
@@ -35,19 +37,61 @@ export default function MaterialTable({ materials, handleSelect }) {
                   <Form.Check.Input
                     onChange={(e) => handleSelect(e, material.id)}
                   />
-                  <Form.Check.Label>{material.name}</Form.Check.Label>
+                  <Form.Check.Label>
+                    <span
+                      className={
+                        Number(material.stock) < Number(material.minStock)
+                          ? 'text-danger'
+                          : ''
+                      }
+                    >
+                      {material.name}
+                    </span>
+                  </Form.Check.Label>
                 </Form.Check>
               </td>
               <td>
-                {material.stock} {material.unit.abbr}
+                <span
+                  className={
+                    Number(material.stock) < Number(material.minStock)
+                      ? 'text-danger'
+                      : ''
+                  }
+                >
+                  {material.stock} {material.unit.abbr}
+                </span>
               </td>
               <td>
-                {material.minStock} {material.unit.abbr}
+                <span
+                  className={
+                    Number(material.stock) < Number(material.minStock)
+                      ? 'text-danger'
+                      : ''
+                  }
+                >
+                  {material.minStock} {material.unit.abbr}
+                </span>
               </td>
               <td>$ {material.unitCost}</td>
               <td>{material.sku}</td>
               <td>{material.supplier.name}</td>
-              <td>{material.category.name}</td>
+              <td>
+                <span
+                  className={`badge badge-${
+                    material.category.name.length === 4
+                      ? colors[0]
+                      : material.category.name.length === 5
+                      ? colors[1]
+                      : material.category.name.length === 6
+                      ? colors[2]
+                      : material.category.name.length >= 7
+                      ? colors[3]
+                      : 'secondary'
+                  }`}
+                >
+                  {material.category.name}
+                </span>
+              </td>
               <td>{material.lastOrdered}</td>
             </tr>
           ))}

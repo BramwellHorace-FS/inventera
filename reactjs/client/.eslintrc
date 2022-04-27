@@ -24,6 +24,7 @@
     "no-param-reassign": [2, { "props": false }],
     "import/prefer-default-export": "off",
     "no-useless-return": "off",
-    "react/forbid-prop-types": "off"
+    "react/forbid-prop-types": "off",
+    "no-nested-ternary": "off"
   }
 }
