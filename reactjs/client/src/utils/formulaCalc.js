@@ -1,5 +1,5 @@
 /* FORMULA CALCULATION */
-export const fragranceCalc = (formData) => {
+export const formulaCalc = (formData) => {
   const { containerFill, fragranceLoad } = formData;
 
   let waxAmount = 0;

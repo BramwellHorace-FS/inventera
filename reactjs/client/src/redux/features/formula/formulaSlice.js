@@ -8,6 +8,7 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
+  message: '',
 };
 
 /* GET FORMULAS */
@@ -105,6 +106,7 @@ const formulaSlice = createSlice({
       state.error = null;
       state.loading = false;
       state.success = false;
+      state.message = '';
     },
     setFormulas: (state, action) => {
       state.formulas = action.payload;
@@ -137,6 +139,7 @@ const formulaSlice = createSlice({
     builder.addCase(getFormula.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
+      state.success = false;
     });
     builder.addCase(createFormula.pending, (state) => {
       state.loading = true;
@@ -146,6 +149,7 @@ const formulaSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.success = true;
+      state.message = 'Formula created successfully';
     });
     builder.addCase(createFormula.rejected, (state, action) => {
       state.error = action.payload;
@@ -162,6 +166,7 @@ const formulaSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.success = true;
+      state.message = 'Formula updated successfully';
     });
     builder.addCase(updateFormula.rejected, (state, action) => {
       state.error = action.payload;
@@ -178,6 +183,7 @@ const formulaSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.success = true;
+      state.message = 'Formula deleted successfully';
     });
     builder.addCase(deleteFormula.rejected, (state, action) => {
       state.error = action.payload;

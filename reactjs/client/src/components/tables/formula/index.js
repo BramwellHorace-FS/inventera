@@ -47,8 +47,8 @@ export default function FormulaTable({ handleSelect }) {
                   </Form.Check>
                 </td>
                 <td> {formula.containerFill} oz </td>
-                <td> {formula.fragranceLoad} oz </td>
-                <td> {formula.waxAmount} oz </td>
+                <td> {Number(formula.fragranceAmount).toFixed(2)} oz </td>
+                <td> {Number(formula.waxAmount).toFixed(2)} oz </td>
                 <td> {formula.note} </td>
               </tr>
             ))}

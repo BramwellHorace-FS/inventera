@@ -12,9 +12,11 @@ import {
   updateFormula,
   deleteFormula,
   createFormula,
+  setFormula,
   reset,
 } from '../../redux/features/formula/formulaSlice';
 import vars from '../../variables';
+import { formulaCalc } from '../../utils/formulaCalc';
 
 export default function Formulas() {
   const [show, setShow] = useState(false);
@@ -27,7 +29,9 @@ export default function Formulas() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { formula, error, success } = useSelector((state) => state.formula);
+  const { formula, error, success, message, formulas } = useSelector(
+    (state) => state.formula,
+  );
   const { user } = useSelector((state) => state.auth);
 
   const { token } = user;
@@ -63,11 +67,15 @@ export default function Formulas() {
   const handleUpdate = () => {
     const id = selected[0];
 
+    const { fragranceAmount, waxAmount } = formulaCalc(formData);
+
     const data = {
       token,
       formulaId: id,
       formula: {
         ...formData,
+        fragranceAmount,
+        waxAmount,
       },
     };
 
@@ -95,19 +103,19 @@ export default function Formulas() {
       });
 
       setSelected([]);
-
-      if (success) {
-        toast.success('Formula(s) deleted successfully');
-        dispatch(reset());
-      }
     }
   };
 
   /* HANDLE CREATE */
   const handleCreate = () => {
+    const { fragranceAmount, waxAmount } = formulaCalc(formData);
+
     const data = {
       formula: {
         ...formData,
+        fragranceAmount,
+        waxAmount,
+        unitId: formData.unit,
       },
       token,
     };
@@ -115,11 +123,6 @@ export default function Formulas() {
     dispatch(createFormula(data));
 
     setFormData(vars.formulaData);
-
-    if (success) {
-      toast.success('Formula created successfully');
-      dispatch(reset());
-    }
   };
 
   /* HANDLE SUBMIT */
@@ -147,6 +150,30 @@ export default function Formulas() {
       dispatch(reset());
     }
   };
+
+  /* DISPLAYS ERROR & SUCCESS MESSAGES */
+  useEffect(() => {
+    if (success) {
+      toast.success(message);
+      dispatch(reset());
+    }
+
+    if (error) {
+      toast.error(error);
+      dispatch(reset());
+    }
+  }, [success, message, error, dispatch]);
+
+  /* SETS FORMULA IF ONE ID IS ADDED TO SELECTED */
+  useEffect(() => {
+    if (selected.length === 1) {
+      const id = selected[0];
+
+      const data = formulas.find((item) => item.id === id);
+
+      dispatch(setFormula(data));
+    }
+  }, [selected, dispatch, formulas]);
 
   return (
     <>
