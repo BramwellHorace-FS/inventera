@@ -105,6 +105,42 @@ exports.create = async (req, res, next) => {
 // create category is new and save to db
 exports.update = async (req, res, next) => {
   try {
+    console.log(req.body);
+
+    if (req.body.category && req.body.category.length !== 0) {
+      const category = await Category.create({
+        name: req.body.category,
+        userId: req.user.id,
+        id: uuidv4(),
+      });
+
+      req.body.category = category.id;
+    }
+
+    if (req.body.supplier && req.body.supplier.length !== 0) {
+      const supplier = await Supplier.create({
+        name: req.body.supplier,
+        userId: req.user.id,
+        id: uuidv4(),
+      });
+
+      req.body.supplier = supplier.id;
+    }
+
+    const data = {
+      name: req.body.name,
+      stock: Number(req.body.stock),
+      minStock: Number(req.body.minStock),
+      categoryId: req.body.categoryId || req.body.category,
+      supplierId: req.body.supplierId || req.body.supplier,
+      unitId: req.body.unit,
+      unitCost: Number(req.body.unitCost),
+      lastOrdered: req.body.lastOrdered,
+      sku: req.body.sku,
+    };
+
+    console.log(data);
+
     const material = await Material.findByPk(req.params.id, {
       where: { userId: req.user.id },
       include: [
@@ -114,7 +150,7 @@ exports.update = async (req, res, next) => {
       ],
     });
 
-    await material.update(req.body);
+    await material.update(data);
 
     res.status(200).json({
       status: 'success',

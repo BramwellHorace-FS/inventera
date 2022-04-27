@@ -1,8 +1,8 @@
 const formData = {
   name: '',
-  stock: '',
-  minStock: '',
-  unitCost: '',
+  stock: '0',
+  minStock: '0',
+  unitCost: '0',
   unit: '',
   category: '',
   categoryId: '',

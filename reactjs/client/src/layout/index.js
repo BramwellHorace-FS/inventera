@@ -42,8 +42,6 @@ export default function Layout({ children }) {
     }
   }, [dispatch, user]);
 
-  useEffect(() => {}, []);
-
   return (
     <div className={styles.layout}>
       <Sidebar>

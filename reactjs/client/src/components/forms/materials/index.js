@@ -17,6 +17,7 @@ export default function MaterialForm({
   handleChange,
   handleSubmit,
   formData,
+  validated,
 }) {
   const [createCat, setCreateCat] = useState(false);
   const [createSup, setCreateSup] = useState(false);
@@ -30,7 +31,12 @@ export default function MaterialForm({
   };
 
   return (
-    <Form onChange={handleChange} onSubmit={handleSubmit}>
+    <Form
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+      validated={validated}
+      noValidate
+    >
       <Form.Group>
         <Container fluid>
           <Row>
@@ -43,11 +49,14 @@ export default function MaterialForm({
                 required
                 defaultValue={formData.name}
               />
+              <Form.Control.Feedback type="invalid">
+                {' '}
+                Please enter a name{' '}
+              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
-
       <Form.Group>
         <Container fluid>
           <Row className="align-items-center">
@@ -64,6 +73,10 @@ export default function MaterialForm({
                 step=".01"
                 defaultValue={formData.stock}
               />
+              <Form.Control.Feedback type="invalid">
+                {' '}
+                Please enter a stock level{' '}
+              </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">
@@ -78,11 +91,14 @@ export default function MaterialForm({
                 step=".01"
                 defaultValue={formData.minStock}
               />
+              <Form.Control.Feedback type="invalid">
+                {' '}
+                Please enter a min stock level{' '}
+              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
-
       <Form.Group>
         <Container fluid>
           <Row>
@@ -97,6 +113,10 @@ export default function MaterialForm({
                 step=".01"
                 defaultValue={formData.unitCost}
               />
+              <Form.Control.Feedback type="invalid">
+                {' '}
+                Please enter a unit cost{' '}
+              </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
               <UnitSelect name="unit" defaultValue={formData.unit} />
@@ -104,7 +124,6 @@ export default function MaterialForm({
           </Row>
         </Container>
       </Form.Group>
-
       <Form.Group className="mt-3">
         <Container fluid>
           <Row>
@@ -135,6 +154,10 @@ export default function MaterialForm({
                     required
                     defaultValue={formData.category}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {' '}
+                    Please enter a category{' '}
+                  </Form.Control.Feedback>
                   <button
                     type="button"
                     className="btn btn-link p-0 pt-1"
@@ -172,6 +195,10 @@ export default function MaterialForm({
                     required
                     defaultValue={formData.supplier}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {' '}
+                    Please enter a supplier{' '}
+                  </Form.Control.Feedback>
                   <button
                     type="button"
                     className="btn btn-link p-0 pt-1"
@@ -185,7 +212,6 @@ export default function MaterialForm({
           </Row>
         </Container>
       </Form.Group>
-
       <Form.Group>
         <Container fluid>
           <Row>
@@ -212,7 +238,6 @@ export default function MaterialForm({
           </Row>
         </Container>
       </Form.Group>
-
       <ButtonGroup className="mt-3 d-flex gap-3 p-2">
         <Button type="button" variant="secondary" onClick={handleClose}>
           Cancel
@@ -244,4 +269,5 @@ MaterialForm.propTypes = {
     categoryId: PropTypes.string,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
+  validated: PropTypes.bool.isRequired,
 };
