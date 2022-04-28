@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Container, Row, Col } from 'react-bootstrap';
+import { MdLogout } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -24,8 +25,8 @@ export default function User({ userName, avatar }) {
         </Col>
         <Col className="col-8">
           <h3 className="light h5">{userName}</h3>
-          <Link className="h6" to="/" onClick={handleLogout}>
-            Logout
+          <Link className="secondary" to="/" onClick={handleLogout}>
+            <MdLogout />
           </Link>
         </Col>
       </Row>

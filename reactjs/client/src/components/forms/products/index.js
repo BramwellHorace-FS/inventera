@@ -41,10 +41,12 @@ export default function ProducForm({
                 type="text"
                 placeholder="Product Name"
                 defaultValue={formData.name}
+                minLength="5"
+                maxLength="150"
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide a product name.
+                Please enter a valid product name (5-150 characters).
               </Form.Control.Feedback>
             </Col>
           </Row>

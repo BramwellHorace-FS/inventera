@@ -15,13 +15,13 @@ import {
   setFormula,
   reset,
 } from '../../redux/features/formula/formulaSlice';
-import vars from '../../variables';
+import { formulaData } from '../../formDefaults';
 import { formulaCalc } from '../../utils/formulaCalc';
 
 export default function Formulas() {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState([]);
-  const [formData, setFormData] = useState(vars.formulaData);
+  const [formData, setFormData] = useState(formulaData);
   const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
@@ -143,7 +143,7 @@ export default function Formulas() {
       toast.success(message);
       dispatch(reset());
       handleClose();
-      setFormData(vars.formulaData);
+      setFormData(formulaData);
     }
 
     // update formula slice to display an error message

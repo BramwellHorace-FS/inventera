@@ -8,7 +8,7 @@ import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import ProductForm from '../../components/forms/products';
 import ProductTable from '../../components/tables/product';
-import vars from '../../variables';
+import { productData } from '../../formDefaults';
 import {
   setProduct,
   updateProduct,
@@ -21,7 +21,7 @@ export default function Products() {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState([]);
   const [selectedMaterials, setSelectedMaterials] = useState([]);
-  const [formData, setFormData] = useState(vars.productData);
+  const [formData, setFormData] = useState(productData);
   const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
@@ -149,7 +149,7 @@ export default function Products() {
       toast.success(message);
       dispatch(reset());
       handleClose();
-      setFormData(vars.productData);
+      setFormData(productData);
     }
   }, [error, success, message, dispatch]);
 

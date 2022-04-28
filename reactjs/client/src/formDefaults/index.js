@@ -1,4 +1,4 @@
-const formData = {
+export const materialData = {
   name: '',
   stock: '',
   minStock: '',
@@ -12,7 +12,7 @@ const formData = {
   lastOrdered: '',
 };
 
-const productData = {
+export const productData = {
   name: '',
   stock: '',
   minStock: '',
@@ -24,7 +24,7 @@ const productData = {
   materials: [],
 };
 
-const formulaData = {
+export const formulaData = {
   name: '',
   containerSize: '',
   containerFill: '',
@@ -34,11 +34,3 @@ const formulaData = {
   unit: '',
   note: '',
 };
-
-const vars = {
-  formData,
-  productData,
-  formulaData,
-};
-
-export default vars;

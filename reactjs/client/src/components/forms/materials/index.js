@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Form,
-  Button,
-  ButtonGroup,
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import UnitSelect from '../unitSelect';
 import CategorySelect from '../categorySelect';
@@ -243,15 +236,21 @@ export default function MaterialForm({
           </Row>
         </Container>
       </Form.Group>
-      <ButtonGroup className="mt-3 d-flex gap-3 p-2">
-        <Button type="button" variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
+      <Container className="d-flex justify-content-end mt-4 mb-2">
+        <Row>
+          <Col sm={6}>
+            <Button type="button" variant="outline-dark" onClick={handleClose}>
+              Cancel
+            </Button>
+          </Col>
 
-        <Button type="submit" variant="primary">
-          Save
-        </Button>
-      </ButtonGroup>
+          <Col sm={6}>
+            <Button type="submit" variant="primary">
+              Save
+            </Button>
+          </Col>
+        </Row>
+      </Container>
     </Form>
   );
 }

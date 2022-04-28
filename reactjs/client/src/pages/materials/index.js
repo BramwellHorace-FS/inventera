@@ -15,12 +15,12 @@ import {
   setMaterial,
   reset,
 } from '../../redux/features/material/materialSlice';
-import vars from '../../variables';
+import { materialData } from '../../formDefaults';
 
 export default function Materials() {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState([]);
-  const [formData, setFormData] = useState(vars.formData);
+  const [formData, setFormData] = useState(materialData);
   const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
@@ -151,7 +151,7 @@ export default function Materials() {
       toast.success(message);
       dispatch(reset());
       handleClose();
-      setFormData(vars.formData);
+      setFormData(materialData);
     }
   }, [error, success, message, dispatch]);
 
