@@ -104,7 +104,12 @@ export default function MaterialTable({
                   {material.category.name}
                 </span>
               </td>
-              <td>{material.lastOrdered}</td>
+              <td>
+                {material.lastOrdered
+                  ? new Date(material.lastOrdered).toLocaleDateString()
+                  : '-'}
+              </td>
+              {/* <td>{material.lastOrdered}</td> */}
             </tr>
           ))}
       </tbody>
