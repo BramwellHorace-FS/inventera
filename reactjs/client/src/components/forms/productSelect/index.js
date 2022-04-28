@@ -1,8 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 function ProductSelect({ defaultValue }) {
+  const { products } = useSelector((state) => state.product);
+
   return (
     <>
       <Form.Select
@@ -13,6 +16,12 @@ function ProductSelect({ defaultValue }) {
         className="mt-3"
       >
         <option value="">Select product</option>
+        {products &&
+          products.map((product) => (
+            <option key={product.id} value={product.id}>
+              {product.name}
+            </option>
+          ))}
       </Form.Select>
       <Form.Control.Feedback type="invalid">
         Please select a product to make.

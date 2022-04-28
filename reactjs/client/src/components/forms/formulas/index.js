@@ -40,7 +40,7 @@ export default function FormulaForm({
         </Container>
       </Form.Group>
 
-      {/* CONTAINER Size & MAX FILL */}
+      {/* CONTAINER SIZE & MAX FILL */}
       <Form.Group className="mt-3">
         <Container>
           <Row>
