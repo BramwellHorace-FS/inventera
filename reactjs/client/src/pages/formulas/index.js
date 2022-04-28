@@ -80,12 +80,6 @@ export default function Formulas() {
     };
 
     dispatch(updateFormula(data));
-
-    if (success && !error) {
-      toast.success('Formula updated successfully');
-      dispatch(reset());
-      setFormData(vars.formulaData);
-    }
   };
 
   /* HANDLE DELETE */
@@ -121,8 +115,6 @@ export default function Formulas() {
     };
 
     dispatch(createFormula(data));
-
-    setFormData(vars.formulaData);
   };
 
   /* HANDLE SUBMIT */
@@ -142,22 +134,20 @@ export default function Formulas() {
       } else {
         handleCreate();
       }
-
-      setFormData(vars.formulaData);
-
-      handleClose();
-
-      dispatch(reset());
     }
   };
 
   /* DISPLAYS ERROR & SUCCESS MESSAGES */
   useEffect(() => {
-    if (success) {
+    if (success && message) {
       toast.success(message);
       dispatch(reset());
+      handleClose();
+      setFormData(vars.formulaData);
     }
 
+    // update formula slice to display an error message
+    // update error to boolean instead of string
     if (error) {
       toast.error(error);
       dispatch(reset());

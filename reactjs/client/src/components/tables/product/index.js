@@ -67,10 +67,28 @@ export default function ProductTable({ handleSelect }) {
                   }
                 >
                   {product.stock}
+                  {product.unit && product.unit.name && (
+                    <span> {product.unit.abbr}</span>
+                  )}
                 </span>
               </td>
-              <td>{product.minStock}</td>
-              <td>{product.unitCost}</td>
+              <td>
+                <span
+                  className={
+                    Number(product.stock) < Number(product.minStock)
+                      ? 'text-danger'
+                      : ''
+                  }
+                >
+                  {product.minStock}
+                  {product.unit && product.unit.name && (
+                    <span> {product.unit.abbr}</span>
+                  )}
+                </span>
+              </td>
+
+              <td>$ {Number(product.unitCost).toFixed(2)}</td>
+
               <td>{product.sku}</td>
               <td>
                 {product.category && product.category.name && (

@@ -32,6 +32,7 @@ export default function Materials() {
     (state) => state.material,
   );
   const { user } = useSelector((state) => state.auth);
+  const { categories } = useSelector((state) => state.category);
 
   const { token } = user;
 
@@ -65,18 +66,21 @@ export default function Materials() {
   const handleUpdate = (date) => {
     const id = selected[0];
 
+    const cat = categories.find(
+      (category) => category.id === formData.categoryId,
+    );
+
     const data = {
       token,
       materialId: id,
       material: {
         ...formData,
+        category: cat.name,
         lastOrdered: date.toISOString(),
       },
     };
 
     dispatch(updateMaterial(data));
-
-    setFormData(vars.formData);
   };
 
   /* HANDLE DELETE */
@@ -108,9 +112,6 @@ export default function Materials() {
     };
 
     dispatch(createMaterial(data));
-
-    // reset form
-    setFormData(vars.formData);
   };
 
   /* HANDLE SUBMIT */
@@ -136,15 +137,6 @@ export default function Materials() {
       } else {
         handleCreate(lastOrdered);
       }
-
-      // reset form
-      setFormData(vars.formData);
-
-      // close modal
-      handleClose();
-
-      // reset redux
-      dispatch(reset());
     }
   };
 
@@ -158,6 +150,8 @@ export default function Materials() {
     if (success && message) {
       toast.success(message);
       dispatch(reset());
+      handleClose();
+      setFormData(vars.formData);
     }
   }, [error, success, message, dispatch]);
 

@@ -107,27 +107,19 @@ exports.update = async (req, res, next) => {
 
     await product.update(data);
 
+    const updatedProduct = await Product.findByPk(req.params.id, {
+      where: { userId: req.user.id },
+      include: [
+        { model: Unit, as: 'unit' },
+        { model: Category, as: 'category' },
+      ],
+    });
+
     res.status(200).json({
       status: 'success',
       message: 'Product updated successfully',
-      product,
+      product: updatedProduct,
     });
-
-    // const product = await Product.findByPk(req.params.id, {
-    //   where: { userId: req.user.id },
-    //   include: [
-    //     { model: Unit, as: 'unit' },
-    //     { model: Category, as: 'category' },
-    //   ],
-    // });
-
-    // await product.update(req.body);
-
-    // res.status(200).json({
-    //   status: 'success',
-    //   message: 'Product updated successfully',
-    //   product,
-    // });
   } catch (err) {
     next(err);
   }

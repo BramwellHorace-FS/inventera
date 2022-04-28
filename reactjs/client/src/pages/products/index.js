@@ -79,8 +79,6 @@ export default function Products() {
     };
 
     dispatch(updateProduct(data));
-
-    setFormData(vars.productData);
   };
 
   /* HANDLE DELETE */
@@ -111,8 +109,6 @@ export default function Products() {
     };
 
     dispatch(createProduct(data));
-
-    setFormData(vars.productData);
   };
 
   /* HANDLE MATERIALS SELECT */
@@ -139,10 +135,6 @@ export default function Products() {
       } else {
         handleCreate();
       }
-
-      setFormData(vars.productData);
-
-      handleClose();
     }
   };
 
@@ -156,6 +148,8 @@ export default function Products() {
     if (success && message) {
       toast.success(message);
       dispatch(reset());
+      handleClose();
+      setFormData(vars.productData);
     }
   }, [error, success, message, dispatch]);
 
