@@ -14,7 +14,7 @@ function UnitSelect({ defaultValue }) {
       <Form.Select
         name="unit"
         placeholder="Select Unit Type"
-        aria-label="Default select example"
+        aria-label="Select unit of measure"
         required
         defaultValue={defaultValue}
       >
