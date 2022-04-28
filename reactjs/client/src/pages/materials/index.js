@@ -10,10 +10,10 @@ import MaterialForm from '../../components/forms/materials';
 import MaterialTable from '../../components/tables/material';
 import {
   deleteMaterial,
-  getMaterials,
-  getMaterial,
   updateMaterial,
   createMaterial,
+  setMaterial,
+  reset,
 } from '../../redux/features/material/materialSlice';
 import vars from '../../variables';
 
@@ -28,44 +28,25 @@ export default function Materials() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { materials, material, error, success, loading } = useSelector(
+  const { materials, material, error, success, loading, message } = useSelector(
     (state) => state.material,
   );
   const { user } = useSelector((state) => state.auth);
 
   const { token } = user;
 
+  /* HANDLE SELECT */
+  const handleSelect = (e, id) => {
+    if (e.target.checked) {
+      setSelected([...selected, id]);
+    } else {
+      setSelected(selected.filter((item) => item !== id));
+    }
+  };
+
   /* HANDLE CHANGE */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  /* HANDLE DELETE */
-  const handleDelete = () => {
-    const materialsToDelete = [...selected];
-
-    // if materials selected, loop through and delete
-    if (materialsToDelete.length > 0) {
-      materialsToDelete.forEach((id) => {
-        const data = {
-          materialId: id,
-          token,
-        };
-
-        dispatch(deleteMaterial(data));
-      });
-
-      // delete selected materials
-      dispatch(getMaterials(token));
-
-      // reset selected
-      setSelected([]);
-
-      // show successful message
-      if (success) {
-        toast.success('Materials deleted successfully.');
-      }
-    }
   };
 
   /* HANDLE EDIT */
@@ -80,19 +61,40 @@ export default function Materials() {
     });
   };
 
-  /* HANDLE SELECT */
-  const handleSelect = (e, id) => {
-    const selectedMaterials = [...selected];
+  /* HANDLE UPDATE */
+  const handleUpdate = (date) => {
+    const id = selected[0];
 
-    // if selected, add to selected array. if not, remove from array
-    if (e.target.checked) {
-      selectedMaterials.push(id);
-    } else {
-      selectedMaterials.splice(selectedMaterials.indexOf(id), 1);
-      setFormData(vars.formData);
+    const data = {
+      token,
+      materialId: id,
+      material: {
+        ...formData,
+        lastOrdered: date.toISOString(),
+      },
+    };
+
+    dispatch(updateMaterial(data));
+
+    setFormData(vars.formData);
+  };
+
+  /* HANDLE DELETE */
+  const handleDelete = () => {
+    const materialsToDelete = [...selected];
+
+    if (materialsToDelete.length > 0) {
+      materialsToDelete.forEach((id) => {
+        const data = {
+          materialId: id,
+          token,
+        };
+
+        dispatch(deleteMaterial(data));
+      });
+
+      setSelected([]);
     }
-
-    setSelected(selectedMaterials);
   };
 
   /* HANDLE CREATE */
@@ -109,35 +111,6 @@ export default function Materials() {
 
     // reset form
     setFormData(vars.formData);
-
-    // show successful message
-    if (success) {
-      toast.success('Material created successfully.');
-    }
-  };
-
-  /* HANDLE UPDATE */
-  const handleUpdate = (date) => {
-    const id = selected[0];
-
-    // create data object to send to redux
-    const data = {
-      token,
-      materialId: id,
-      material: {
-        ...formData,
-        lastOrdered: date.toISOString(),
-      },
-    };
-
-    // update material
-    dispatch(updateMaterial(data));
-
-    // reset form
-    setFormData(vars.formData);
-
-    // show successful message
-    toast.success('Material updated successfully.');
   };
 
   /* HANDLE SUBMIT */
@@ -170,29 +143,34 @@ export default function Materials() {
       // close modal
       handleClose();
 
-      // dispatch get materials
-      dispatch(getMaterials(token));
+      // reset redux
+      dispatch(reset());
     }
   };
 
+  /* DISPLAYS ERROR & SUCCESS MESSAGES */
   useEffect(() => {
-    if (error) {
-      toast.error(error);
+    if (error && message) {
+      toast.error(message);
+      dispatch(reset());
     }
 
-    if (selected && selected.length === 1) {
+    if (success && message) {
+      toast.success(message);
+      dispatch(reset());
+    }
+  }, [error, success, message, dispatch]);
+
+  /* SETS MATERIAL IF ONLY ONE IS SELECTED */
+  useEffect(() => {
+    if (selected.length === 1) {
       const id = selected[0];
-      const data = {
-        materialId: id,
-        token,
-      };
-      dispatch(getMaterial(data));
-    }
-  }, [error, dispatch, selected, token]);
 
-  useEffect(() => {
-    dispatch(getMaterials(token));
-  }, [dispatch, token, material]);
+      const mat = materials.find((item) => item.id === id);
+
+      dispatch(setMaterial(mat));
+    }
+  }, [selected, materials, dispatch]);
 
   return (
     <>

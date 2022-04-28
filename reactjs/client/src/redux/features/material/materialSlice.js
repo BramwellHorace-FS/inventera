@@ -1,34 +1,35 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import materialService from './materialService';
 
+/* INITIAL STATE */
 const initialState = {
   materials: [],
   material: {},
   loading: false,
-  error: null,
-  success: null,
+  success: false,
+  error: false,
+  message: null,
 };
 
-// Get Materials
+/* GET MATERIALS */
 export const getMaterials = createAsyncThunk(
   'material/getMaterials',
   async (token, thunkAPI) => {
     const materials = await materialService.getMaterials(token);
 
     if (materials.error) {
-      return thunkAPI.rejectWithValue(materials.error);
+      return thunkAPI.rejectWithValue(materials.error.message);
     }
 
     return materials.materials;
   },
 );
 
-// Get Material
+/* GET MATERIAL */
 export const getMaterial = createAsyncThunk(
   'material/getMaterial',
   async (data, thunkAPI) => {
-    const { materialId } = data;
-    const { token } = data;
+    const { materialId, token } = data;
 
     const material = await materialService.getMaterial(token, materialId);
 
@@ -40,12 +41,11 @@ export const getMaterial = createAsyncThunk(
   },
 );
 
-// Create Material
+/* CREATE MATERIAL */
 export const createMaterial = createAsyncThunk(
   'material/createMaterial',
   async (data, thunkAPI) => {
-    const { material } = data;
-    const { token } = data;
+    const { material, token } = data;
 
     const newMaterial = await materialService.createMaterial(token, material);
 
@@ -57,12 +57,11 @@ export const createMaterial = createAsyncThunk(
   },
 );
 
-// Update Material
+/* UPDATE MATERIAL */
 export const updateMaterial = createAsyncThunk(
   'material/updateMaterial',
   async (data, thunkAPI) => {
-    const { materialId, material } = data;
-    const { token } = data;
+    const { material, materialId, token } = data;
 
     const updatedMaterial = await materialService.updateMaterial(
       token,
@@ -78,12 +77,11 @@ export const updateMaterial = createAsyncThunk(
   },
 );
 
-// Delete Material
+/* DELETE MATERIAL */
 export const deleteMaterial = createAsyncThunk(
   'material/deleteMaterial',
   async (data, thunkAPI) => {
-    const { materialId } = data;
-    const { token } = data;
+    const { materialId, token } = data;
 
     const deletedMaterial = await materialService.deleteMaterial(
       token,
@@ -98,90 +96,102 @@ export const deleteMaterial = createAsyncThunk(
   },
 );
 
-export const materialSlice = createSlice({
+/* MATERIAL SLICE */
+const materialSlice = createSlice({
   name: 'material',
   initialState,
   reducers: {
     reset: (state) => {
-      state.material = {};
       state.loading = false;
-      state.error = null;
-      state.success = null;
+      state.success = false;
+      state.error = false;
+      state.message = '';
+    },
+    setMaterial: (state, action) => {
+      state.material = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getMaterials.pending, (state) => {
       state.loading = true;
-      state.error = null;
-      state.success = null;
     });
     builder.addCase(getMaterials.fulfilled, (state, action) => {
-      state.loading = false;
       state.materials = action.payload;
+      state.loading = false;
       state.success = true;
     });
     builder.addCase(getMaterials.rejected, (state, action) => {
+      state.error = true;
       state.loading = false;
-      state.error = action.payload;
+      state.message = action.payload;
     });
-
     builder.addCase(getMaterial.pending, (state) => {
       state.loading = true;
-      state.error = null;
-      state.success = null;
     });
     builder.addCase(getMaterial.fulfilled, (state, action) => {
-      state.loading = false;
       state.material = action.payload;
+      state.loading = false;
+      state.success = true;
     });
     builder.addCase(getMaterial.rejected, (state, action) => {
+      state.error = true;
       state.loading = false;
-      state.error = action.payload;
+      state.message = action.payload;
     });
-
     builder.addCase(createMaterial.pending, (state) => {
       state.loading = true;
-      state.error = null;
-      state.success = null;
     });
     builder.addCase(createMaterial.fulfilled, (state, action) => {
+      state.materials.push(action.payload);
       state.loading = false;
-      state.material = action.payload;
+      state.success = true;
+      state.error = false;
+      state.message = 'Material created successfully';
     });
     builder.addCase(createMaterial.rejected, (state, action) => {
+      state.error = true;
       state.loading = false;
-      state.error = action.payload;
+      state.message = action.payload;
     });
-
     builder.addCase(updateMaterial.pending, (state) => {
       state.loading = true;
-      state.error = null;
-      state.success = null;
     });
     builder.addCase(updateMaterial.fulfilled, (state, action) => {
+      const index = state.materials.findIndex(
+        (material) => material.id === action.payload.id,
+      );
+      state.materials[index] = action.payload;
       state.loading = false;
-      state.material = action.payload;
+      state.success = true;
+      state.error = false;
+      state.message = 'Material updated successfully';
     });
     builder.addCase(updateMaterial.rejected, (state, action) => {
+      state.error = true;
       state.loading = false;
-      state.error = action.payload;
+      state.message = action.payload;
     });
     builder.addCase(deleteMaterial.pending, (state) => {
       state.loading = true;
-      state.error = null;
-      state.success = null;
     });
     builder.addCase(deleteMaterial.fulfilled, (state, action) => {
+      const index = state.materials.findIndex(
+        (material) => material.id === action.payload.id,
+      );
+      state.materials.splice(index, 1);
       state.loading = false;
-      state.material = action.payload;
+      state.success = true;
+      state.error = false;
+      state.message = 'Material deleted successfully';
     });
     builder.addCase(deleteMaterial.rejected, (state, action) => {
+      state.error = true;
       state.loading = false;
-      state.error = action.payload;
+      state.message = action.payload;
     });
   },
 });
 
-export default materialSlice.reducer;
+export const { reset, setMaterial } = materialSlice.actions;
 
-export const { reset } = materialSlice.actions;
+export default materialSlice.reducer;
