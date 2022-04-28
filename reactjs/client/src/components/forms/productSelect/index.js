@@ -13,7 +13,6 @@ function ProductSelect({ defaultValue }) {
         name="product"
         defaultValue={defaultValue}
         arial-label="Select a product"
-        className="mt-3"
       >
         <option value="">Select product</option>
         {products &&

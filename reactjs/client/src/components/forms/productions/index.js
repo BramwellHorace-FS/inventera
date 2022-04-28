@@ -60,6 +60,7 @@ export default function ProductionForm({
                 type="number"
                 step=".01"
                 min="0"
+                defaultValue={formData.quantity}
                 placeholder="Enter product quantity"
                 required
               />
@@ -128,7 +129,7 @@ export default function ProductionForm({
           </Col>
 
           <Col sm={6}>
-            <Button type="submit" variant="primary" disabled={!validated}>
+            <Button type="submit" variant="primary">
               Save
             </Button>
           </Col>

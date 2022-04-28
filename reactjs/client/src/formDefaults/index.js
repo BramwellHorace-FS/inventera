@@ -34,3 +34,14 @@ export const formulaData = {
   unit: '',
   note: '',
 };
+
+export const productionData = {
+  id: '',
+  name: '',
+  product: '',
+  productId: '',
+  quantity: '',
+  status: '',
+  dueDate: '',
+  notes: '',
+};

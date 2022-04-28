@@ -13,7 +13,6 @@ export default function StatusSelect({ defaultValue }) {
         name="status"
         defaultValue={defaultValue}
         arial-label="Select a status"
-        className="mt-3"
       >
         <option value="">Select status</option>
         {boards &&

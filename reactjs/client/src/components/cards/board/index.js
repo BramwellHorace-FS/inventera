@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import ProductionCard from '../production';
 import styles from './styles.module.css';
 
-export default function ProductionBoard({ title, items, handleShow }) {
+export default function ProductionBoard({
+  title,
+  items,
+  handleView,
+  handleEdit,
+  handleDelete,
+}) {
   return (
     <Container className={styles.board}>
       <p>{title}</p>
@@ -19,11 +25,14 @@ export default function ProductionBoard({ title, items, handleShow }) {
           items.map((item) => (
             <ProductionCard
               key={item.id}
-              handleShow={handleShow}
+              id={item.id}
               title={item.name}
               dueDate={item.dueDate}
               itemCount={item.quantity}
               itemUnit={item.unit ? item.unit.name : 'pcs'}
+              handleView={handleView}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
             />
           ))}
         {items.length === 0 && (
@@ -48,5 +57,7 @@ ProductionBoard.propTypes = {
       unit: PropTypes.shape({ name: PropTypes.string.isRequired }),
     }),
   ).isRequired,
-  handleShow: PropTypes.func.isRequired,
+  handleView: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
