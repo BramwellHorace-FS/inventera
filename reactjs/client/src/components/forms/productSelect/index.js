@@ -10,7 +10,7 @@ function ProductSelect({ defaultValue }) {
     <>
       <Form.Select
         required
-        name="product"
+        name="productId"
         defaultValue={defaultValue}
         arial-label="Select a product"
       >

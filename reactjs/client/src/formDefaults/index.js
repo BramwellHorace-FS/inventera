@@ -38,10 +38,10 @@ export const formulaData = {
 export const productionData = {
   id: '',
   name: '',
-  product: '',
-  productId: '',
-  quantity: '',
   status: '',
   dueDate: '',
+  productionBoardId: '',
+  unitId: '',
+  productId: '',
   notes: '',
 };

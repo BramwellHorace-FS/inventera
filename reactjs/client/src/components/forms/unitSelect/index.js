@@ -8,11 +8,8 @@ function UnitSelect({ defaultValue }) {
 
   return (
     <>
-      <Form.Label className="text-muted h6 mt-3">
-        Unit Type <span className="text-danger">*</span>
-      </Form.Label>
       <Form.Select
-        name="unit"
+        name="unitId"
         placeholder="Select Unit Type"
         aria-label="Select unit of measure"
         required

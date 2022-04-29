@@ -1,4 +1,4 @@
-const { Production, Unit } = require('../../db/models');
+const { Production, Unit, Product } = require('../../db/models');
 const { v4: uuidv4 } = require('uuid');
 const { CustomError } = require('../utils/errors');
 
@@ -11,6 +11,10 @@ exports.getAll = async (req, res, next) => {
         {
           model: Unit,
           as: 'unit',
+        },
+        {
+          model: Product,
+          as: 'product',
         },
       ],
     });
@@ -35,6 +39,10 @@ exports.getOne = async (req, res, next) => {
           model: Unit,
           as: 'unit',
         },
+        {
+          model: Product,
+          as: 'product',
+        },
       ],
     });
 
@@ -55,6 +63,8 @@ exports.getOne = async (req, res, next) => {
 // POST /api/productions
 exports.create = async (req, res, next) => {
   try {
+    console.log(req.body);
+
     const production = await Production.create({
       id: uuidv4(),
       ...req.body,
@@ -74,22 +84,20 @@ exports.create = async (req, res, next) => {
 // PUT /api/productions/:id
 exports.update = async (req, res, next) => {
   try {
+    console.log(req.body);
+
     const production = await Production.findByPk(req.params.id, {
       where: { userId: req.user.id },
-      include: [
-        {
-          model: Unit,
-          as: 'unit',
-        },
-      ],
     });
 
-    await production.update(req.body);
+    const updatedProduction = await production.update(req.body);
+
+    console.log(updatedProduction);
 
     res.status(200).json({
       status: 'success',
       message: 'Production updated successfully',
-      production,
+      production: updatedProduction,
     });
   } catch (err) {
     next(err);
@@ -105,7 +113,11 @@ exports.deleteOne = async (req, res, next) => {
 
     await production.destroy();
 
-    res.status(204).end();
+    res.status(200).json({
+      status: 'success',
+      message: 'Production deleted successfully',
+      production,
+    });
   } catch (err) {
     next(err);
   }

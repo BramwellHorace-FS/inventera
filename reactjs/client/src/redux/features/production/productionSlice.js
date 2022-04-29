@@ -185,6 +185,7 @@ const productionSlice = createSlice({
         }
         return production;
       });
+      state.production = action.payload;
       state.loading = false;
       state.error = false;
       state.success = true;

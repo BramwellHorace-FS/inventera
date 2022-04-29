@@ -79,6 +79,7 @@ a {
   line-height: var(--bs-body-line-height);
 }
 
+/* badges for categories */
 .badge-green {
   background-color: #ced7d4;
 }
@@ -95,8 +96,23 @@ a {
   background-color: #edf5f9;
 }
 
-.badge-black {
+/* badges for production status */
+.badge-incomplete {
   background-color: #2a2d32;
+}
+
+.badge-progress {
+  background-color: #5489f1;
+}
+
+.badge-complete {
+  background-color: #7edf88;
+}
+
+/* TYPOGRAPHY 
+===================================== */
+.font-italic {
+  font-style: italic;
 }
 
 /* MODAL

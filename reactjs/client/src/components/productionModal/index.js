@@ -1,9 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { getDaysLeft } from '../../utils/date';
+import { setStatusText } from '../../utils/status';
 
-export default function ProductionModal({ production, show, handleClose }) {
+export default function ProductionModal({ show, handleClose }) {
+  const { production } = useSelector((state) => state.production);
+
   return (
     <Modal
       show={show}
@@ -14,45 +18,61 @@ export default function ProductionModal({ production, show, handleClose }) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {production.name}
+          {production && production.name}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className="primary">
-          <strong>Due Date: </strong>
-
-          <span
-            className={
-              getDaysLeft(production.dueDate) < 7
-                ? 'text-danger'
-                : 'text-success'
-            }
-          >
-            {production.dueDate}
-          </span>
-        </p>
-        <p className="d-flex justify-content-start gap-2 primary">
-          <strong>Quantity: </strong> {production.quantity}
-        </p>
-        <p className="d-flex justify-content-start gap-2 primary align-items-center">
-          <strong>Status: </strong>
-          <span
-            className={`text-light badge badge-${
-              production.statusId === 0
-                ? 'black'
-                : production.statusId === 1
-                ? 'blue'
-                : production.statusId === 2
-                ? 'green'
-                : ''
-            }`}
-          >
-            {production.status}
-          </span>
-        </p>
-        <p className="d-flex justify-content-start gap-2 primary">
-          <strong>Notes: </strong> {production.notes && production.notes}
-        </p>
+        {production && (
+          <>
+            {/* DUE DATE */}
+            <p className="d-flex justify-content-start gap-2 align-items-center primary">
+              <strong>Due Date: </strong>
+              <span
+                className={
+                  getDaysLeft(production.dueDate) < 7 ? 'text-danger' : ''
+                }
+              >
+                {new Date(production.dueDate).toLocaleDateString()}
+              </span>
+            </p>
+            {/* PRODUCT NAME */}
+            <p className="d-flex justify-content-start gap-2 align-items-center primary">
+              <strong>Product: </strong>
+              {production.product && production.product.name}
+            </p>
+            {/* QUANTITY */}
+            <p className="d-flex justify-content-start gap-2 align-items-center primary">
+              <strong>Quantity: </strong> {production.quantity}
+              <span className="text-muted">
+                <small>({production.unit && production.unit.abbr})</small>
+              </span>
+            </p>
+            {/* STATUS */}
+            <p className="d-flex justify-content-start gap-2 align-items-center primary">
+              <strong>Status: </strong>
+              <span
+                className={`text-light badge badge-${
+                  production && production.status === 0
+                    ? 'incomplete'
+                    : production.status === 1
+                    ? 'progress'
+                    : production.status === 2
+                    ? 'complete'
+                    : ''
+                }`}
+              >
+                {setStatusText(production.status)}
+              </span>
+            </p>
+            {/* NOTES */}
+            <p className="d-flex justify-content-start align-items-center gap-2 primary">
+              <strong>Notes: </strong>{' '}
+              <span className="font-italic">
+                {production && production.notes && production.notes}
+              </span>
+            </p>
+          </>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleClose}>Close</Button>
@@ -63,7 +83,6 @@ export default function ProductionModal({ production, show, handleClose }) {
 
 /* PROP TYPES */
 ProductionModal.propTypes = {
-  production: PropTypes.object.isRequired,
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };

@@ -3,6 +3,7 @@ import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ProductSelect from '../productSelect';
 import StatusSelect from '../statusSelect';
+import UnitSelect from '../unitSelect';
 
 export default function ProductionForm({
   handleChange,
@@ -49,7 +50,7 @@ export default function ProductionForm({
               <Form.Label className="text-muted h6">
                 Product <span className="text-danger">*</span>
               </Form.Label>
-              <ProductSelect defaultValue={formData.product} />
+              <ProductSelect defaultValue={formData.productId} />
             </Col>
             <Col sm={6}>
               <Form.Label className="text-muted h6">
@@ -72,17 +73,31 @@ export default function ProductionForm({
         </Container>
       </Form.Group>
 
-      {/* STATUS SELECT & DUE DATE */}
+      {/* UNIT SELECT & STATUS */}
       <Form.Group className="mt-3">
         <Container>
           <Row>
             <Col sm={6}>
               <Form.Label className="text-muted h6">
-                Status <span className="text-danger">*</span>
+                Unit Type <span className="text-danger">*</span>
               </Form.Label>
-              <StatusSelect defaultValue={formData.status} />
+              <UnitSelect defaultValue={formData.unitId} />
             </Col>
             <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Status <span className="text-danger">*</span>
+              </Form.Label>
+              <StatusSelect defaultValue={formData.productionBoardId} />
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      {/* DUE DATE */}
+      <Form.Group className="mt-3">
+        <Container>
+          <Row>
+            <Col sm={12}>
               <Form.Label className="text-muted h6">
                 Due Date <span className="text-danger">*</span>
               </Form.Label>

@@ -13,8 +13,8 @@ import { productionData } from '../../formDefaults';
 import {
   deleteProduction,
   updateProduction,
-  setProduction,
   createProduction,
+  getProductionById,
   reset,
 } from '../../redux/features/production/productionSlice';
 import styles from './styles.module.css';
@@ -34,8 +34,7 @@ export default function Productions() {
 
   const { user } = useSelector((state) => state.auth);
   const { boards } = useSelector((state) => state.board);
-  // const { products } = useSelector((state) => state.product);
-  const { productions, production, error, success, loading, message } =
+  const { productions, error, success, loading, message, production } =
     useSelector((state) => state.production);
 
   const { token } = user;
@@ -45,18 +44,34 @@ export default function Productions() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  /* SET STATUS */
+  const setStatus = (id) => {
+    const board = boards.find((b) => b.id === id);
+
+    if (board.name === 'In Progress') {
+      return 1;
+    }
+
+    if (board.name === 'Done') {
+      return 2;
+    }
+
+    return 0;
+  };
+
   /* HANDLE EDIT */
   const handleEdit = (id) => {
     const prod = productions.find((p) => p.id === id);
 
     setFormData({
-      id: prod.id,
+      id,
       name: prod.name,
       dueDate: new Date(prod.dueDate).toISOString().substr(0, 10),
+      productId: prod.productId,
       quantity: prod.quantity,
-      status: prod.productionBoardId,
-      notes: '',
-      product: '',
+      unitId: prod.unitId,
+      productionBoardId: prod.productionBoardId,
+      notes: prod.notes,
     });
 
     handleShow();
@@ -65,54 +80,56 @@ export default function Productions() {
   /* HANDLE VIEW */
   const viewProduction = (id) => {
     handleView();
-    const prod = productions.find((p) => p.id === id);
-    const statusId = boards.find((b) => b.id === prod.productionBoardId);
-    const p = {
-      id: prod.id,
-      name: prod.name,
-      dueDate: new Date(prod.dueDate).toLocaleDateString(),
-      quantity: prod.quantity,
-      status: statusId.name,
-      statusId: prod.status,
-      notes: prod.notes ? prod.notes : '',
+
+    const data = {
+      token,
+      id,
     };
 
-    dispatch(setProduction(p));
+    dispatch(getProductionById(data));
   };
 
   /* HANDLE UPDATE */
-  const handleUpdate = (e) => {
-    // const { id } = production;
-    // const data = {
-    //   token,
-    //   productionId: id,
-    //   production: {
-    //     ...formData,
-    //     productionBoardId: formData.status,
-    //   },
-    // };
-    // dispatch(updateProduction(data));
+  const handleUpdate = () => {
+    const { id } = formData;
+    const status = setStatus(formData.productionBoardId);
+
+    const data = {
+      token,
+      id,
+      production: {
+        ...formData,
+        date: new Date().toISOString(),
+        status,
+      },
+    };
+    dispatch(updateProduction(data));
   };
 
   /* HANDLE DELETE */
   const handleDelete = (id) => {
-    console.log(id);
-    // const { id } = production;
-    // const data = {
-    //   productionId: id,
-    //   token,
-    // };
-    // dispatch(deleteProduction(data));
+    const data = {
+      token,
+      id,
+    };
+    dispatch(deleteProduction(data));
   };
 
   /* HANDLE CREATE */
   const handleCreate = () => {
+    const status = setStatus(formData.productionBoardId);
     const data = {
-      production: {
-        ...formData,
-        productionBoardId: formData.status,
-      },
       token,
+      production: {
+        name: formData.name,
+        dueDate: new Date(formData.dueDate).toISOString(),
+        quantity: formData.quantity,
+        notes: formData.notes,
+        unitId: formData.unitId,
+        productId: formData.productId,
+        productionBoardId: formData.productionBoardId,
+        status,
+      },
     };
 
     dispatch(createProduction(data));
@@ -152,9 +169,12 @@ export default function Productions() {
       toast.success(message);
       dispatch(reset());
       handleClose();
-      setFormData({ ...productionData });
     }
-  }, [error, success, message, dispatch]);
+
+    if (!show) {
+      setFormData(productionData);
+    }
+  }, [error, success, message, dispatch, show]);
 
   return (
     <>
@@ -209,11 +229,7 @@ export default function Productions() {
       </SiteModal>
 
       {/* PRODUCTION MODAL  */}
-      <ProductionModal
-        show={view}
-        handleClose={handleCloseView}
-        production={production}
-      />
+      <ProductionModal show={view} handleClose={handleCloseView} />
     </>
   );
 }

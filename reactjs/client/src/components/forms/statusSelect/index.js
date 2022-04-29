@@ -10,7 +10,7 @@ export default function StatusSelect({ defaultValue }) {
     <>
       <Form.Select
         required
-        name="status"
+        name="productionBoardId"
         defaultValue={defaultValue}
         arial-label="Select a status"
       >
