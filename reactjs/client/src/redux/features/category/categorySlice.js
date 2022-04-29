@@ -105,6 +105,13 @@ const categorySlice = createSlice({
     setCategories: (state, action) => {
       state.categories.push(action.payload);
     },
+    resetCategories: (state) => {
+      state.categories = [];
+      state.category = {};
+      state.loading = false;
+      state.error = null;
+      state.success = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCategories.pending, (state) => {
@@ -168,6 +175,6 @@ const categorySlice = createSlice({
   },
 });
 
-export const { setCategories } = categorySlice.actions;
+export const { setCategories, resetCategories } = categorySlice.actions;
 
 export default categorySlice.reducer;

@@ -113,6 +113,14 @@ const productionSlice = createSlice({
     setProduction: (state, action) => {
       state.production = action.payload;
     },
+    resetProductions: (state) => {
+      state.productions = [];
+      state.production = {};
+      state.loading = false;
+      state.error = false;
+      state.success = false;
+      state.message = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getProductions.pending, (state) => {
@@ -221,6 +229,7 @@ const productionSlice = createSlice({
   },
 });
 
-export const { reset, setProduction } = productionSlice.actions;
+export const { reset, setProduction, resetProductions } =
+  productionSlice.actions;
 
 export default productionSlice.reducer;

@@ -103,6 +103,13 @@ const supplierSlice = createSlice({
     setSuppliers: (state, action) => {
       state.suppliers.push(action.payload);
     },
+    resetSuppliers: (state, action) => {
+      state.suppliers = [];
+      state.supplier = {};
+      state.loading = false;
+      state.error = null;
+      state.success = null;
+    },
   },
   extraReducers: (builder) => {
     // Get Suppliers
@@ -170,6 +177,6 @@ const supplierSlice = createSlice({
   },
 });
 
-export const { setSuppliers } = supplierSlice.actions;
+export const { setSuppliers, resetSuppliers } = supplierSlice.actions;
 
 export default supplierSlice.reducer;
