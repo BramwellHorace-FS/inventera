@@ -143,6 +143,7 @@ const materialSlice = createSlice({
     });
     builder.addCase(createMaterial.fulfilled, (state, action) => {
       state.materials.push(action.payload);
+      state.material = action.payload;
       state.loading = false;
       state.success = true;
       state.error = false;

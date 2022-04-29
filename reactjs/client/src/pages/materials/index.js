@@ -65,16 +65,11 @@ export default function Materials() {
   const handleUpdate = (date) => {
     const id = selected[0];
 
-    const cat = categories.find(
-      (category) => category.id === formData.categoryId,
-    );
-
     const data = {
       token,
       materialId: id,
       material: {
         ...formData,
-        category: cat.name,
         lastOrdered: date.toISOString(),
       },
     };
@@ -150,9 +145,12 @@ export default function Materials() {
       toast.success(message);
       dispatch(reset());
       handleClose();
+    }
+
+    if (!show) {
       setFormData(materialData);
     }
-  }, [error, success, message, dispatch]);
+  }, [error, success, message, show, dispatch]);
 
   /* SETS MATERIAL IF ONLY ONE IS SELECTED */
   useEffect(() => {

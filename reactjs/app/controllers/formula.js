@@ -51,10 +51,16 @@ exports.create = async (req, res, next) => {
       userId: req.user.id,
     });
 
+    // get the formula just created
+    const formulaCreated = await Formula.findByPk(formula.id, {
+      where: { userId: req.user.id },
+      include: [{ model: Unit, as: 'unit' }],
+    });
+
     res.status(201).json({
       status: 'success',
       message: 'Formula created successfully',
-      formula,
+      formula: formulaCreated,
     });
   } catch (error) {
     next(error);
