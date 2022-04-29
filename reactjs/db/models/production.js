@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
             Production.findOne({
               where: {
                 name: value,
+                userId: this.userId,
               },
             }).then((production) => {
               if (production) {

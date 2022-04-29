@@ -8,6 +8,7 @@ import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import Modal from 'react-bootstrap/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../../../redux/features/auth/authSlice';
 import {
@@ -25,16 +26,20 @@ export default function SettingsForm() {
     businessName: '',
     website: '',
   });
+  const [show, setShow] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const { user } = useSelector((state) => state.auth);
   const { loading, error, success, userData } = useSelector(
     (state) => state.user,
   );
 
-  // use effect
+  /* USER DATA */
   useEffect(() => {
     if (userData) {
       setFormData({
@@ -48,7 +53,7 @@ export default function SettingsForm() {
     }
   }, [userData, dispatch]);
 
-  // Handle input change
+  /* HANDLE CHANGE */
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -56,7 +61,7 @@ export default function SettingsForm() {
     });
   };
 
-  // Handle file change and set imageUrl
+  /* HANDLE IMAGE UPLOAD */
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -68,7 +73,7 @@ export default function SettingsForm() {
     reader.readAsDataURL(file);
   };
 
-  // On form submission
+  /* HANDLE SUBMIT */
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -101,7 +106,12 @@ export default function SettingsForm() {
     }
   };
 
-  // Handle delete user
+  /* CONFIRM DELETE */
+  const confirmDelete = () => {
+    handleShow();
+  };
+
+  /* HANDLE DELETE */
   const handleDelete = () => {
     dispatch(deleteUserData(user.token));
 
@@ -130,7 +140,7 @@ export default function SettingsForm() {
                 'https://via.placeholder.com/150x150'
               }
               roundedCircle
-              className="avatar w-100 h-auto"
+              className="avatar w-100"
             />
           </Col>
           <Col sm={12} lg={7}>
@@ -219,7 +229,7 @@ export default function SettingsForm() {
             </Button>
           </Col>
           <Col md={12} xl={9} lg={10}>
-            <Button variant="danger" type="button" onClick={handleDelete}>
+            <Button variant="danger" type="button" onClick={confirmDelete}>
               Delete Account
             </Button>
           </Col>
@@ -232,6 +242,23 @@ export default function SettingsForm() {
             </Col>
           </Row>
         )}
+        {/* MODAL TO CONFIRM ACCOUNT DELETTION */}
+        <Modal show={show} onHide={handleClose} size="md" border="danger">
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Account</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p> Are you sure you want to delete your account?</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Form>
     </Container>
   );

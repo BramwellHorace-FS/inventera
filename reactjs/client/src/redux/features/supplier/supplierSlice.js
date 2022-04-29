@@ -99,7 +99,11 @@ export const deleteSupplier = createAsyncThunk(
 const supplierSlice = createSlice({
   name: 'supplier',
   initialState,
-  reducers: {},
+  reducers: {
+    setSuppliers: (state, action) => {
+      state.suppliers.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     // Get Suppliers
     builder.addCase(getSuppliers.pending, (state) => {
@@ -165,5 +169,7 @@ const supplierSlice = createSlice({
     });
   },
 });
+
+export const { setSuppliers } = supplierSlice.actions;
 
 export default supplierSlice.reducer;

@@ -27,6 +27,8 @@ export default function FormulaForm({
               </Form.Label>
               <Form.Control
                 name="name"
+                min="3"
+                max="50"
                 type="text"
                 placeholder="Formula Name"
                 defaultValue={formData.name}
@@ -118,7 +120,7 @@ export default function FormulaForm({
           <Row>
             <Col>
               <Form.Label className="text-muted h6">Note</Form.Label>
-              <Form.Control as="textarea" rows="3" name="note" />
+              <Form.Control as="textarea" rows="3" name="note" maxLength="50" />
             </Col>
           </Row>
         </Container>

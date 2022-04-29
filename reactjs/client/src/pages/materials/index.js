@@ -15,6 +15,8 @@ import {
   setMaterial,
   reset,
 } from '../../redux/features/material/materialSlice';
+import { setCategories } from '../../redux/features/category/categorySlice';
+import { setSuppliers } from '../../redux/features/supplier/supplierSlice';
 import { materialData } from '../../formDefaults';
 
 export default function Materials() {
@@ -28,11 +30,12 @@ export default function Materials() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { materials, material, error, success, loading, message } = useSelector(
+  const { suppliers } = useSelector((state) => state.supplier);
+  const { categories } = useSelector((state) => state.category);
+  const { materials, material, error, success, message } = useSelector(
     (state) => state.material,
   );
   const { user } = useSelector((state) => state.auth);
-  const { categories } = useSelector((state) => state.category);
 
   const { token } = user;
 
@@ -56,7 +59,9 @@ export default function Materials() {
     setFormData({
       ...material,
       category: material.categoryId,
+      categoryId: material.categoryId,
       supplier: material.supplierId,
+      supplierId: material.supplierId,
       lastOrdered: material.lastOrdered.substring(0, 10),
     });
   };
@@ -146,11 +151,7 @@ export default function Materials() {
       dispatch(reset());
       handleClose();
     }
-
-    if (!show) {
-      setFormData(materialData);
-    }
-  }, [error, success, message, show, dispatch]);
+  }, [error, success, message, dispatch]);
 
   /* SETS MATERIAL IF ONLY ONE IS SELECTED */
   useEffect(() => {
@@ -161,7 +162,32 @@ export default function Materials() {
 
       dispatch(setMaterial(mat));
     }
-  }, [selected, materials, dispatch]);
+
+    // resets the form after modal is closed
+    if (!show) {
+      setFormData(materialData);
+      setValidated(false);
+    }
+  }, [selected, materials, show, dispatch]);
+
+  /* PUSH NEW CATEGORIES & SUPPLIERS TO REDUX */
+  useEffect(() => {
+    if (Object.keys(material).length > 0) {
+      const sup = suppliers.find((item) => item.id === material.supplierId);
+
+      if (!sup) {
+        dispatch(setSuppliers(material.supplier));
+      }
+    }
+
+    if (Object.keys(material).length > 0) {
+      const cat = categories.find((item) => item.id === material.categoryId);
+
+      if (!cat) {
+        dispatch(setCategories(material.category));
+      }
+    }
+  }, [material, suppliers, categories, dispatch]);
 
   return (
     <>

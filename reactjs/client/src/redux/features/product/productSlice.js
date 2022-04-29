@@ -140,6 +140,7 @@ const productSlice = createSlice({
     });
     builder.addCase(createProduct.fulfilled, (state, action) => {
       state.products.push(action.payload);
+      state.product = action.payload;
       state.loading = false;
       state.success = true;
       state.message = 'Product created successfully';

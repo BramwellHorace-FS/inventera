@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Button, ButtonGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import FormButtons from '../../buttons/form';
 
 export default function Contact({ validated, handleSubmit, handleClose }) {
   return (
@@ -34,14 +35,7 @@ export default function Contact({ validated, handleSubmit, handleClose }) {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <ButtonGroup className="mt-3 d-flex gap-3 p-2">
-        <Button variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </ButtonGroup>
+      <FormButtons handleClose={handleClose} />
     </Form>
   );
 }

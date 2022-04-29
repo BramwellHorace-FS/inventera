@@ -8,7 +8,7 @@ function CategorySelect({ defaultValue }) {
 
   return (
     <>
-      {/* Select form */}
+      {/* SELECT CATEGORY */}
       <Form.Label className="text-muted h6">
         Category <span className="text-danger">*</span>
       </Form.Label>
@@ -21,6 +21,9 @@ function CategorySelect({ defaultValue }) {
             </option>
           ))}
       </Form.Select>
+      <Form.Control.Feedback type="invalid">
+        Please select a category.
+      </Form.Control.Feedback>
     </>
   );
 }
