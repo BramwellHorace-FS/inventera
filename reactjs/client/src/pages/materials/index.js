@@ -146,7 +146,7 @@ export default function Materials() {
       dispatch(reset());
     }
 
-    if (success && message) {
+    if (success && message && !error) {
       toast.success(message);
       dispatch(reset());
       handleClose();
@@ -171,7 +171,11 @@ export default function Materials() {
   }, [selected, materials, show, dispatch]);
 
   /* PUSH NEW CATEGORIES & SUPPLIERS TO REDUX */
+  /* Future development: Update the form to send request to create categories and suppliers
+   if they don't exist in the database instead of pushing them to the redux store using this hook. */
   useEffect(() => {
+    // checks if material is set, if it is, it checks if the categories and suppliers exists in the store
+    // if not, it pushes them to the store.
     if (Object.keys(material).length > 0) {
       const sup = suppliers.find((item) => item.id === material.supplierId);
 

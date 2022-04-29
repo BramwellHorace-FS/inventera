@@ -61,7 +61,7 @@ exports.create = async (req, res, next) => {
         id: uuidv4(),
       });
 
-      req.body.category = category.id;
+      req.body.categoryId = category.id;
     }
 
     // this conditional checks if the req body contains a new supplier to be created
@@ -72,7 +72,7 @@ exports.create = async (req, res, next) => {
         id: uuidv4(),
       });
 
-      req.body.supplier = supplier.id;
+      req.body.supplierId = supplier.id;
     }
 
     // we set th data to be inserted in the database
@@ -81,8 +81,8 @@ exports.create = async (req, res, next) => {
       name: req.body.name,
       stock: Number(req.body.stock),
       minStock: Number(req.body.minStock),
-      categoryId: req.body.category || req.body.categoryId,
-      supplierId: req.body.supplier || req.body.supplierId,
+      categoryId: req.body.categoryId,
+      supplierId: req.body.supplierId,
       unitId: req.body.unitId,
       unitCost: Number(req.body.unitCost),
       lastOrdered: req.body.lastOrdered,

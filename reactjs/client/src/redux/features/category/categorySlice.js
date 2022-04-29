@@ -9,7 +9,7 @@ const initialState = {
   success: null,
 };
 
-// Get Categories
+/* GET CATEGORIES */
 export const getCategories = createAsyncThunk(
   'category/getCategories',
   async (token, thunkAPI) => {
@@ -23,7 +23,7 @@ export const getCategories = createAsyncThunk(
   },
 );
 
-// Get Category
+/* GET CATEGORY */
 export const getCategory = createAsyncThunk(
   'category/getCategory',
   async (data, thunkAPI) => {
@@ -40,7 +40,7 @@ export const getCategory = createAsyncThunk(
   },
 );
 
-// Create Category
+/* CREATE CATEGORY */
 export const createCategory = createAsyncThunk(
   'category/createCategory',
   async (data, thunkAPI) => {
@@ -57,7 +57,7 @@ export const createCategory = createAsyncThunk(
   },
 );
 
-// Update Category
+/* UPDATE CATEGORY */
 export const updateCategory = createAsyncThunk(
   'category/updateCategory',
   async (data, thunkAPI) => {
@@ -78,7 +78,7 @@ export const updateCategory = createAsyncThunk(
   },
 );
 
-// Delete Category
+/* DELETE CATEGORY */
 export const deleteCategory = createAsyncThunk(
   'category/deleteCategory',
   async (data, thunkAPI) => {
@@ -98,6 +98,7 @@ export const deleteCategory = createAsyncThunk(
   },
 );
 
+/* CATEGORY SLICE */
 const categorySlice = createSlice({
   name: 'category',
   initialState,
@@ -142,6 +143,7 @@ const categorySlice = createSlice({
       state.loading = true;
     });
     builder.addCase(createCategory.fulfilled, (state, action) => {
+      state.categories.push(action.payload);
       state.category = action.payload;
       state.loading = false;
     });
