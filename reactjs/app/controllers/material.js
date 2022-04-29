@@ -82,7 +82,7 @@ exports.create = async (req, res, next) => {
       minStock: Number(req.body.minStock),
       categoryId: req.body.category || req.body.categoryId,
       supplierId: req.body.supplier || req.body.supplierId,
-      unitId: req.body.unit,
+      unitId: req.body.unitId,
       unitCost: Number(req.body.unitCost),
       lastOrdered: req.body.lastOrdered,
       sku: req.body.sku,
@@ -102,11 +102,8 @@ exports.create = async (req, res, next) => {
 };
 
 // PUT /api/materials/:id
-// create category is new and save to db
 exports.update = async (req, res, next) => {
   try {
-    console.log(req.body);
-
     if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
       const category = await Category.create({
         name: req.body.category,
@@ -133,15 +130,19 @@ exports.update = async (req, res, next) => {
       minStock: Number(req.body.minStock),
       categoryId: req.body.categoryId || req.body.category,
       supplierId: req.body.supplierId || req.body.supplier,
-      unitId: req.body.unit,
+      unitId: req.body.unitId,
       unitCost: Number(req.body.unitCost),
       lastOrdered: req.body.lastOrdered,
       sku: req.body.sku,
     };
 
-    console.log(data);
-
     const material = await Material.findByPk(req.params.id, {
+      where: { userId: req.user.id },
+    });
+
+    await material.update(data);
+
+    const updatedMaterial = await Material.findByPk(req.params.id, {
       where: { userId: req.user.id },
       include: [
         { model: Category, as: 'category' },
@@ -150,12 +151,10 @@ exports.update = async (req, res, next) => {
       ],
     });
 
-    await material.update(data);
-
     res.status(200).json({
       status: 'success',
       message: 'Material updated successfully',
-      material,
+      material: updatedMaterial,
     });
   } catch (err) {
     next(err);

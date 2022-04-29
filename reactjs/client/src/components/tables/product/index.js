@@ -2,44 +2,30 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Form, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import NotFound from '../../notFound';
 
 export default function ProductTable({ handleSelect }) {
   const [colors] = useState(['red', 'blue', 'green', 'yellow']);
 
-  const { loading, success, products } = useSelector((state) => state.product);
+  const { products, loading, success } = useSelector((state) => state.product);
 
   return (
-    <Table responsive className="nowrap">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Stock</th>
-          <th>Min. Stock</th>
-          <th>Unit Cost</th>
-          <th>SKU</th>
-          <th>Category</th>
-        </tr>
-      </thead>
-      <tbody>
-        {loading && products && (
+    <>
+      <Table responsive className="nowrap">
+        <thead>
           <tr>
-            <td colSpan={products.length}>
-              <Spinner animation="border" variant="primary" />
-            </td>
+            <th>Name</th>
+            <th>Stock</th>
+            <th>Min. Stock</th>
+            <th>Unit Cost</th>
+            <th>SKU</th>
+            <th>Category</th>
           </tr>
-        )}
-
-        {/* If no products are found */}
-        {success && products && Object.keys(products).length === 0 && (
-          <tr>
-            <p className="mt-3">No products found.</p>
-          </tr>
-        )}
-
-        {/* List Products if found */}
-        {products && Object.keys(products).length > 0 && (
-          <>
-            {products.map((product) => (
+        </thead>
+        <tbody>
+          {/* List Products if found */}
+          {products &&
+            products.map((product) => (
               <tr key={product.id}>
                 <td>
                   <Form.Check type="checkbox">
@@ -67,7 +53,10 @@ export default function ProductTable({ handleSelect }) {
                         : ''
                     }
                   >
-                    {product.stock} {product.unit.abbr}
+                    {product.stock}
+                    {product.unit && product.unit.name && (
+                      <span> {product.unit.abbr}</span>
+                    )}
                   </span>
                 </td>
                 <td>
@@ -78,38 +67,53 @@ export default function ProductTable({ handleSelect }) {
                         : ''
                     }
                   >
-                    {product.minStock} {product.unit.abbr}
+                    {product.minStock}
+                    {product.unit && product.unit.name && (
+                      <span> {product.unit.abbr}</span>
+                    )}
                   </span>
                 </td>
+
                 <td>$ {Number(product.unitCost).toFixed(2)}</td>
+
                 <td>{product.sku}</td>
                 <td>
-                  <span
-                    className={`badge badge-${
-                      product.category.name.length === 4
-                        ? colors[0]
-                        : product.category.name.length === 5
-                        ? colors[1]
-                        : product.category.name.length === 6
-                        ? colors[2]
-                        : product.category.name.length >= 7
-                        ? colors[3]
-                        : 'secondary'
-                    }`}
-                  >
-                    {product.category.name}
-                  </span>
+                  {product.category && product.category.name && (
+                    <span
+                      className={`badge badge-${
+                        product.category.name.length === 4
+                          ? colors[0]
+                          : product.category.name.length === 5
+                          ? colors[1]
+                          : product.category.name.length === 6
+                          ? colors[2]
+                          : product.category.name.length >= 7
+                          ? colors[3]
+                          : 'secondary'
+                      }`}
+                    >
+                      {product.category.name}
+                    </span>
+                  )}
                 </td>
               </tr>
             ))}
-          </>
-        )}
-      </tbody>
-    </Table>
+        </tbody>
+      </Table>
+      {loading && <Spinner animation="border" variant="primary" />}
+
+      {/* If no products are found */}
+      {success && Object.keys(products).length === 0 && (
+        <NotFound
+          title="No Products Found!"
+          message="You have not added any products yet. Please add a product to continue."
+        />
+      )}
+    </>
   );
 }
 
-// PropTypes
+/* PROP TYPES */
 ProductTable.propTypes = {
   handleSelect: PropTypes.func.isRequired,
 };

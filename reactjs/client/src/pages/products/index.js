@@ -8,21 +8,20 @@ import PageHeader from '../../components/header';
 import SiteModal from '../../components/modal';
 import ProductForm from '../../components/forms/products';
 import ProductTable from '../../components/tables/product';
-import vars from '../../variables';
+import { productData } from '../../formDefaults';
 import {
-  getProducts,
+  setProduct,
   updateProduct,
   createProduct,
   deleteProduct,
   reset,
-  getProduct,
 } from '../../redux/features/product/productSlice';
 
 export default function Products() {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState([]);
   const [selectedMaterials, setSelectedMaterials] = useState([]);
-  const [formData, setFormData] = useState(vars.productData);
+  const [formData, setFormData] = useState(productData);
   const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
@@ -30,10 +29,21 @@ export default function Products() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { product, error, success } = useSelector((state) => state.product);
+  const { product, error, success, loading, message, products } = useSelector(
+    (state) => state.product,
+  );
   const { user } = useSelector((state) => state.auth);
 
   const { token } = user;
+
+  /* HANDLE SELECT */
+  const handleSelect = (e, id) => {
+    if (e.target.checked) {
+      setSelected([...selected, id]);
+    } else {
+      setSelected(selected.filter((item) => item !== id));
+    }
+  };
 
   /* HANDLE CHANGE */
   const handleChange = (e) => {
@@ -42,6 +52,32 @@ export default function Products() {
       [e.target.name]: e.target.value,
       materials: selectedMaterials,
     });
+  };
+
+  /* HANDLE EDIT */
+  const handleEdit = () => {
+    handleShow();
+
+    setFormData({
+      ...product,
+      category: '',
+      categoryId: product.categoryId,
+    });
+  };
+
+  /* HANDLE UPDATE */
+  const handleUpdate = () => {
+    const id = selected[0];
+
+    const data = {
+      token,
+      productId: id,
+      product: {
+        ...formData,
+      },
+    };
+
+    dispatch(updateProduct(data));
   };
 
   /* HANDLE DELETE */
@@ -58,48 +94,8 @@ export default function Products() {
         dispatch(deleteProduct(data));
       });
 
-      dispatch(getProducts(token));
-
       setSelected([]);
-
-      if (success && !error) {
-        toast.success('Product(s) deleted successfully');
-        dispatch(reset());
-      }
     }
-  };
-
-  /* HANDLE EDIT */
-  const handleEdit = () => {
-    handleShow();
-
-    setFormData({
-      ...product,
-      category: '',
-      unit: product.unitId,
-      categoryId: product.categoryId,
-    });
-  };
-
-  /* HANDLE SELECT */
-  const handleSelect = (e, id) => {
-    const selectedProducts = [...selected];
-
-    if (e.target.checked) {
-      selectedProducts.push(id);
-    } else {
-      selectedProducts.splice(selectedProducts.indexOf(id), 1);
-      setFormData(vars.productData);
-    }
-
-    setSelected(selectedProducts);
-  };
-
-  /* HANDLE MATERIALS SELECT */
-  const handleMaterialsSelect = (e) => {
-    const selectedOptions = [...e.target.selectedOptions].map((o) => o.value);
-
-    setSelectedMaterials(selectedOptions);
   };
 
   /* HANDLE CREATE */
@@ -112,35 +108,13 @@ export default function Products() {
     };
 
     dispatch(createProduct(data));
-
-    setFormData(vars.productData);
-
-    if (success && !error) {
-      toast.success('Product created successfully');
-      dispatch(reset());
-    }
   };
 
-  /* HANDLE UPDATE */
-  const handleUpdate = () => {
-    const id = selected[0];
+  /* HANDLE MATERIALS SELECT */
+  const handleMaterialsSelect = (e) => {
+    const selectedOptions = [...e.target.selectedOptions].map((o) => o.value);
 
-    const data = {
-      token,
-      productId: id,
-      product: {
-        ...formData,
-      },
-    };
-
-    dispatch(updateProduct(data));
-
-    setFormData(vars.productData);
-
-    if (success && !error) {
-      toast.success('Product updated successfully');
-      dispatch(reset());
-    }
+    setSelectedMaterials(selectedOptions);
   };
 
   /* HANDLE SUBMIT */
@@ -160,41 +134,36 @@ export default function Products() {
       } else {
         handleCreate();
       }
-
-      setFormData(vars.productData);
-
-      handleClose();
-
-      dispatch(getProducts(token));
     }
   };
 
-  /* GET SINGLE PRODUCT IF SELECTED & DISPAYS ERRORS */
+  /* DISPLAYS ERROR & SUCCESS MESSAGES */
   useEffect(() => {
-    if (error) {
-      toast.error(error);
+    if (error && message) {
+      toast.error(message);
       dispatch(reset());
     }
-  }, [error, selected, token, dispatch]);
 
-  /* GET PRODUCTS */
-  useEffect(() => {
-    dispatch(getProducts(token));
-  }, [token, dispatch, product]);
-
-  /* SET PRODUCT */
-  useEffect(() => {
-    const selectedProducts = [...selected];
-
-    if (selectedProducts.length === 1) {
-      const data = {
-        productId: selectedProducts[0],
-        token,
-      };
-
-      dispatch(getProduct(data));
+    if (success && message) {
+      toast.success(message);
+      dispatch(reset());
+      handleClose();
     }
-  }, [selected]);
+    if (!show) {
+      setFormData(productData);
+    }
+  }, [error, success, message, show, dispatch]);
+
+  /* SETS PRODUCT IF ONE IS SELECTED */
+  useEffect(() => {
+    if (selected.length === 1) {
+      const id = selected[0];
+
+      const prod = products.find((item) => item.id === id);
+
+      dispatch(setProduct(prod));
+    }
+  }, [selected, product, dispatch, products]);
 
   return (
     <>

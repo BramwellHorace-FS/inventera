@@ -19,6 +19,7 @@ import { getCategories } from '../redux/features/category/categorySlice';
 import { getSuppliers } from '../redux/features/supplier/supplierSlice';
 import { getProducts } from '../redux/features/product/productSlice';
 import { getFormulas } from '../redux/features/formula/formulaSlice';
+import { getProductions } from '../redux/features/production/productionSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -43,6 +44,7 @@ export default function Layout({ children }) {
       dispatch(getSuppliers(user.token));
       dispatch(getProducts(user.token));
       dispatch(getFormulas(user.token));
+      dispatch(getProductions(user.token));
     }
   }, [dispatch, user]);
 

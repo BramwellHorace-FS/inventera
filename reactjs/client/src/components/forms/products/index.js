@@ -41,10 +41,12 @@ export default function ProducForm({
                 type="text"
                 placeholder="Product Name"
                 defaultValue={formData.name}
+                minLength="5"
+                maxLength="150"
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide a product name.
+                Please enter a valid product name (5-150 characters).
               </Form.Control.Feedback>
             </Col>
           </Row>
@@ -92,15 +94,18 @@ export default function ProducForm({
       </Form.Group>
 
       {/* UNIT TYPE & CATEGORY */}
-      <Form.Group className="mt-1">
+      <Form.Group className="mt-3">
         <Container>
           <Row>
             {/* unit type */}
             <Col sm={6}>
-              <UnitSelect defaultValue={formData.unit} />
+              <Form.Label className="text-muted h6">
+                Unit Type <span className="text-danger">*</span>
+              </Form.Label>
+              <UnitSelect defaultValue={formData.unitId} />
             </Col>
             {/* category select */}
-            <Col sm={6} className="mt-2">
+            <Col sm={6}>
               {!createCat ? (
                 <>
                   <CategorySelect defaultValue={formData.categoryId} />

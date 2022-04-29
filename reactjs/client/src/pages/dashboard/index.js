@@ -15,6 +15,7 @@ export default function Dashboard() {
   const { materials } = useSelector((state) => state.material);
   const { products } = useSelector((state) => state.product);
   const { formulas } = useSelector((state) => state.formula);
+  const { productions } = useSelector((state) => state.production);
 
   return (
     <>
@@ -27,7 +28,10 @@ export default function Dashboard() {
 
             <Col sm={5} className="d-flex justify-content-end">
               <PrimaryButton onClick={() => navigate('/materials')}>
-                View Inventory
+                <span className="d-flex gap-2 align-items-center">
+                  View Inventory
+                  <BsArrowRight size={20} />
+                </span>
               </PrimaryButton>
             </Col>
           </Row>
@@ -54,7 +58,7 @@ export default function Dashboard() {
           <Col sm={12} lg={3}>
             <DashboardCard
               title="Productions"
-              itemCount={0}
+              itemCount={productions ? productions.length : 0}
               linkTo="/products"
             />
           </Col>
@@ -94,7 +98,10 @@ export default function Dashboard() {
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/materials"
               >
-                View All Materials
+                {materials && materials.length > 0
+                  ? 'View All Materials'
+                  : 'Add Materials'}
+
                 <BsArrowRight />
               </Link>
             </Container>
@@ -121,7 +128,11 @@ export default function Dashboard() {
                 className="d-flex justify-content-end align-items-center gap-2"
                 to="/products"
               >
-                View All Products <BsArrowRight />
+                {products && products.length > 0
+                  ? 'View All Products'
+                  : 'Add Products'}
+
+                <BsArrowRight />
               </Link>
             </Container>
           </Col>

@@ -15,13 +15,13 @@ import {
   setFormula,
   reset,
 } from '../../redux/features/formula/formulaSlice';
-import vars from '../../variables';
+import { formulaData } from '../../formDefaults';
 import { formulaCalc } from '../../utils/formulaCalc';
 
 export default function Formulas() {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState([]);
-  const [formData, setFormData] = useState(vars.formulaData);
+  const [formData, setFormData] = useState(formulaData);
   const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
@@ -59,7 +59,6 @@ export default function Formulas() {
 
     setFormData({
       ...formula,
-      unit: formula.unitId,
     });
   };
 
@@ -80,12 +79,6 @@ export default function Formulas() {
     };
 
     dispatch(updateFormula(data));
-
-    if (success && !error) {
-      toast.success('Formula updated successfully');
-      dispatch(reset());
-      setFormData(vars.formulaData);
-    }
   };
 
   /* HANDLE DELETE */
@@ -115,14 +108,11 @@ export default function Formulas() {
         ...formData,
         fragranceAmount,
         waxAmount,
-        unitId: formData.unit,
       },
       token,
     };
 
     dispatch(createFormula(data));
-
-    setFormData(vars.formulaData);
   };
 
   /* HANDLE SUBMIT */
@@ -142,27 +132,28 @@ export default function Formulas() {
       } else {
         handleCreate();
       }
-
-      setFormData(vars.formulaData);
-
-      handleClose();
-
-      dispatch(reset());
     }
   };
 
   /* DISPLAYS ERROR & SUCCESS MESSAGES */
   useEffect(() => {
-    if (success) {
+    if (success && message) {
       toast.success(message);
       dispatch(reset());
+      handleClose();
     }
 
+    // update formula slice to display an error message
+    // update error to boolean instead of string
     if (error) {
       toast.error(error);
       dispatch(reset());
     }
-  }, [success, message, error, dispatch]);
+
+    if (!show) {
+      setFormData(formulaData);
+    }
+  }, [success, message, error, show, dispatch]);
 
   /* SETS FORMULA IF ONE ID IS ADDED TO SELECTED */
   useEffect(() => {

@@ -1,9 +1,9 @@
-const formData = {
+export const materialData = {
   name: '',
   stock: '',
   minStock: '',
   unitCost: '',
-  unit: '',
+  unitId: '',
   category: '',
   categoryId: '',
   supplier: '',
@@ -12,33 +12,36 @@ const formData = {
   lastOrdered: '',
 };
 
-const productData = {
+export const productData = {
   name: '',
   stock: '',
   minStock: '',
   unitCost: '',
-  unit: '',
+  unitId: '',
   category: '',
   categoryId: '',
   sku: '',
   materials: [],
 };
 
-const formulaData = {
+export const formulaData = {
   name: '',
   containerSize: '',
   containerFill: '',
   fragranceLoad: '',
   fragranceAmount: '',
   waxAmount: '',
-  unit: '',
+  unitId: '',
   note: '',
 };
 
-const vars = {
-  formData,
-  productData,
-  formulaData,
+export const productionData = {
+  id: '',
+  name: '',
+  status: '',
+  dueDate: '',
+  productionBoardId: '',
+  unitId: '',
+  productId: '',
+  notes: '',
 };
-
-export default vars;

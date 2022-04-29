@@ -10,17 +10,17 @@ import MaterialForm from '../../components/forms/materials';
 import MaterialTable from '../../components/tables/material';
 import {
   deleteMaterial,
-  getMaterials,
-  getMaterial,
   updateMaterial,
   createMaterial,
+  setMaterial,
+  reset,
 } from '../../redux/features/material/materialSlice';
-import vars from '../../variables';
+import { materialData } from '../../formDefaults';
 
 export default function Materials() {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState([]);
-  const [formData, setFormData] = useState(vars.formData);
+  const [formData, setFormData] = useState(materialData);
   const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
@@ -28,23 +28,64 @@ export default function Materials() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { materials, material, error, success, loading } = useSelector(
+  const { materials, material, error, success, loading, message } = useSelector(
     (state) => state.material,
   );
   const { user } = useSelector((state) => state.auth);
+  const { categories } = useSelector((state) => state.category);
 
   const { token } = user;
+
+  /* HANDLE SELECT */
+  const handleSelect = (e, id) => {
+    if (e.target.checked) {
+      setSelected([...selected, id]);
+    } else {
+      setSelected(selected.filter((item) => item !== id));
+    }
+  };
 
   /* HANDLE CHANGE */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  /* HANDLE EDIT */
+  const handleEdit = () => {
+    handleShow();
+    setFormData({
+      ...material,
+      category: material.categoryId,
+      supplier: material.supplierId,
+      lastOrdered: material.lastOrdered.substring(0, 10),
+    });
+  };
+
+  /* HANDLE UPDATE */
+  const handleUpdate = (date) => {
+    const id = selected[0];
+
+    const cat = categories.find(
+      (category) => category.id === formData.categoryId,
+    );
+
+    const data = {
+      token,
+      materialId: id,
+      material: {
+        ...formData,
+        category: cat.name,
+        lastOrdered: date.toISOString(),
+      },
+    };
+
+    dispatch(updateMaterial(data));
+  };
+
   /* HANDLE DELETE */
   const handleDelete = () => {
     const materialsToDelete = [...selected];
 
-    // if materials selected, loop through and delete
     if (materialsToDelete.length > 0) {
       materialsToDelete.forEach((id) => {
         const data = {
@@ -55,44 +96,8 @@ export default function Materials() {
         dispatch(deleteMaterial(data));
       });
 
-      // delete selected materials
-      dispatch(getMaterials(token));
-
-      // reset selected
       setSelected([]);
-
-      // show successful message
-      if (success) {
-        toast.success('Materials deleted successfully.');
-      }
     }
-  };
-
-  /* HANDLE EDIT */
-  const handleEdit = () => {
-    handleShow();
-    setFormData({
-      ...material,
-      unit: material.unit.id,
-      category: material.categoryId,
-      supplier: material.supplierId,
-      lastOrdered: material.lastOrdered.substring(0, 10),
-    });
-  };
-
-  /* HANDLE SELECT */
-  const handleSelect = (e, id) => {
-    const selectedMaterials = [...selected];
-
-    // if selected, add to selected array. if not, remove from array
-    if (e.target.checked) {
-      selectedMaterials.push(id);
-    } else {
-      selectedMaterials.splice(selectedMaterials.indexOf(id), 1);
-      setFormData(vars.formData);
-    }
-
-    setSelected(selectedMaterials);
   };
 
   /* HANDLE CREATE */
@@ -106,38 +111,6 @@ export default function Materials() {
     };
 
     dispatch(createMaterial(data));
-
-    // reset form
-    setFormData(vars.formData);
-
-    // show successful message
-    if (success) {
-      toast.success('Material created successfully.');
-    }
-  };
-
-  /* HANDLE UPDATE */
-  const handleUpdate = (date) => {
-    const id = selected[0];
-
-    // create data object to send to redux
-    const data = {
-      token,
-      materialId: id,
-      material: {
-        ...formData,
-        lastOrdered: date.toISOString(),
-      },
-    };
-
-    // update material
-    dispatch(updateMaterial(data));
-
-    // reset form
-    setFormData(vars.formData);
-
-    // show successful message
-    toast.success('Material updated successfully.');
   };
 
   /* HANDLE SUBMIT */
@@ -163,36 +136,34 @@ export default function Materials() {
       } else {
         handleCreate(lastOrdered);
       }
-
-      // reset form
-      setFormData(vars.formData);
-
-      // close modal
-      handleClose();
-
-      // dispatch get materials
-      dispatch(getMaterials(token));
     }
   };
 
+  /* DISPLAYS ERROR & SUCCESS MESSAGES */
   useEffect(() => {
-    if (error) {
-      toast.error(error);
+    if (error && message) {
+      toast.error(message);
+      dispatch(reset());
     }
 
-    if (selected && selected.length === 1) {
+    if (success && message) {
+      toast.success(message);
+      dispatch(reset());
+      handleClose();
+      setFormData(materialData);
+    }
+  }, [error, success, message, dispatch]);
+
+  /* SETS MATERIAL IF ONLY ONE IS SELECTED */
+  useEffect(() => {
+    if (selected.length === 1) {
       const id = selected[0];
-      const data = {
-        materialId: id,
-        token,
-      };
-      dispatch(getMaterial(data));
-    }
-  }, [error, dispatch, selected, token]);
 
-  useEffect(() => {
-    dispatch(getMaterials(token));
-  }, [dispatch, token, material]);
+      const mat = materials.find((item) => item.id === id);
+
+      dispatch(setMaterial(mat));
+    }
+  }, [selected, materials, dispatch]);
 
   return (
     <>
@@ -225,12 +196,7 @@ export default function Materials() {
             )}
           </ButtonGroup>
         )}
-        <MaterialTable
-          materials={materials}
-          handleSelect={handleSelect}
-          loading={loading}
-          success={success}
-        />
+        <MaterialTable handleSelect={handleSelect} />
 
         <SiteModal
           show={show}
