@@ -106,7 +106,7 @@ export default function MaterialTable({ handleSelect }) {
 
       {loading && <Spinner animation="border" variant="primary" />}
 
-      {success && Object.keys(materials).length === 0 && (
+      {Object.keys(materials).length === 0 && (
         <NotFound
           title="No Materials Found!"
           message="You have not added any materials yet. Please add materials to continue."

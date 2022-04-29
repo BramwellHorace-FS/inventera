@@ -171,8 +171,10 @@ export default function Productions() {
       handleClose();
     }
 
+    // resets the form after modal is closed
     if (!show) {
       setFormData(productionData);
+      setValidated(false);
     }
   }, [error, success, message, dispatch, show]);
 

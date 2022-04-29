@@ -31,6 +31,7 @@ export default function Layout({ children }) {
   const { validated, handleSubmit } = useValidate();
 
   const dispatch = useDispatch();
+
   const { userData } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.auth);
 

@@ -45,7 +45,7 @@ export default function FormulaTable({ handleSelect }) {
       </Table>
       {loading && formulas && <Spinner animation="border" variant="primary" />}
 
-      {formulas && Object.keys(formulas).length === 0 && (
+      {Object.keys(formulas).length === 0 && (
         <NotFound
           title="No formulas found!"
           message="You have not created any formulas yet. Click the button above to create a new formula."

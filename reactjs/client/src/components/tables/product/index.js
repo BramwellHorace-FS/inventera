@@ -103,7 +103,7 @@ export default function ProductTable({ handleSelect }) {
       {loading && <Spinner animation="border" variant="primary" />}
 
       {/* If no products are found */}
-      {success && Object.keys(products).length === 0 && (
+      {Object.keys(products).length === 0 && (
         <NotFound
           title="No Products Found!"
           message="You have not added any products yet. Please add a product to continue."

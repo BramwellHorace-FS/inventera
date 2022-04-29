@@ -4,6 +4,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import UnitSelect from '../unitSelect';
 import CategorySelect from '../categorySelect';
+import FormButtons from '../../buttons/form';
 
 export default function ProducForm({
   handleChange,
@@ -39,6 +40,8 @@ export default function ProducForm({
               <Form.Control
                 name="name"
                 type="text"
+                min="3"
+                max="50"
                 placeholder="Product Name"
                 defaultValue={formData.name}
                 minLength="5"
@@ -46,7 +49,7 @@ export default function ProducForm({
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please enter a valid product name (5-150 characters).
+                Please enter a valid product name (3-50 characters).
               </Form.Control.Feedback>
             </Col>
           </Row>
@@ -70,7 +73,7 @@ export default function ProducForm({
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide stock level
+                Please provide stock level.
               </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
@@ -86,7 +89,7 @@ export default function ProducForm({
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide min stock level
+                Please provide min stock level.
               </Form.Control.Feedback>
             </Col>
           </Row>
@@ -125,12 +128,14 @@ export default function ProducForm({
                   <Form.Control
                     name="category"
                     type="text"
+                    min="3"
+                    max="50"
                     placeholder="Category"
                     required
                     defaultValue=""
                   />
                   <Form.Control.Feedback type="invalid">
-                    Please provide a category.
+                    Please provide a category name (3-50 characters).
                   </Form.Control.Feedback>
                   <button
                     type="button"
@@ -157,13 +162,14 @@ export default function ProducForm({
               <Form.Control
                 name="unitCost"
                 type="number"
+                min="0"
                 step=".01"
                 placeholder="Enter unit cost"
                 defaultValue={formData.unitCost}
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please enter a unit cost
+                Please enter a unit cost.
               </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
@@ -205,21 +211,8 @@ export default function ProducForm({
         </Container>
       </Form.Group>
 
-      <Container className="d-flex justify-content-end mt-4 mb-2">
-        <Row>
-          <Col sm={6}>
-            <Button type="button" variant="outline-dark" onClick={handleClose}>
-              Cancel
-            </Button>
-          </Col>
-
-          <Col sm={6}>
-            <Button type="submit" variant="primary">
-              Save
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+      {/* SUBMIT & CANCEL BUTTON */}
+      <FormButtons handleClose={handleClose} />
     </Form>
   );
 }

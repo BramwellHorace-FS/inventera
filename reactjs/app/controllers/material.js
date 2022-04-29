@@ -53,8 +53,7 @@ exports.getOne = async (req, res, next) => {
 // POST /api/materials
 exports.create = async (req, res, next) => {
   try {
-    console.log(req.body);
-
+    // this conditional checks if the req body contains a new category to be created
     if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
       const category = await Category.create({
         name: req.body.category,
@@ -62,9 +61,10 @@ exports.create = async (req, res, next) => {
         id: uuidv4(),
       });
 
-      req.body.category = category.id;
+      req.body.categoryId = category.id;
     }
 
+    // this conditional checks if the req body contains a new supplier to be created
     if (req.body.supplier && req.body.supplier.length !== 0 && !req.body.supplierId) {
       const supplier = await Supplier.create({
         name: req.body.supplier,
@@ -72,16 +72,17 @@ exports.create = async (req, res, next) => {
         id: uuidv4(),
       });
 
-      req.body.supplier = supplier.id;
+      req.body.supplierId = supplier.id;
     }
 
+    // we set th data to be inserted in the database
     const data = {
       id: uuidv4(),
       name: req.body.name,
       stock: Number(req.body.stock),
       minStock: Number(req.body.minStock),
-      categoryId: req.body.category || req.body.categoryId,
-      supplierId: req.body.supplier || req.body.supplierId,
+      categoryId: req.body.categoryId,
+      supplierId: req.body.supplierId,
       unitId: req.body.unitId,
       unitCost: Number(req.body.unitCost),
       lastOrdered: req.body.lastOrdered,
@@ -89,12 +90,23 @@ exports.create = async (req, res, next) => {
       userId: req.user.id,
     };
 
+    // create the material
     const material = await Material.create(data);
+
+    // get the material we just created to return it
+    const createdMaterial = await Material.findByPk(material.id, {
+      where: { userId: req.user.id },
+      include: [
+        { model: Category, as: 'category' },
+        { model: Supplier, as: 'supplier' },
+        { model: Unit, as: 'unit' },
+      ],
+    });
 
     res.status(201).json({
       status: 'success',
       message: 'Material created successfully',
-      material,
+      material: createdMaterial,
     });
   } catch (err) {
     next(err);

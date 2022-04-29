@@ -9,6 +9,7 @@ import SiteModal from '../../components/modal';
 import ProductForm from '../../components/forms/products';
 import ProductTable from '../../components/tables/product';
 import { productData } from '../../formDefaults';
+import { setCategories } from '../../redux/features/category/categorySlice';
 import {
   setProduct,
   updateProduct,
@@ -29,7 +30,8 @@ export default function Products() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { product, error, success, loading, message, products } = useSelector(
+  const { categories } = useSelector((state) => state.category);
+  const { product, error, success, message, products } = useSelector(
     (state) => state.product,
   );
   const { user } = useSelector((state) => state.auth);
@@ -149,8 +151,10 @@ export default function Products() {
       dispatch(reset());
       handleClose();
     }
+    // resets the form after modal is closed
     if (!show) {
       setFormData(productData);
+      setValidated(false);
     }
   }, [error, success, message, show, dispatch]);
 
@@ -164,6 +168,17 @@ export default function Products() {
       dispatch(setProduct(prod));
     }
   }, [selected, product, dispatch, products]);
+
+  /* PUSH NEW CATEGORIES TO REDUX */
+  useEffect(() => {
+    if (Object.keys(product).length > 0) {
+      const cat = categories.find((item) => item.id === product.categoryId);
+
+      if (!cat) {
+        dispatch(setCategories(product.category));
+      }
+    }
+  }, [categories, dispatch, product]);
 
   return (
     <>

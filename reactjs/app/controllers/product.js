@@ -51,6 +51,7 @@ exports.getOne = async (req, res, next) => {
 // POST /api/products
 exports.create = async (req, res, next) => {
   try {
+    // checks if the req body contains a new category to be created
     if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
       const category = await Category.create({
         id: uuidv4(),
@@ -61,18 +62,29 @@ exports.create = async (req, res, next) => {
       req.body.categoryId = category.id;
     }
 
+    // sets the data to be inserted
     const data = {
       ...req.body,
       userId: req.user.id,
       id: uuidv4(),
     };
 
+    // creates the product
     const product = await Product.create(data);
+
+    // retrieve the newly created product
+    const newProduct = await Product.findByPk(product.id, {
+      where: { userId: req.user.id },
+      include: [
+        { model: Unit, as: 'unit' },
+        { model: Category, as: 'category' },
+      ],
+    });
 
     res.status(200).json({
       status: 'success',
       message: 'Product created successfully',
-      product,
+      product: newProduct,
     });
   } catch (err) {
     next(err);

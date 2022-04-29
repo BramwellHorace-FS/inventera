@@ -71,10 +71,18 @@ exports.create = async (req, res, next) => {
       userId: req.user.id,
     });
 
+    const newProduction = await Production.findByPk(production.id, {
+      where: { userId: req.user.id },
+      include: [
+        { model: Unit, as: 'unit' },
+        { model: Product, as: 'product' },
+      ],
+    });
+
     res.status(201).json({
       status: 'success',
       message: 'Production created successfully',
-      production,
+      production: newProduction,
     });
   } catch (err) {
     next(err);
@@ -88,11 +96,13 @@ exports.update = async (req, res, next) => {
 
     const production = await Production.findByPk(req.params.id, {
       where: { userId: req.user.id },
+      include: [
+        { model: Unit, as: 'unit' },
+        { model: Product, as: 'product' },
+      ],
     });
 
     const updatedProduction = await production.update(req.body);
-
-    console.log(updatedProduction);
 
     res.status(200).json({
       status: 'success',

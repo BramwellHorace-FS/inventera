@@ -8,7 +8,7 @@ const initialState = {
   success: false,
 };
 
-// Get boards
+/* GET PRODUCTION BOARDS */
 export const fetchBoards = createAsyncThunk(
   'productionBoard/fetchBoards',
   async (token, thunkAPI) => {
@@ -22,7 +22,7 @@ export const fetchBoards = createAsyncThunk(
   },
 );
 
-// Slice
+/* PRODUCTION BOARD SLICE */
 const productionBoardSlice = createSlice({
   name: 'productionBoard',
   initialState,

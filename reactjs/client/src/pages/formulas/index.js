@@ -150,8 +150,10 @@ export default function Formulas() {
       dispatch(reset());
     }
 
+    // resets the form after modal is closed
     if (!show) {
       setFormData(formulaData);
+      setValidated(false);
     }
   }, [success, message, error, show, dispatch]);
 

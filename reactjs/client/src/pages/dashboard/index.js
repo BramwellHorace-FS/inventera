@@ -88,7 +88,7 @@ export default function Dashboard() {
                   <MiniList
                     key={material.id}
                     stock={Number(material.stock)}
-                    unit={material.unit.abbr}
+                    unit={material.unit && material.unit.abbr}
                     minStock={Number(material.minStock)}
                     name={material.name}
                   />
@@ -118,7 +118,7 @@ export default function Dashboard() {
                   <MiniList
                     key={product.id}
                     stock={Number(product.stock)}
-                    unit={product.unit.abbr}
+                    unit={product.unit && product.unit.abbr}
                     minStock={Number(product.minStock)}
                     name={product.name}
                   />

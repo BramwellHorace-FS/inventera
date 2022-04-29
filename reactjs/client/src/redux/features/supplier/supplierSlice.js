@@ -9,7 +9,7 @@ const initialState = {
   success: null,
 };
 
-// Get Suppliers
+/* GET SUPPLIERS */
 export const getSuppliers = createAsyncThunk(
   'supplier/getSuppliers',
   async (token, thunkAPI) => {
@@ -23,7 +23,7 @@ export const getSuppliers = createAsyncThunk(
   },
 );
 
-// Get Supplier
+/* GET SUPPLIER */
 export const getSupplier = createAsyncThunk(
   'supplier/getSupplier',
   async (data, thunkAPI) => {
@@ -40,7 +40,7 @@ export const getSupplier = createAsyncThunk(
   },
 );
 
-// Create Supplier
+/* CREATE SUPPLIER */
 export const createSupplier = createAsyncThunk(
   'supplier/createSupplier',
   async (data, thunkAPI) => {
@@ -57,7 +57,7 @@ export const createSupplier = createAsyncThunk(
   },
 );
 
-// Update Supplier
+/* UPDATE SUPPLIER */
 export const updateSupplier = createAsyncThunk(
   'supplier/updateSupplier',
   async (data, thunkAPI) => {
@@ -78,7 +78,7 @@ export const updateSupplier = createAsyncThunk(
   },
 );
 
-// Delete Supplier
+/* DELETE SUPPLIER */
 export const deleteSupplier = createAsyncThunk(
   'supplier/deleteSupplier',
   async (data, thunkAPI) => {
@@ -95,13 +95,23 @@ export const deleteSupplier = createAsyncThunk(
   },
 );
 
-// Create a slice for each feature
+/* SUPPLIER SLICE */
 const supplierSlice = createSlice({
   name: 'supplier',
   initialState,
-  reducers: {},
+  reducers: {
+    setSuppliers: (state, action) => {
+      state.suppliers.push(action.payload);
+    },
+    resetSuppliers: (state) => {
+      state.suppliers = [];
+      state.supplier = {};
+      state.loading = false;
+      state.error = null;
+      state.success = null;
+    },
+  },
   extraReducers: (builder) => {
-    // Get Suppliers
     builder.addCase(getSuppliers.pending, (state) => {
       state.loading = true;
     });
@@ -113,8 +123,6 @@ const supplierSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     });
-
-    // Get Supplier
     builder.addCase(getSupplier.pending, (state) => {
       state.loading = true;
     });
@@ -126,12 +134,11 @@ const supplierSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     });
-
-    // Create Supplier
     builder.addCase(createSupplier.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(createSupplier.fulfilled, (state, action) => {
+      state.suppliers.push(action.payload);
       state.supplier = action.payload;
       state.loading = false;
     });
@@ -139,8 +146,6 @@ const supplierSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     });
-
-    // Update Supplier
     builder.addCase(updateSupplier.pending, (state) => {
       state.loading = true;
     });
@@ -165,5 +170,7 @@ const supplierSlice = createSlice({
     });
   },
 });
+
+export const { setSuppliers, resetSuppliers } = supplierSlice.actions;
 
 export default supplierSlice.reducer;

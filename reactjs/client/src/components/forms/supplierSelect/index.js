@@ -20,6 +20,9 @@ export default function SupplierSelect({ defaultValue }) {
             </option>
           ))}
       </Form.Select>
+      <Form.Control.Feedback type="invalid">
+        Please select a supplier.
+      </Form.Control.Feedback>
     </>
   );
 }

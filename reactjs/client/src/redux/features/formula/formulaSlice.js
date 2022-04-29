@@ -8,7 +8,7 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
-  message: '',
+  message: null,
 };
 
 /* GET FORMULAS */
@@ -114,6 +114,14 @@ const formulaSlice = createSlice({
     setFormula: (state, action) => {
       state.formula = action.payload;
     },
+    resetFormulas: (state) => {
+      state.formulas = [];
+      state.formula = {};
+      state.loading = false;
+      state.error = null;
+      state.success = false;
+      state.message = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getFormulas.pending, (state) => {
@@ -192,6 +200,7 @@ const formulaSlice = createSlice({
   },
 });
 
-export const { reset, setFormula, setFormulas } = formulaSlice.actions;
+export const { reset, setFormula, setFormulas, resetFormulas } =
+  formulaSlice.actions;
 
 export default formulaSlice.reducer;

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ProductSelect from '../productSelect';
 import StatusSelect from '../statusSelect';
 import UnitSelect from '../unitSelect';
+import FormButton from '../../buttons/form';
 
 export default function ProductionForm({
   handleChange,
@@ -30,12 +31,15 @@ export default function ProductionForm({
               <Form.Control
                 name="name"
                 type="text"
+                min="3"
+                max="50"
                 placeholder="Production Name"
                 defaultValue={formData.name}
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide a production name.
+                Please provide a production name. It must be between 3 and 50
+                characters.
               </Form.Control.Feedback>
             </Col>
           </Row>
@@ -66,7 +70,7 @@ export default function ProductionForm({
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please enter product quantity.
+                Please enter product quantity. It must be a number.
               </Form.Control.Feedback>
             </Col>
           </Row>
@@ -103,6 +107,7 @@ export default function ProductionForm({
               </Form.Label>
               <Form.Control
                 name="dueDate"
+                min={new Date().toISOString().split('T')[0]}
                 type="date"
                 placeholder="Select dute date"
                 defaultValue={formData.dueDate}
@@ -125,6 +130,7 @@ export default function ProductionForm({
               <Form.Control
                 name="notes"
                 as="textarea"
+                max="150"
                 rows="3"
                 placeholder="Enter notes"
                 defaultValue={formData.notes}
@@ -134,22 +140,8 @@ export default function ProductionForm({
         </Container>
       </Form.Group>
 
-      {/* BUTTONS */}
-      <Container className="d-flex justify-content-end mt-4 mb-2">
-        <Row>
-          <Col sm={6}>
-            <Button type="button" variant="outline-dark" onClick={handleClose}>
-              Cancel
-            </Button>
-          </Col>
-
-          <Col sm={6}>
-            <Button type="submit" variant="primary">
-              Save
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+      {/* SUBMIT & CANCEL BUTTONS */}
+      <FormButton handleClose={handleClose} />
     </Form>
   );
 }

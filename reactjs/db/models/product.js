@@ -36,8 +36,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           len: {
-            args: [5, 50],
-            msg: 'Name must be between 5 and 50 characters',
+            args: [3, 50],
+            msg: 'Name must be between 3 and 50 characters',
           },
           isUnique: async (value, next) => {
             Product.findOne({
@@ -88,7 +88,10 @@ module.exports = (sequelize, DataTypes) => {
       sku: {
         type: DataTypes.STRING,
         validate: {
-          max: 50,
+          len: {
+            args: [3, 50],
+            msg: 'SKU must be between 3 and 50 characters',
+          },
         },
       },
       categoryId: {

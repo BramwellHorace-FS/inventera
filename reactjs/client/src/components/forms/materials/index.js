@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import UnitSelect from '../unitSelect';
 import CategorySelect from '../categorySelect';
 import SupplierSelect from '../supplierSelect';
+import FormButtons from '../../buttons/form';
 
 export default function MaterialForm({
   handleClose,
@@ -30,6 +31,7 @@ export default function MaterialForm({
       validated={validated}
       noValidate
     >
+      {/* MATERIAL NAME */}
       <Form.Group>
         <Container fluid>
           <Row>
@@ -39,17 +41,19 @@ export default function MaterialForm({
                 name="name"
                 type="text"
                 placeholder="Enter Material Name"
+                min="3"
+                max="50"
                 required
                 defaultValue={formData.name}
               />
               <Form.Control.Feedback type="invalid">
-                {' '}
-                Please enter a name{' '}
+                Please provide a material name (3-50 characters).
               </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
+      {/* CURRENT STOCK & MIN STOCK */}
       <Form.Group>
         <Container fluid>
           <Row className="align-items-center">
@@ -67,8 +71,7 @@ export default function MaterialForm({
                 defaultValue={formData.stock}
               />
               <Form.Control.Feedback type="invalid">
-                {' '}
-                Please enter a stock level{' '}
+                Please enter a stock level
               </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
@@ -85,13 +88,13 @@ export default function MaterialForm({
                 defaultValue={formData.minStock}
               />
               <Form.Control.Feedback type="invalid">
-                {' '}
-                Please enter a min stock level{' '}
+                Please enter a min stock level
               </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
+      {/* UNIT COST & UNIT OF MEASUREMENT */}
       <Form.Group>
         <Container fluid>
           <Row>
@@ -100,15 +103,14 @@ export default function MaterialForm({
               <Form.Control
                 name="unitCost"
                 type="number"
-                placeholder="Enter Unit Price"
+                placeholder="Enter Unit Cost"
                 required
                 min="0"
                 step=".01"
                 defaultValue={formData.unitCost}
               />
               <Form.Control.Feedback type="invalid">
-                {' '}
-                Please enter a unit cost{' '}
+                Please enter a unit cost
               </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
@@ -120,10 +122,10 @@ export default function MaterialForm({
           </Row>
         </Container>
       </Form.Group>
+      {/* CATEGORY & SUPPLIER */}
       <Form.Group className="mt-3">
         <Container fluid>
           <Row>
-            {/* Category */}
             <Col sm={6}>
               {!createCat ? (
                 <>
@@ -146,13 +148,15 @@ export default function MaterialForm({
                   <Form.Control
                     name="category"
                     type="text"
+                    min="3"
+                    max="50"
                     placeholder="Enter Category"
                     required
                     defaultValue={formData.category}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {' '}
-                    Please enter a category{' '}
+                    Please enter a category. It must be between 3 and 50
+                    characters.
                   </Form.Control.Feedback>
                   <button
                     type="button"
@@ -187,13 +191,14 @@ export default function MaterialForm({
                   <Form.Control
                     name="supplier"
                     type="text"
+                    min="3"
+                    max="50"
                     placeholder="Enter Supplier"
                     required
                     defaultValue={formData.supplier}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {' '}
-                    Please enter a supplier{' '}
+                    Please enter a supplier (3-50 characters).
                   </Form.Control.Feedback>
                   <button
                     type="button"
@@ -208,6 +213,7 @@ export default function MaterialForm({
           </Row>
         </Container>
       </Form.Group>
+      {/* SKU & LAST ORDER DATE */}
       <Form.Group>
         <Container fluid>
           <Row>
@@ -232,33 +238,19 @@ export default function MaterialForm({
                 required
               />
               <Form.Control.Feedback type="invalid">
-                {' '}
-                Please enter a last ordered date{' '}
+                Please enter a last ordered date.
               </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
-      <Container className="d-flex justify-content-end mt-4 mb-2">
-        <Row>
-          <Col sm={6}>
-            <Button type="button" variant="outline-dark" onClick={handleClose}>
-              Cancel
-            </Button>
-          </Col>
-
-          <Col sm={6}>
-            <Button type="submit" variant="primary">
-              Save
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+      {/* FORM BUTTON COMPONENT */}
+      <FormButtons handleClose={handleClose} />
     </Form>
   );
 }
 
-// PropTypes
+/* PROP TYPES */
 MaterialForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,

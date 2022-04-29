@@ -59,8 +59,8 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
+// Serve static files in staging
+if (process.env.NODE_ENV === 'staging') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, '../../client/build')));
 

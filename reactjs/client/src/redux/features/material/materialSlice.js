@@ -110,6 +110,14 @@ const materialSlice = createSlice({
     setMaterial: (state, action) => {
       state.material = action.payload;
     },
+    resetMaterials: (state) => {
+      state.materials = [];
+      state.material = {};
+      state.loading = false;
+      state.success = false;
+      state.error = false;
+      state.message = '';
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getMaterials.pending, (state) => {
@@ -143,6 +151,7 @@ const materialSlice = createSlice({
     });
     builder.addCase(createMaterial.fulfilled, (state, action) => {
       state.materials.push(action.payload);
+      state.material = action.payload;
       state.loading = false;
       state.success = true;
       state.error = false;
@@ -192,6 +201,6 @@ const materialSlice = createSlice({
   },
 });
 
-export const { reset, setMaterial } = materialSlice.actions;
+export const { reset, setMaterial, resetMaterials } = materialSlice.actions;
 
 export default materialSlice.reducer;

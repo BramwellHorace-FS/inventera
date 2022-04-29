@@ -15,6 +15,8 @@ import {
   setMaterial,
   reset,
 } from '../../redux/features/material/materialSlice';
+import { setCategories } from '../../redux/features/category/categorySlice';
+import { setSuppliers } from '../../redux/features/supplier/supplierSlice';
 import { materialData } from '../../formDefaults';
 
 export default function Materials() {
@@ -28,11 +30,12 @@ export default function Materials() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { materials, material, error, success, loading, message } = useSelector(
+  const { suppliers } = useSelector((state) => state.supplier);
+  const { categories } = useSelector((state) => state.category);
+  const { materials, material, error, success, message } = useSelector(
     (state) => state.material,
   );
   const { user } = useSelector((state) => state.auth);
-  const { categories } = useSelector((state) => state.category);
 
   const { token } = user;
 
@@ -56,7 +59,9 @@ export default function Materials() {
     setFormData({
       ...material,
       category: material.categoryId,
+      categoryId: material.categoryId,
       supplier: material.supplierId,
+      supplierId: material.supplierId,
       lastOrdered: material.lastOrdered.substring(0, 10),
     });
   };
@@ -65,16 +70,11 @@ export default function Materials() {
   const handleUpdate = (date) => {
     const id = selected[0];
 
-    const cat = categories.find(
-      (category) => category.id === formData.categoryId,
-    );
-
     const data = {
       token,
       materialId: id,
       material: {
         ...formData,
-        category: cat.name,
         lastOrdered: date.toISOString(),
       },
     };
@@ -146,11 +146,10 @@ export default function Materials() {
       dispatch(reset());
     }
 
-    if (success && message) {
+    if (success && message && !error) {
       toast.success(message);
       dispatch(reset());
       handleClose();
-      setFormData(materialData);
     }
   }, [error, success, message, dispatch]);
 
@@ -163,7 +162,36 @@ export default function Materials() {
 
       dispatch(setMaterial(mat));
     }
-  }, [selected, materials, dispatch]);
+
+    // resets the form after modal is closed
+    if (!show) {
+      setFormData(materialData);
+      setValidated(false);
+    }
+  }, [selected, materials, show, dispatch]);
+
+  /* PUSH NEW CATEGORIES & SUPPLIERS TO REDUX */
+  /* Future development: Update the form to send request to create categories and suppliers
+   if they don't exist in the database instead of pushing them to the redux store using this hook. */
+  useEffect(() => {
+    // checks if material is set, if it is, it checks if the categories and suppliers exists in the store
+    // if not, it pushes them to the store.
+    if (Object.keys(material).length > 0) {
+      const sup = suppliers.find((item) => item.id === material.supplierId);
+
+      if (!sup) {
+        dispatch(setSuppliers(material.supplier));
+      }
+    }
+
+    if (Object.keys(material).length > 0) {
+      const cat = categories.find((item) => item.id === material.categoryId);
+
+      if (!cat) {
+        dispatch(setCategories(material.category));
+      }
+    }
+  }, [material, suppliers, categories, dispatch]);
 
   return (
     <>
