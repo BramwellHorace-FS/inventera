@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
             Category.findOne({
               where: {
                 name: value,
+                userId: this.userId,
               },
             }).then(function (category) {
               if (category) {
