@@ -3,7 +3,7 @@ export const materialData = {
   stock: '',
   minStock: '',
   unitCost: '',
-  unit: '',
+  unitId: '',
   category: '',
   categoryId: '',
   supplier: '',
@@ -17,7 +17,7 @@ export const productData = {
   stock: '',
   minStock: '',
   unitCost: '',
-  unit: '',
+  unitId: '',
   category: '',
   categoryId: '',
   sku: '',
@@ -31,7 +31,7 @@ export const formulaData = {
   fragranceLoad: '',
   fragranceAmount: '',
   waxAmount: '',
-  unit: '',
+  unitId: '',
   note: '',
 };
 

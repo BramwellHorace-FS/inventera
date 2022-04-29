@@ -55,7 +55,6 @@ export default function Materials() {
     handleShow();
     setFormData({
       ...material,
-      unit: material.unit.id,
       category: material.categoryId,
       supplier: material.supplierId,
       lastOrdered: material.lastOrdered.substring(0, 10),
@@ -197,12 +196,7 @@ export default function Materials() {
             )}
           </ButtonGroup>
         )}
-        <MaterialTable
-          materials={materials}
-          handleSelect={handleSelect}
-          loading={loading}
-          success={success}
-        />
+        <MaterialTable handleSelect={handleSelect} />
 
         <SiteModal
           show={show}

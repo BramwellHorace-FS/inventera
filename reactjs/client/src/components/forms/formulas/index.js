@@ -82,10 +82,10 @@ export default function FormulaForm({
       </Form.Group>
 
       {/* FRAGRANCE LOAD & UNIT SELECT */}
-      <Form.Group>
+      <Form.Group className="mt-3">
         <Container>
           <Row>
-            <Col sm={6} className="mt-3">
+            <Col sm={6}>
               <Form.Label className="text-muted h6">
                 Fragrance Load (%) <span className="text-danger">*</span>
               </Form.Label>
@@ -103,7 +103,10 @@ export default function FormulaForm({
               </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
-              <UnitSelect defaultValue={formData.unit} />
+              <Form.Label className="text-muted h6">
+                Unit <span className="text-danger">*</span>
+              </Form.Label>
+              <UnitSelect defaultValue={formData.unitId} />
             </Col>
           </Row>
         </Container>

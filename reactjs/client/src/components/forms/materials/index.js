@@ -112,7 +112,10 @@ export default function MaterialForm({
               </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
-              <UnitSelect name="unit" defaultValue={formData.unit} />
+              <Form.Label className="text-muted h6 mt-3">
+                Unit Type <span className="text-danger">*</span>
+              </Form.Label>
+              <UnitSelect name="unit" defaultValue={formData.unitId} />
             </Col>
           </Row>
         </Container>
@@ -264,7 +267,7 @@ MaterialForm.propTypes = {
     stock: PropTypes.any,
     minStock: PropTypes.any,
     unitCost: PropTypes.any,
-    unit: PropTypes.string,
+    unitId: PropTypes.string,
     category: PropTypes.string,
     supplier: PropTypes.string,
     sku: PropTypes.string,

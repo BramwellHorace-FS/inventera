@@ -63,7 +63,6 @@ exports.create = async (req, res, next) => {
 
     const data = {
       ...req.body,
-      unitId: req.body.unit,
       userId: req.user.id,
       id: uuidv4(),
     };
@@ -97,7 +96,6 @@ exports.update = async (req, res, next) => {
 
     const data = {
       ...req.body,
-      unitId: req.body.unit,
       userId: req.user.id,
     };
 

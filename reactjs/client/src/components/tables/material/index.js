@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Table, Form, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import NotFound from '../../notFound';
 
-export default function MaterialTable({
-  materials,
-  handleSelect,
-  loading,
-  success,
-}) {
+export default function MaterialTable({ handleSelect }) {
   const [colors] = useState(['red', 'blue', 'green', 'yellow']);
+
+  const { materials, loading, success } = useSelector(
+    (state) => state.material,
+  );
 
   return (
     <>
@@ -57,7 +57,7 @@ export default function MaterialTable({
                         : ''
                     }
                   >
-                    {material.stock} {material.unit.abbr}
+                    {material.stock} {material.unit && material.unit.abbr}
                   </span>
                 </td>
                 <td>
@@ -68,28 +68,30 @@ export default function MaterialTable({
                         : ''
                     }
                   >
-                    {material.minStock} {material.unit.abbr}
+                    {material.minStock} {material.unit && material.unit.abbr}
                   </span>
                 </td>
                 <td>$ {Number(material.unitCost).toFixed(2)}</td>
                 <td>{material.sku}</td>
-                <td>{material.supplier.name}</td>
+                <td>{material.supplier && material.supplier.name}</td>
                 <td>
-                  <span
-                    className={`badge badge-${
-                      material.category.name.length === 4
-                        ? colors[0]
-                        : material.category.name.length === 5
-                        ? colors[1]
-                        : material.category.name.length === 6
-                        ? colors[2]
-                        : material.category.name.length >= 7
-                        ? colors[3]
-                        : 'secondary'
-                    }`}
-                  >
-                    {material.category.name}
-                  </span>
+                  {material.category && material.category.name && (
+                    <span
+                      className={`badge badge-${
+                        material.category.name.length === 4
+                          ? colors[0]
+                          : material.category.name.length === 5
+                          ? colors[1]
+                          : material.category.name.length === 6
+                          ? colors[2]
+                          : material.category.name.length >= 7
+                          ? colors[3]
+                          : 'secondary'
+                      }`}
+                    >
+                      {material.category.name}
+                    </span>
+                  )}
                 </td>
                 <td>
                   {material.lastOrdered
@@ -116,8 +118,5 @@ export default function MaterialTable({
 
 // PropTypes
 MaterialTable.propTypes = {
-  materials: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleSelect: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  success: PropTypes.bool.isRequired,
 };

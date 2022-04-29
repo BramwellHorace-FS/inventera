@@ -61,7 +61,6 @@ export default function Products() {
     setFormData({
       ...product,
       category: '',
-      unit: product.unitId,
       categoryId: product.categoryId,
     });
   };
@@ -149,9 +148,11 @@ export default function Products() {
       toast.success(message);
       dispatch(reset());
       handleClose();
+    }
+    if (!show) {
       setFormData(productData);
     }
-  }, [error, success, message, dispatch]);
+  }, [error, success, message, show, dispatch]);
 
   /* SETS PRODUCT IF ONE IS SELECTED */
   useEffect(() => {

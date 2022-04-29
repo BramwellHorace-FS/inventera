@@ -59,7 +59,6 @@ export default function Formulas() {
 
     setFormData({
       ...formula,
-      unit: formula.unitId,
     });
   };
 
@@ -109,7 +108,6 @@ export default function Formulas() {
         ...formData,
         fragranceAmount,
         waxAmount,
-        unitId: formData.unit,
       },
       token,
     };
@@ -143,7 +141,6 @@ export default function Formulas() {
       toast.success(message);
       dispatch(reset());
       handleClose();
-      setFormData(formulaData);
     }
 
     // update formula slice to display an error message
@@ -152,7 +149,11 @@ export default function Formulas() {
       toast.error(error);
       dispatch(reset());
     }
-  }, [success, message, error, dispatch]);
+
+    if (!show) {
+      setFormData(formulaData);
+    }
+  }, [success, message, error, show, dispatch]);
 
   /* SETS FORMULA IF ONE ID IS ADDED TO SELECTED */
   useEffect(() => {
