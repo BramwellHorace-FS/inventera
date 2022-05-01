@@ -51,16 +51,40 @@ exports.getOne = async (req, res, next) => {
 // POST /api/products
 exports.create = async (req, res, next) => {
   try {
-    const product = await Product.create({
-      id: uuidv4(),
+    // checks if the req body contains a new category to be created
+    if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
+      const category = await Category.create({
+        id: uuidv4(),
+        name: req.body.category,
+        userId: req.user.id,
+      });
+
+      req.body.categoryId = category.id;
+    }
+
+    // sets the data to be inserted
+    const data = {
       ...req.body,
       userId: req.user.id,
+      id: uuidv4(),
+    };
+
+    // creates the product
+    const product = await Product.create(data);
+
+    // retrieve the newly created product
+    const newProduct = await Product.findByPk(product.id, {
+      where: { userId: req.user.id },
+      include: [
+        { model: Unit, as: 'unit' },
+        { model: Category, as: 'category' },
+      ],
     });
 
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       message: 'Product created successfully',
-      product,
+      product: newProduct,
     });
   } catch (err) {
     next(err);
@@ -70,7 +94,30 @@ exports.create = async (req, res, next) => {
 // PUT /api/products/:id
 exports.update = async (req, res, next) => {
   try {
+    console.log(req.body);
+
+    if (req.body.category && req.body.category.length !== 0 && !req.body.categoryId) {
+      const category = await Category.create({
+        id: uuidv4(),
+        name: req.body.category,
+        userId: req.user.id,
+      });
+
+      req.body.categoryId = category.id;
+    }
+
+    const data = {
+      ...req.body,
+      userId: req.user.id,
+    };
+
     const product = await Product.findByPk(req.params.id, {
+      where: { userId: req.user.id },
+    });
+
+    await product.update(data);
+
+    const updatedProduct = await Product.findByPk(req.params.id, {
       where: { userId: req.user.id },
       include: [
         { model: Unit, as: 'unit' },
@@ -78,12 +125,10 @@ exports.update = async (req, res, next) => {
       ],
     });
 
-    await product.update(req.body);
-
     res.status(200).json({
       status: 'success',
       message: 'Product updated successfully',
-      product,
+      product: updatedProduct,
     });
   } catch (err) {
     next(err);
@@ -99,7 +144,11 @@ exports.deleteOne = async (req, res, next) => {
 
     await product.destroy();
 
-    res.status(204).end();
+    res.status(200).json({
+      status: 'success',
+      message: 'Product deleted successfully',
+      product,
+    });
   } catch (err) {
     next(err);
   }

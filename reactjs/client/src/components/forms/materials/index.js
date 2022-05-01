@@ -1,58 +1,37 @@
 import React, { useState } from 'react';
-import {
-  Form,
-  Button,
-  ButtonGroup,
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import validateForm from '../../../utils/validateForm';
 import UnitSelect from '../unitSelect';
+import CategorySelect from '../categorySelect';
+import SupplierSelect from '../supplierSelect';
+import FormButtons from '../../buttons/form';
 
-export default function MaterialForm({ handleClose }) {
-  const [validated, setValidated] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    stock: '',
-    minStock: '',
-    price: '',
-    unit: '',
-    category: '',
-    supplier: '',
-    sku: '',
-    lastOrdered: '',
-  });
+export default function MaterialForm({
+  handleClose,
+  handleChange,
+  handleSubmit,
+  formData,
+  validated,
+}) {
+  const [createCat, setCreateCat] = useState(false);
+  const [createSup, setCreateSup] = useState(false);
 
-  // Redux state
-  // const { materials, status } = useSelector((state) => state.materials);
-
-  // Redux dispatch
-  // const dispatch = useDispatch();
-
-  // Handle form input changes
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleCreateCat = () => {
+    setCreateCat(!createCat);
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    validateForm(e, setValidated);
+  const handleCreateSup = () => {
+    setCreateSup(!createSup);
   };
-
-  // on select change
 
   return (
     <Form
       onChange={handleChange}
       onSubmit={handleSubmit}
-      noValidate
       validated={validated}
+      noValidate
     >
+      {/* MATERIAL NAME */}
       <Form.Group>
         <Container fluid>
           <Row>
@@ -62,17 +41,19 @@ export default function MaterialForm({ handleClose }) {
                 name="name"
                 type="text"
                 placeholder="Enter Material Name"
+                min="3"
+                max="50"
                 required
                 defaultValue={formData.name}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter a name.
+                Please provide a material name (3-50 characters).
               </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
-
+      {/* CURRENT STOCK & MIN STOCK */}
       <Form.Group>
         <Container fluid>
           <Row className="align-items-center">
@@ -90,7 +71,7 @@ export default function MaterialForm({ handleClose }) {
                 defaultValue={formData.stock}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter stock level
+                Please enter a stock level
               </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
@@ -107,75 +88,132 @@ export default function MaterialForm({ handleClose }) {
                 defaultValue={formData.minStock}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter min stock level
+                Please enter a min stock level
               </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
-
+      {/* UNIT COST & UNIT OF MEASUREMENT */}
       <Form.Group>
         <Container fluid>
           <Row>
             <Col sm={6}>
               <Form.Label className="text-muted h6 mt-3">Unit Price</Form.Label>
               <Form.Control
-                name="price"
+                name="unitCost"
                 type="number"
-                placeholder="Enter Unit Price"
+                placeholder="Enter Unit Cost"
                 required
                 min="0"
                 step=".01"
-                defaultValue={formData.price}
+                defaultValue={formData.unitCost}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter a valid unit price.
+                Please enter a unit cost
               </Form.Control.Feedback>
             </Col>
             <Col sm={6}>
-              <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
-              <UnitSelect name="unit" defaultValue={formData.unit} />
-              <Form.Control.Feedback type="invalid">
-                Please select a unit type.
-              </Form.Control.Feedback>
+              <Form.Label className="text-muted h6 mt-3">
+                Unit Type <span className="text-danger">*</span>
+              </Form.Label>
+              <UnitSelect name="unit" defaultValue={formData.unitId} />
             </Col>
           </Row>
         </Container>
       </Form.Group>
-
-      <Form.Group>
+      {/* CATEGORY & SUPPLIER */}
+      <Form.Group className="mt-3">
         <Container fluid>
           <Row>
             <Col sm={6}>
-              <Form.Label className="text-muted h6 mt-3">Category </Form.Label>
-              <Form.Control
-                name="category"
-                type="text"
-                placeholder="Enter Category"
-                required
-                defaultValue={formData.category}
-              />
-              <Form.Control.Feedback type="invalid">
-                Please enter a category.
-              </Form.Control.Feedback>
+              {!createCat ? (
+                <>
+                  <CategorySelect
+                    name="category"
+                    defaultValue={formData.categoryId}
+                  />
+                  {/* Create new category  */}
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateCat}
+                  >
+                    Create new category
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Form.Label className="text-muted h6">Category</Form.Label>
+                  <Form.Control
+                    name="category"
+                    type="text"
+                    min="3"
+                    max="50"
+                    placeholder="Enter Category"
+                    required
+                    defaultValue={formData.category}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please enter a category. It must be between 3 and 50
+                    characters.
+                  </Form.Control.Feedback>
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateCat}
+                  >
+                    Select existing category
+                  </button>
+                </>
+              )}
             </Col>
+            {/* Supplier */}
             <Col sm={6}>
-              <Form.Label className="text-muted h6 mt-3">Supplier </Form.Label>
-              <Form.Control
-                name="supplier"
-                type="text"
-                placeholder="Enter Supplier"
-                required
-                defaultValue={formData.supplier}
-              />
-              <Form.Control.Feedback type="invalid">
-                Please enter a supplier.
-              </Form.Control.Feedback>
+              {!createSup ? (
+                <>
+                  <SupplierSelect
+                    name="supplier"
+                    defaultValue={formData.supplierId}
+                  />
+                  {/* Create new supplier  */}
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateSup}
+                  >
+                    Create new supplier
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Form.Label className="text-muted h6">Supplier</Form.Label>
+                  <Form.Control
+                    name="supplier"
+                    type="text"
+                    min="3"
+                    max="50"
+                    placeholder="Enter Supplier"
+                    required
+                    defaultValue={formData.supplier}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please enter a supplier (3-50 characters).
+                  </Form.Control.Feedback>
+                  <button
+                    type="button"
+                    className="btn btn-link p-0 pt-1"
+                    onClick={handleCreateSup}
+                  >
+                    Select existing supplier
+                  </button>
+                </>
+              )}
             </Col>
           </Row>
         </Container>
       </Form.Group>
-
+      {/* SKU & LAST ORDER DATE */}
       <Form.Group>
         <Container fluid>
           <Row>
@@ -197,26 +235,38 @@ export default function MaterialForm({ handleClose }) {
                 type="date"
                 placeholder="Enter Last Ordered"
                 defaultValue={formData.lastOrdered}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Please enter a last ordered date.
+              </Form.Control.Feedback>
             </Col>
           </Row>
         </Container>
       </Form.Group>
-
-      <ButtonGroup className="mt-3 d-flex gap-3 p-2">
-        <Button type="button" variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-
-        <Button type="submit" variant="primary">
-          Save
-        </Button>
-      </ButtonGroup>
+      {/* FORM BUTTON COMPONENT */}
+      <FormButtons handleClose={handleClose} />
     </Form>
   );
 }
 
-// PropTypes
+/* PROP TYPES */
 MaterialForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  formData: PropTypes.shape({
+    name: PropTypes.string,
+    stock: PropTypes.any,
+    minStock: PropTypes.any,
+    unitCost: PropTypes.any,
+    unitId: PropTypes.string,
+    category: PropTypes.string,
+    supplier: PropTypes.string,
+    sku: PropTypes.string,
+    lastOrdered: PropTypes.string,
+    supplierId: PropTypes.string,
+    categoryId: PropTypes.string,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  validated: PropTypes.bool.isRequired,
 };

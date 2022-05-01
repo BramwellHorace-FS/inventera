@@ -27,6 +27,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
+// Serve static files in staging
+if (process.env.NODE_ENV === 'staging') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
+}
+
 // Use Routes
 app.use('/api/user', authenticate, userRouter);
 app.use('/api/units', authenticate, unitRouter);
@@ -58,16 +69,5 @@ app.use((error, req, res, next) => {
     },
   });
 });
-
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, '../../client/build')));
-
-  // Handle React routing, return all requests to React app
-  app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
-  });
-}
 
 module.exports = app;

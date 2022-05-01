@@ -70,6 +70,51 @@ a {
   background-color: #edf5f9 !important;
 }
 
+/* badge color */
+.badge {
+  color: #142230;
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-line-height);
+}
+
+/* badges for categories */
+.badge-green {
+  background-color: #ced7d4;
+}
+
+.badge-red {
+  background-color: #f1d1cf;
+}
+
+.badge-yellow {
+  background-color: #fdf0c4;
+}
+
+.badge-blue {
+  background-color: #edf5f9;
+}
+
+/* badges for production status */
+.badge-incomplete {
+  background-color: #2a2d32;
+}
+
+.badge-progress {
+  background-color: #5489f1;
+}
+
+.badge-complete {
+  background-color: #7edf88;
+}
+
+/* TYPOGRAPHY 
+===================================== */
+.font-italic {
+  font-style: italic;
+}
+
 /* MODAL
 ======================================== */
 /* modal backdrop */

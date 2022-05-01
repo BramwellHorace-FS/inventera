@@ -8,18 +8,17 @@ function UnitSelect({ defaultValue }) {
 
   return (
     <>
-      <Form.Label className="text-muted h6 mt-3">Unit Type</Form.Label>
       <Form.Select
-        name="unit"
+        name="unitId"
         placeholder="Select Unit Type"
-        aria-label="Default select example"
+        aria-label="Select unit of measure"
         required
         defaultValue={defaultValue}
       >
         <option value="">Select Unit Type</option>
         {units &&
           units.map((unit) => (
-            <option key={unit.id} value={unit.name}>
+            <option key={unit.id} value={unit.id}>
               {unit.name} ({unit.abbr})
             </option>
           ))}

@@ -14,6 +14,12 @@ import User from '../components/user';
 import { fetchUserData } from '../redux/features/user/userSlice';
 import { fetchUnits } from '../redux/features/unit/unitSlice';
 import { fetchBoards } from '../redux/features/productionBoard/productionBoardSlice';
+import { getMaterials } from '../redux/features/material/materialSlice';
+import { getCategories } from '../redux/features/category/categorySlice';
+import { getSuppliers } from '../redux/features/supplier/supplierSlice';
+import { getProducts } from '../redux/features/product/productSlice';
+import { getFormulas } from '../redux/features/formula/formulaSlice';
+import { getProductions } from '../redux/features/production/productionSlice';
 import styles from './styles.module.css';
 
 export default function Layout({ children }) {
@@ -25,21 +31,23 @@ export default function Layout({ children }) {
   const { validated, handleSubmit } = useValidate();
 
   const dispatch = useDispatch();
+
   const { userData } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.auth);
-  const { boards } = useSelector((state) => state.board);
 
   useEffect(() => {
     if (user) {
       dispatch(fetchUserData(user.token));
       dispatch(fetchUnits(user.token));
       dispatch(fetchBoards(user.token));
+      dispatch(getMaterials(user.token));
+      dispatch(getCategories(user.token));
+      dispatch(getSuppliers(user.token));
+      dispatch(getProducts(user.token));
+      dispatch(getFormulas(user.token));
+      dispatch(getProductions(user.token));
     }
   }, [dispatch, user]);
-
-  useEffect(() => {
-    console.log(boards);
-  }, [boards]);
 
   return (
     <div className={styles.layout}>

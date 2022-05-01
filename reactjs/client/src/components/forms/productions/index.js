@@ -1,210 +1,156 @@
-import React, { useState } from 'react';
-import {
-  Form,
-  Button,
-  ButtonGroup,
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
-// import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import validateForm from '../../../utils/validateForm';
 import ProductSelect from '../productSelect';
+import StatusSelect from '../statusSelect';
+import UnitSelect from '../unitSelect';
+import FormButton from '../../buttons/form';
 
-export default function ProductionForm({ handleClose }) {
-  const [validated, setValidated] = useState(false);
-  // const [products, setProducts] = useState([]);
-  const [selectInput, setSelectInput] = useState([
-    <ProductSelect key="1" defaultValue="" />,
-  ]);
-  const [formData, setFormData] = useState({
-    name: '',
-    product: '',
-    quantity: '',
-    status: '',
-    dueDate: '',
-  });
-
-  // Redux distpatch
-  // const dispatch = useDispatch();
-
-  // Redux state - will be added when conntecting to the database
-
-  // handleChange
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // handleSubmit
-  const handleSubmit = (e) => {
-    validateForm(e, setValidated);
-  };
-
-  // handleAddProduct
-  const handleAddInput = () => {
-    setSelectInput([
-      ...selectInput,
-      <ProductSelect key={selectInput.length + 1} defaultValue="" />,
-    ]);
-  };
-
-  // handleRemoveProduct
-  const handleRemoveInput = () => {
-    setSelectInput(selectInput.slice(0, selectInput.length - 1));
-  };
-
+export default function ProductionForm({
+  handleChange,
+  handleSubmit,
+  handleClose,
+  validated,
+  formData,
+}) {
   return (
     <Form
-      onChange={handleChange}
       noValidate
       validated={validated}
       onSubmit={handleSubmit}
+      onChange={handleChange}
     >
       {/* PRODUCTION NAME */}
-      <Container fluid>
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">
-              Production Name
-            </Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Production Name"
-              name="name"
-              defaultValue={formData.name}
-            />
-            <Form.Control.Feedback type="invalid">
-              Please enter a name for the production.
-            </Form.Control.Feedback>
-          </Col>
-        </Row>
-      </Container>
+      <Form.Group>
+        <Container>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6">
+                Production Name <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
+                name="name"
+                type="text"
+                min="3"
+                max="50"
+                placeholder="Production Name"
+                defaultValue={formData.name}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a production name. It must be between 3 and 50
+                characters.
+              </Form.Control.Feedback>
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
 
-      {/* PRODUCTS TO MAKE */}
-      <Container fluid>
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">
-              Items to make
-            </Form.Label>
-            {selectInput &&
-              selectInput.map((input) => {
-                if (selectInput.length > 1) {
-                  return (
-                    // Add unique key to each element
-                    <React.Fragment key={input.key}>
-                      <Row>
-                        <Col sm="9">{input}</Col>
-                        <Col sm="3">
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={handleRemoveInput}
-                          >
-                            Remove
-                          </button>
-                        </Col>
-                      </Row>
-                    </React.Fragment>
-                  );
-                }
-                return input;
-              })}
-          </Col>
-        </Row>
-      </Container>
+      {/* PRODUCT SELECT & QUANTITY */}
+      <Form.Group className="mt-3">
+        <Container>
+          <Row>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Product <span className="text-danger">*</span>
+              </Form.Label>
+              <ProductSelect defaultValue={formData.productId} />
+            </Col>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Quantity <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
+                name="quantity"
+                type="number"
+                step=".01"
+                min="0"
+                defaultValue={formData.quantity}
+                placeholder="Enter product quantity"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter product quantity. It must be a number.
+              </Form.Control.Feedback>
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
 
-      {/* ADD PRODUCT BUTTON */}
-      <Container fluid className="mt-3">
-        <Row>
-          <Col>
-            <Button variant="secondary" type="button" onClick={handleAddInput}>
-              Add Product
-            </Button>
-          </Col>
-        </Row>
-      </Container>
-
-      {/* QUANTITY */}
-      <Container fluid>
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">
-              Number of items to make
-            </Form.Label>
-            <Form.Control
-              min="1"
-              required
-              type="number"
-              placeholder="0"
-              name={formData.quantity}
-            />
-            <Form.Control.Feedback type="invalid">
-              Please enter a number of items to make. Must be greater than 0.
-            </Form.Control.Feedback>
-          </Col>
-        </Row>
-      </Container>
-
-      {/* STATUS */}
-      <Container fluid>
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">Status</Form.Label>
-            <Form.Select
-              required
-              name="status"
-              defaultValue={formData.status}
-              arial-label="Select a status"
-            >
-              <option value="">Select status</option>
-              <option value="Incomplete">Incomplete</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              Please select a status for the production.
-            </Form.Control.Feedback>
-          </Col>
-        </Row>
-      </Container>
+      {/* UNIT SELECT & STATUS */}
+      <Form.Group className="mt-3">
+        <Container>
+          <Row>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Unit Type <span className="text-danger">*</span>
+              </Form.Label>
+              <UnitSelect defaultValue={formData.unitId} />
+            </Col>
+            <Col sm={6}>
+              <Form.Label className="text-muted h6">
+                Status <span className="text-danger">*</span>
+              </Form.Label>
+              <StatusSelect defaultValue={formData.productionBoardId} />
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
 
       {/* DUE DATE */}
-      <Container fluid>
-        <Row>
-          <Col>
-            <Form.Label className="text-muted h6 mt-3">Due Date</Form.Label>
-            <Form.Control
-              required
-              type="date"
-              placeholder="Due Date"
-              defaultValue={formData.dueDate}
-              name="dueDate"
-            />
-            <Form.Control.Feedback type="invalid">
-              Please enter a due date.
-            </Form.Control.Feedback>
-          </Col>
-        </Row>
-      </Container>
+      <Form.Group className="mt-3">
+        <Container>
+          <Row>
+            <Col sm={12}>
+              <Form.Label className="text-muted h6">
+                Due Date <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
+                name="dueDate"
+                min={new Date().toISOString().split('T')[0]}
+                type="date"
+                placeholder="Select dute date"
+                defaultValue={formData.dueDate}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please select a due date.
+              </Form.Control.Feedback>
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
 
-      <ButtonGroup className="mt-3 d-flex gap-3 p-2">
-        <Button variant="secondary" type="button" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button variant="primary" type="submit">
-          Save
-        </Button>
-      </ButtonGroup>
+      {/* NOTES */}
+      <Form.Group className="mt-3">
+        <Container>
+          <Row>
+            <Col>
+              <Form.Label className="text-muted h6">Notes</Form.Label>
+              <Form.Control
+                name="notes"
+                as="textarea"
+                max="150"
+                rows="3"
+                placeholder="Enter notes"
+                defaultValue={formData.notes}
+              />
+            </Col>
+          </Row>
+        </Container>
+      </Form.Group>
+
+      {/* SUBMIT & CANCEL BUTTONS */}
+      <FormButton handleClose={handleClose} />
     </Form>
   );
 }
 
+/* PROP TYPES */
 ProductionForm.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  validated: PropTypes.bool.isRequired,
+  formData: PropTypes.object.isRequired,
 };
