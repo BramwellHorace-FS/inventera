@@ -14,7 +14,7 @@ hbramwell@student.fullsail.edu -- (754) 302-8813
 
 ### April 12, 2022
 
-**🛠 Worked completed:**
+**🛠 Work completed:**
 
 During this week, I started working on the backend of the application. This included creating the database (PostgreSQL), creating the models, and creating the routes. I also worked on some basic error handling. The backend is currently in a very early stage of development and will be updated as time goes on. For example, some routes return null values, which is not ideal. They should be updated to return a 404 status code with a message. In addition to this, the user route which I created for testing purposes should be removed in the future. Other than that, the backend is pretty solid. However, I am a bit concerned about how migrations will work once I began deploying the application since some models depend on other models and require migrations to run in a specific order. Other than that, I think the backend is coming along nicely.
 
@@ -40,7 +40,7 @@ To address the above challenges and concerns, I will be working on the following
 
 <br>
 
-**🛠 Worked completed:**
+**🛠 Work completed:**
 
 This week, the main tasks I wanted to focus on were authentication and testing. For authentication, I created an authentication controller that will handle all of the authentication logic. This includes creating a user and logging in a user. I also created the routes for the authentication controller. I then proceeded to create an auth middleware that is used to check for a valid token. This middleware was added to the routes I don't want to be accessible to the public or unauthorized users. I created utility functions to handle token generation that is used in the authentication controller.
 
@@ -68,7 +68,7 @@ This week I wasn't able to test the deployment of the application on Heroku. So 
 
 <br>
 
-**🛠 Worked completed:**
+**🛠 Work completed:**
 
 This week, my primary task was to update the Redux features created in the previous month to use the Backend API. Initially, I was going to update the thunk functions with the URLs and data required to make the API calls. However, I decided to remove the existing files and start from scratch. I did this partly out of frustration from the challenges I faced, which I will briefly discuss later.
 
@@ -92,6 +92,28 @@ Since I was unable to finish all of the Redux features, I will continue to work 
 - [ ] Add an empty state to the application.
 - [ ] Iron out any issues with the application.
 - [ ] Test deployment on Heroku.
+
+---
+
+<br>
+
+### May 1, 2022
+
+<br>
+
+**🛠 Work completed:**
+
+For this milestone, I worked on completing all of the redux slices and actions that I didn't complete in the previous milestone. In addition to this work, I needed to update some of the components or create new ones to use the new redux state. There were quite a few "hacks" I implemented to get a working version of the application. This includes using multiple useEffect hooks, conditionals, and utility functions. As I continued development, I realized that some things that I initially planned were either no longer necessary or weren't enough, which resulted in these workarounds. For example, instead of having the user enter the category manually, it made more sense to provide an option to either create a new category or select from an existing one. This required me to add some way of checking the response body for a new category and creating it if it doesn't already exist in the database before sending the data back to the client. The code I wrote for testing these features isn't the cleanest or the prettiest. However, the codebase is still in its early stages. There is quite a bit of refactoring and cleanup I will be doing, both in terms of the front end and backend.
+
+**🛑 Challenges:**
+
+During this milestone, I didn't run into any major challenges during development. The biggest issue I faced was during deployment to the staging environment. When I tried to deploy the application to test if it functions as it does locally, I kept getting a Heroku Internal Server Error. I decided to upload the project to my personal Github account to deploy to render.com to see if it might have been an issue with my project or the Heroku server. The issue seemed to be Heroku since my project deployed to render.com without any issues.
+
+As for the functionality of the application, everything worked as it does locally, except for the production route. When I go to add a new production, I get a 504 error. I don't know why, and I don't know how to fix it. When I view the logs in the dashboard, I see that the error is coming from the server. It appears that when the production is being created, userId is not being set. This will require some investigation to see what is causing this issue and how to fix it.
+
+**⚡️ Plans:**
+
+My plans for future development are to refactor the codebase, create utility functions to handle repetitive tasks, update migration scripts to remove columns and add columns to reflect the new functionality, and fix the issue with the production route. I will also be updating the Redux reducers to use the message from the server instead of the hardcoded message.
 
 <!-- <br>
 
