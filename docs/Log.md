@@ -88,10 +88,10 @@ There were a few other minor issues I had. However, I was able to find solutions
 
 Since I was unable to finish all of the Redux features, I will continue to work on them. I also still haven't gotten around to testing deployment on Heroku, as I have been focusing on trying to finish up the development of the application. So, my next steps for the next milestone are the following:
 
-- [ ] Finish Redux features.
-- [ ] Add an empty state to the application.
+- [x] Finish Redux features.
+- [x] Add an empty state to the application.
 - [ ] Iron out any issues with the application.
-- [ ] Test deployment on Heroku.
+- [x] Test deployment on Heroku.
 
 ---
 
