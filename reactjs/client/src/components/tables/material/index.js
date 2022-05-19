@@ -7,9 +7,7 @@ import NotFound from '../../notFound';
 export default function MaterialTable({ handleSelect }) {
   const [colors] = useState(['red', 'blue', 'green', 'yellow']);
 
-  const { materials, loading, success } = useSelector(
-    (state) => state.material,
-  );
+  const { materials, loading } = useSelector((state) => state.material);
 
   return (
     <>

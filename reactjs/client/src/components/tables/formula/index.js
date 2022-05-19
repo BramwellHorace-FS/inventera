@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import NotFound from '../../notFound';
 
 export default function FormulaTable({ handleSelect }) {
-  const { formulas, loading, success } = useSelector((state) => state.formula);
+  const { formulas, loading } = useSelector((state) => state.formula);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import UnitSelect from '../unitSelect';
 import CategorySelect from '../categorySelect';

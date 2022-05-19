@@ -7,7 +7,7 @@ import NotFound from '../../notFound';
 export default function ProductTable({ handleSelect }) {
   const [colors] = useState(['red', 'blue', 'green', 'yellow']);
 
-  const { products, loading, success } = useSelector((state) => state.product);
+  const { products, loading } = useSelector((state) => state.product);
 
   return (
     <>
