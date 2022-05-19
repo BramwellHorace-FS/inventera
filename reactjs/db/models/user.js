@@ -28,11 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'materials',
       });
 
-      User.hasMany(models.ProductionBoard, {
-        foreignKey: 'userId',
-        as: 'productionBoards',
-      });
-
       User.hasMany(models.Formula, {
         foreignKey: 'userId',
         as: 'formulas',
@@ -99,6 +94,17 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         validate: {
           max: 50,
+        },
+      },
+      avatarId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      avatarUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          max: 255,
         },
       },
     },

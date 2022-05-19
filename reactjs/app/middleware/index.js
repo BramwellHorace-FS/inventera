@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { CustomError } = require('../utils');
+const { CustomError } = require('../utils/errors');
 
 exports.authenticate = (req, res, next) => {
   try {
