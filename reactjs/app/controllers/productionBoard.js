@@ -3,7 +3,7 @@ const { ProductionBoard } = require('../../db/models');
 exports.getAll = async (req, res, next) => {
   try {
     const boards = await ProductionBoard.findAll({
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'status'],
     });
     res.status(200).json({
       status: 'success',

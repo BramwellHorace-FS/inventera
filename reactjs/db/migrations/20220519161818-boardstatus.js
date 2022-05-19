@@ -8,14 +8,9 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.addColumn('Productions', 'productionBoardId', {
-      type: Sequelize.UUID,
-      references: {
-        model: 'ProductionBoards',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
+    await queryInterface.addColumn('ProductionBoards', 'status', {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     });
   },
 
@@ -26,6 +21,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeColumn('Productions', 'productionBoardId');
+    await queryInterface.removeColumn('ProductionBoards', 'status');
   },
 };

@@ -34,8 +34,9 @@ export default function Productions() {
 
   const { user } = useSelector((state) => state.auth);
   const { boards } = useSelector((state) => state.board);
-  const { productions, error, success, loading, message, production } =
-    useSelector((state) => state.production);
+  const { productions, error, success, message } = useSelector(
+    (state) => state.production,
+  );
 
   const { token } = user;
 
@@ -48,11 +49,11 @@ export default function Productions() {
   const setStatus = (id) => {
     const board = boards.find((b) => b.id === id);
 
-    if (board.name === 'In Progress') {
+    if (Number(board.status) === 1) {
       return 1;
     }
 
-    if (board.name === 'Done') {
+    if (Number(board.status) === 2) {
       return 2;
     }
 
@@ -207,9 +208,7 @@ export default function Productions() {
               handleView={viewProduction}
               handleEdit={handleEdit}
               handleDelete={handleDelete}
-              items={productions.filter(
-                (prod) => prod.productionBoardId === board.id,
-              )}
+              items={productions.filter((prod) => prod.status === board.status)}
             />
           ))}
       </Container>

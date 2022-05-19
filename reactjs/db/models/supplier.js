@@ -35,19 +35,6 @@ module.exports = (sequelize, DataTypes) => {
             args: [3, 50],
             msg: 'Supplier name must be between 3 and 50 characters',
           },
-          isUnique: function (value, next) {
-            Supplier.findOne({
-              where: {
-                name: value,
-              },
-            }).then(function (supplier) {
-              if (supplier) {
-                next('Supplier name already exists');
-              } else {
-                next();
-              }
-            });
-          },
         },
       },
       userId: {
