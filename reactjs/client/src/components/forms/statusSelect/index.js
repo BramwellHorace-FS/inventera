@@ -17,7 +17,7 @@ export default function StatusSelect({ defaultValue }) {
         <option value="">Select status</option>
         {boards &&
           boards.map((board) => (
-            <option key={board.id} value={board.id}>
+            <option key={board.id} value={board.status}>
               {board.name}
             </option>
           ))}

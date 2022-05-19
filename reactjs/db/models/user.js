@@ -28,11 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'materials',
       });
 
-      User.hasMany(models.ProductionBoard, {
-        foreignKey: 'userId',
-        as: 'productionBoards',
-      });
-
       User.hasMany(models.Formula, {
         foreignKey: 'userId',
         as: 'formulas',

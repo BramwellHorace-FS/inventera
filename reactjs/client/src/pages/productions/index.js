@@ -34,29 +34,15 @@ export default function Productions() {
 
   const { user } = useSelector((state) => state.auth);
   const { boards } = useSelector((state) => state.board);
-  const { productions, error, success, loading, message, production } =
-    useSelector((state) => state.production);
+  const { productions, error, success, message } = useSelector(
+    (state) => state.production,
+  );
 
   const { token } = user;
 
   /* HANDLE CHANGE */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  /* SET STATUS */
-  const setStatus = (id) => {
-    const board = boards.find((b) => b.id === id);
-
-    if (board.name === 'In Progress') {
-      return 1;
-    }
-
-    if (board.name === 'Done') {
-      return 2;
-    }
-
-    return 0;
   };
 
   /* HANDLE EDIT */
@@ -70,8 +56,8 @@ export default function Productions() {
       productId: prod.productId,
       quantity: prod.quantity,
       unitId: prod.unitId,
-      productionBoardId: prod.productionBoardId,
       notes: prod.notes,
+      status: prod.status,
     });
 
     handleShow();
@@ -92,7 +78,6 @@ export default function Productions() {
   /* HANDLE UPDATE */
   const handleUpdate = () => {
     const { id } = formData;
-    const status = setStatus(formData.productionBoardId);
 
     const data = {
       token,
@@ -100,7 +85,7 @@ export default function Productions() {
       production: {
         ...formData,
         date: new Date().toISOString(),
-        status,
+        status: Number(formData.productionBoardId),
       },
     };
     dispatch(updateProduction(data));
@@ -117,7 +102,6 @@ export default function Productions() {
 
   /* HANDLE CREATE */
   const handleCreate = () => {
-    const status = setStatus(formData.productionBoardId);
     const data = {
       token,
       production: {
@@ -128,7 +112,7 @@ export default function Productions() {
         unitId: formData.unitId,
         productId: formData.productId,
         productionBoardId: formData.productionBoardId,
-        status,
+        status: Number(formData.productionBoardId),
       },
     };
 
@@ -207,9 +191,7 @@ export default function Productions() {
               handleView={viewProduction}
               handleEdit={handleEdit}
               handleDelete={handleDelete}
-              items={productions.filter(
-                (prod) => prod.productionBoardId === board.id,
-              )}
+              items={productions.filter((prod) => prod.status === board.status)}
             />
           ))}
       </Container>

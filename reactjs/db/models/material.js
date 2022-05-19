@@ -48,19 +48,6 @@ module.exports = (sequelize, DataTypes) => {
             args: [3, 50],
             msg: 'Material name must be between 3 and 50 characters',
           },
-          isUnique: function (value, next) {
-            Material.findOne({
-              where: {
-                name: value,
-              },
-            }).then(function (material) {
-              if (material) {
-                next('Material name already exists');
-              } else {
-                next();
-              }
-            });
-          },
         },
       },
       stock: {
