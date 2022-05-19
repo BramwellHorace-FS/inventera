@@ -30,7 +30,7 @@ exports.getOne = async (req, res, next) => {
   }
 };
 
-// PUT /api/user - updates user object
+// PUT /api/user - updates user
 exports.update = async (req, res, next) => {
   try {
     let password;
