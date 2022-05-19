@@ -45,21 +45,6 @@ export default function Productions() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  /* SET STATUS */
-  const setStatus = (id) => {
-    const board = boards.find((b) => b.id === id);
-
-    if (Number(board.status) === 1) {
-      return 1;
-    }
-
-    if (Number(board.status) === 2) {
-      return 2;
-    }
-
-    return 0;
-  };
-
   /* HANDLE EDIT */
   const handleEdit = (id) => {
     const prod = productions.find((p) => p.id === id);
@@ -71,8 +56,8 @@ export default function Productions() {
       productId: prod.productId,
       quantity: prod.quantity,
       unitId: prod.unitId,
-      productionBoardId: prod.productionBoardId,
       notes: prod.notes,
+      status: prod.status,
     });
 
     handleShow();
@@ -93,7 +78,6 @@ export default function Productions() {
   /* HANDLE UPDATE */
   const handleUpdate = () => {
     const { id } = formData;
-    const status = setStatus(formData.productionBoardId);
 
     const data = {
       token,
@@ -101,7 +85,7 @@ export default function Productions() {
       production: {
         ...formData,
         date: new Date().toISOString(),
-        status,
+        status: Number(formData.productionBoardId),
       },
     };
     dispatch(updateProduction(data));
@@ -118,7 +102,6 @@ export default function Productions() {
 
   /* HANDLE CREATE */
   const handleCreate = () => {
-    const status = setStatus(formData.productionBoardId);
     const data = {
       token,
       production: {
@@ -129,7 +112,7 @@ export default function Productions() {
         unitId: formData.unitId,
         productId: formData.productId,
         productionBoardId: formData.productionBoardId,
-        status,
+        status: Number(formData.productionBoardId),
       },
     };
 
