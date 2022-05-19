@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Container, Row, Col, Button } from 'react-bootstrap';
+import { Form, Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ProductSelect from '../productSelect';
 import StatusSelect from '../statusSelect';
@@ -91,7 +91,7 @@ export default function ProductionForm({
               <Form.Label className="text-muted h6">
                 Status <span className="text-danger">*</span>
               </Form.Label>
-              <StatusSelect defaultValue={formData.productionBoardId} />
+              <StatusSelect defaultValue={formData.status.toString()} />
             </Col>
           </Row>
         </Container>

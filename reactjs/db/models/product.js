@@ -39,19 +39,6 @@ module.exports = (sequelize, DataTypes) => {
             args: [3, 50],
             msg: 'Name must be between 3 and 50 characters',
           },
-          isUnique: async (value, next) => {
-            Product.findOne({
-              where: {
-                name: value,
-              },
-            }).then((product) => {
-              if (product) {
-                return next('Name already exists');
-              } else {
-                return next();
-              }
-            });
-          },
         },
       },
       stock: {

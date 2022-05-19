@@ -15,11 +15,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'user',
       });
 
-      Production.belongsTo(models.ProductionBoard, {
-        foreignKey: 'productionBoardId',
-        as: 'productionBoard',
-      });
-
       Production.belongsTo(models.Unit, {
         foreignKey: 'unitId',
         as: 'unit',
@@ -36,22 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          isUnique: async (value, next) => {
-            Production.findOne({
-              where: {
-                name: value,
-                userId: this.userId,
-              },
-            }).then((production) => {
-              if (production) {
-                return next('Name already exists');
-              } else {
-                return next();
-              }
-            });
-          },
-        },
       },
       quantity: {
         type: DataTypes.INTEGER,
@@ -73,14 +52,6 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
-      },
-      productionBoardId: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            msg: 'Please enter a production board',
-          },
-        },
       },
       unitId: {
         type: DataTypes.UUID,

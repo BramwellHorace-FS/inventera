@@ -33,20 +33,10 @@ module.exports = (sequelize, DataTypes) => {
             args: [3, 50],
             msg: 'Category name must be between 3 and 50 characters',
           },
-          isUnique: function (value, next) {
-            Category.findOne({
-              where: {
-                name: value,
-                userId: this.userId,
-              },
-            }).then(function (category) {
-              if (category) {
-                next('Category name already exists');
-              } else {
-                next();
-              }
-            });
-          },
+        },
+        unique: {
+          args: true,
+          msg: 'Category name already exists',
         },
       },
       userId: {
